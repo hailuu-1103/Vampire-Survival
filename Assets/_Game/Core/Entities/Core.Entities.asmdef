@@ -1,0 +1,7 @@
+{
+  "name": "Core.Entities",
+  "rootNamespace": "Core.Entities",
+  "references": [
+    "Core.Pooling"
+  ]
+}

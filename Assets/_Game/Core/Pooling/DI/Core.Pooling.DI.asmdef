@@ -1,0 +1,8 @@
+{
+  "name": "Core.Pooling.DI",
+  "rootNamespace": "Core.Pooling.DI",
+  "references": [
+    "VContainer",
+    "Core.Pooling"
+  ]
+}

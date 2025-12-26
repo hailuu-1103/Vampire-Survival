@@ -1,0 +1,7 @@
+{
+  "name": "Core.Pooling",
+  "rootNamespace": "Core.Pooling",
+  "references": [
+    "Core.Utils"
+  ]
+}

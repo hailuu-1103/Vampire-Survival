@@ -1,0 +1,8 @@
+{
+  "name": "Core.DI.DI",
+  "rootNamespace": "Core.DI.DI",
+  "references": [
+    "VContainer",
+    "Core.DI"
+  ]
+}

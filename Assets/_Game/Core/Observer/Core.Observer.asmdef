@@ -1,0 +1,6 @@
+{
+  "name": "Core.Observer",
+  "rootNamespace": "Core.Observer",
+  "references": [
+  ]
+}

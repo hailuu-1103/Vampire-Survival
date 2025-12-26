@@ -1,0 +1,9 @@
+{
+  "name": "Core.Entities.DI",
+  "rootNamespace": "Core.Entities.DI",
+  "references": [
+    "VContainer",
+    "Core.Entities",
+    "Core.Pooling.DI"
+  ]
+}

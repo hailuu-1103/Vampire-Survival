@@ -1,0 +1,8 @@
+{
+  "name": "Core.Observer.DI",
+  "rootNamespace": "Core.Observer.DI",
+  "references": [
+    "VContainer",
+    "Core.Observer"
+  ]
+}
