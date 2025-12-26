@@ -1,0 +1,8 @@
+{
+  "name": "VampireSurvival.Core",
+  "rootNamespace": "VampireSurvival.Core",
+  "references": [
+    "Core.Entities",
+    "Core.Observer"
+  ]
+}

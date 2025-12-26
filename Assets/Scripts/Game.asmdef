@@ -1,0 +1,13 @@
+{
+  "name": "Game",
+  "rootNamespace": "Game",
+  "references": [
+    "VContainer",
+    "Core.Entities",
+    "Core.Entities.DI",
+    "Core.Observer.DI",
+    "Core.DI.DI",
+    "VampireSurvival.Core",
+    "VampireSurvival.Core.DI"
+  ]
+}
