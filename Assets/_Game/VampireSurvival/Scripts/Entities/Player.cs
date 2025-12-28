@@ -1,23 +1,11 @@
 #nullable enable
 
-using EntityBase = Core.Entities.EntityBase;
+using Entity = Core.Entities.Entity;
 
 namespace VampireSurvival.Core
 {
-    public sealed class Player : EntityBase
+    public sealed record PlayerParam(float Speed);
+    public sealed class Player : Entity
     {
-        protected override void BuildComponents()
-        {
-            this.AddComponent(new HealthComponent
-            {
-                Max     = 100f,
-                Current = 100f,
-            });
-
-            this.AddComponent(new DamageComponent
-            {
-                Value = 10f,
-            });
-        }
     }
 }

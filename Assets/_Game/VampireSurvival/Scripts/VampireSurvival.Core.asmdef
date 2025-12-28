@@ -3,6 +3,7 @@
   "rootNamespace": "VampireSurvival.Core",
   "references": [
     "Core.Entities",
-    "Core.Observer"
+    "Core.Observer",
+    "Core.DI"
   ]
 }

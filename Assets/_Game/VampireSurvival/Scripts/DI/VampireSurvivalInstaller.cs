@@ -8,6 +8,7 @@ namespace VampireSurvival.Core.DI
     {
         public static void RegisterVampireSurvival(this IContainerBuilder builder)
         {
+            builder.Register<MovementSystem>(Lifetime.Singleton);
         }
     }
 }
