@@ -15,7 +15,6 @@ namespace Game
 
     public class GameLifeTimeScope : LifetimeScope
     {
-        [SerializeField] private Player            player        = null!;
         [SerializeField] private GameCanvas        gameCanvas    = null!;
         [SerializeField] private GameSystemsRunner systemsRunner = null!;
 
@@ -28,7 +27,6 @@ namespace Game
             builder.RegisterBuildCallback(container =>
             {
                 var entityManager     = container.Resolve<IEntityManager>();
-                entityManager.Spawn(this.player);
                 entityManager.Spawn(this.systemsRunner);
                 entityManager.Spawn(this.gameCanvas);
             });

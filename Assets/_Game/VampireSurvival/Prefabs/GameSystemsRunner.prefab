@@ -44,4 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd32e515254b43969b3b85ef828f2857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.GameSystemsRunner
+  player: {fileID: 706212245164874086, guid: c36937ac8749344319fc83cac71dcaf8, type: 3}
+  spawnBounds: {fileID: 5268148285184144198, guid: 769649daa0fd7474bbe407f9dfa74f6a, type: 3}
   enemyConfig: {fileID: 11400000, guid: 74242f7dd8b0a47478ab1f118f25ae8c, type: 2}

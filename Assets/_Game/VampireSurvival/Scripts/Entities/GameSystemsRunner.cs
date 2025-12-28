@@ -4,11 +4,13 @@ using Core.Entities;
 namespace VampireSurvival.Core.Entities
 {
     using UnityEngine;
+    using VampireSurvival.Core.Components;
     using VampireSurvival.Core.Stats;
     using VampireSurvival.Core.Systems;
 
     public sealed class GameSystemsRunner : Entity
     {
+        [SerializeField] private Player      player      = null!;
         [SerializeField] private EnemyConfig enemyConfig = null!;
 
         private PlayerMovementSystem playerMovementSystem = null!;
@@ -27,6 +29,7 @@ namespace VampireSurvival.Core.Entities
 
         protected override void OnSpawn()
         {
+            this.Manager.Spawn(this.player);
             this.enemySpawnSystem.Bind(this.enemyConfig);
         }
 

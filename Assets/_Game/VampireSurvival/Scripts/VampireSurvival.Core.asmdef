@@ -3,8 +3,10 @@
   "rootNamespace": "VampireSurvival.Core",
   "references": [
     "VContainer",
-    "Core.Entities",
+    "Core.DI",
+    "Core.Utils",
     "Core.Observer",
-    "Core.DI"
+    "Core.Entities",
+    "spine-unity"
   ]
 }

@@ -208,6 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d0f21cb015f42949b3ef95cb512c725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Entities.Enemy
+  skeletonAnimation: {fileID: 2113679374438014754}
 --- !u!114 &7748611844203849381
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,6 +5,5 @@ namespace VampireSurvival.Core.Abstractions
 {
     public interface IEnemy : IEntity
     {
-
     }
 }

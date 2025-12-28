@@ -9,8 +9,8 @@ namespace VampireSurvival.Core.Stats
     public interface IDamageStat : IComponent
     {
         public float Value { get; }
-        public void  AddFlat(float    delta);
-        public void  AddPercent(float percent);
+        public void  Add(float    delta);
+        public void  Multiply(float percent);
     }
 
     public sealed class DamageStat : Entities_Component, IDamageStat
@@ -24,7 +24,7 @@ namespace VampireSurvival.Core.Stats
 
         public float      Value      => this.stats.Get(StatId.Damage);
 
-        public void AddFlat(float    delta)   => this.stats.Add(StatId.Damage, delta);
-        public void AddPercent(float percent) => this.stats.Multiply(StatId.Damage, percent);
+        public void Add(float    delta)   => this.stats.Add(StatId.Damage, delta);
+        public void Multiply(float percent) => this.stats.Multiply(StatId.Damage, percent);
     }
 }

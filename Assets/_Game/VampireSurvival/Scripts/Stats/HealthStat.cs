@@ -17,7 +17,9 @@ namespace VampireSurvival.Core.Stats
         public float Max     { get; }
 
         public void TakeDamage(float amount);
+        //TODO
         public void Heal(float       amount);
+        //TODO
         public void Refill(float delta, bool healToFull);
     }
 
@@ -51,7 +53,11 @@ namespace VampireSurvival.Core.Stats
             this.current = Mathf.Max(0f, this.current - amount);
             this.Changed?.Invoke(this.current, this.Max);
 
-            if (this.current <= 0f) this.Died?.Invoke();
+            if (this.current <= 0f)
+            {
+                this.Died?.Invoke();
+                Debug.LogWarning($"HealthStat {this.gameObject.name} died");
+            }
         }
 
         public void Heal(float amount)
