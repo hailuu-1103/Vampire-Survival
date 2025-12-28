@@ -8,6 +8,7 @@
     "Core.Observer.DI",
     "Core.DI.DI",
     "VampireSurvival.Core",
-    "VampireSurvival.Core.DI"
+    "VampireSurvival.Core.DI",
+    "Core.Pooling"
   ]
 }

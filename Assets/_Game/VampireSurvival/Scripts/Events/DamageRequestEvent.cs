@@ -1,7 +1,7 @@
 #nullable enable
 using IEntity = Core.Entities.IEntity;
 
-namespace VampireSurvival.Core
+namespace VampireSurvival.Core.Events
 {
     public record DamageRequestEvent(IEntity Target, float Amount);
 }

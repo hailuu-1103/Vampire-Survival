@@ -2,6 +2,7 @@
   "name": "VampireSurvival.Core",
   "rootNamespace": "VampireSurvival.Core",
   "references": [
+    "VContainer",
     "Core.Entities",
     "Core.Observer",
     "Core.DI"

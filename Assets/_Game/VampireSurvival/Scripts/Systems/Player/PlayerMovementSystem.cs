@@ -2,13 +2,15 @@
 using Core.Entities;
 using UnityEngine;
 
-namespace VampireSurvival.Core
+namespace VampireSurvival.Core.Systems
 {
-    public sealed class MovementSystem
+    using VampireSurvival.Core.Abstractions;
+
+    public sealed class PlayerMovementSystem
     {
         private readonly IEntityManager entityManager;
 
-        public MovementSystem(IEntityManager entityManager)
+        public PlayerMovementSystem(IEntityManager entityManager)
         {
             this.entityManager = entityManager;
         }
@@ -22,7 +24,7 @@ namespace VampireSurvival.Core
 
             if (move.sqrMagnitude > 1f) move.Normalize();
 
-            foreach (var m in this.entityManager.Query<IMoveable>())
+            foreach (var m in this.entityManager.Query<IPlayerMoveable>())
             {
                 m.Move(move);
             }

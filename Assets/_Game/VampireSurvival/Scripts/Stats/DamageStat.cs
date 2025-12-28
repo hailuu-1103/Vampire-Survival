@@ -1,26 +1,29 @@
 #nullable enable
-using Core.Entities;
+using Entities_Component = Core.Entities.Component;
 
-namespace VampireSurvival.Core
+namespace VampireSurvival.Core.Stats
 {
+    using UnityEngine;
+
     public interface IDamageStat
     {
-        float Base  { get; }
-        float Value { get; }
+        public GameObject GameObject { get; }
+        public float      Base       { get; }
+        public float      Value      { get; }
     }
 
-    public sealed class DamageStat : Component, IDamageStat
+    public sealed class DamageStat : Entities_Component, IDamageStat
     {
-        private PlayerStatsConfig config     = null!;
-        private float             multiplier = 1f;
+        private CharacterBasicStatsConfig config     = null!;
+        private float                multiplier = 1f;
 
-        public float Base  => this.config.Damage;
-        public float Value => this.config.Damage * this.multiplier;
+        float IDamageStat.     Base       => this.config.Damage;
+        float IDamageStat.     Value      => this.config.Damage * this.multiplier;
+        GameObject IDamageStat.GameObject => this.gameObject;
 
         protected override void OnInstantiate()
         {
-            var provider = this.GetComponent<IPlayerStatsConfigProvider>();
-            this.config = provider.Config;
+            this.config = this.GetComponent<ICharacterStats<CharacterBasicStatsConfig>>().Config;
         }
 
         protected override void OnSpawn()

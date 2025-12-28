@@ -2,10 +2,13 @@
 using UnityEngine;
 using Component = Core.Entities.Component;
 
-namespace VampireSurvival.Core
+namespace VampireSurvival.Core.Components
 {
+    using VampireSurvival.Core.Abstractions;
+    using VampireSurvival.Core.Stats;
+
     [RequireComponent(typeof(Rigidbody2D))]
-    public sealed class PlayerMovement : Component, IMoveable
+    public sealed class PlayerMovement : Component, IPlayerMoveable
     {
         private Rigidbody2D rb        = null!;
         private IMoveStat   moveSpeed = null!;
@@ -21,6 +24,8 @@ namespace VampireSurvival.Core
         {
             this.moveInput = move;
         }
+
+        Vector2 IMoveable.Position => this.transform.position;
 
         private void FixedUpdate()
         {

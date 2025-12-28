@@ -17,8 +17,8 @@ namespace VampireSurvival.Core.Stats
 
     public sealed class HealthStat : Component, IHealthStat
     {
-        private PlayerStatsConfig config = null!;
-        private float             current;
+        private CharacterBasicStatsConfig config = null!;
+        private float                current;
 
         public float Max     => this.config.MaxHealth;
         public float Current => this.current;
@@ -26,8 +26,7 @@ namespace VampireSurvival.Core.Stats
 
         protected override void OnInstantiate()
         {
-            var provider = this.GetComponent<IPlayerStatsConfigProvider>();
-            this.config = provider.Config;
+            this.config = this.GetComponent<ICharacterStats<CharacterBasicStatsConfig>>().Config;
         }
 
         protected override void OnSpawn()

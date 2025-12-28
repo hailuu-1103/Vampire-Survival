@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6582035748182320231
+--- !u!1 &2813609604015672256
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,45 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4100037539901391641}
-  - component: {fileID: 8682081555168685307}
+  - component: {fileID: 7538207911561603018}
+  - component: {fileID: 6520832304868239136}
   m_Layer: 0
-  m_Name: GameLifeTimeScope
+  m_Name: GameSystemsRunner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4100037539901391641
+--- !u!4 &7538207911561603018
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6582035748182320231}
+  m_GameObject: {fileID: 2813609604015672256}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: -0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8682081555168685307
+--- !u!114 &6520832304868239136
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6582035748182320231}
+  m_GameObject: {fileID: 2813609604015672256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd3ae81c199e4002a83783ce9c219c31, type: 3}
+  m_Script: {fileID: 11500000, guid: dd32e515254b43969b3b85ef828f2857, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.TestScope
-  parentReference:
-    TypeName: 
-  autoRun: 1
-  autoInjectGameObjects: []
-  player: {fileID: 706212245164874086, guid: c36937ac8749344319fc83cac71dcaf8, type: 3}
-  systemsRunner: {fileID: 6520832304868239136, guid: 4fd702be2829f44e88a31803be0a4e2f, type: 3}
+  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.GameSystemsRunner
+  enemyStatsConfig: {fileID: 11400000, guid: c0b0d11424fe0407ca0c3cbe4de47fde, type: 2}
