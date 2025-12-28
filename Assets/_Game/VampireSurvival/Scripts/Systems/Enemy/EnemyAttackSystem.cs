@@ -10,17 +10,15 @@ namespace VampireSurvival.Core.Systems
     public sealed class EnemyAttackSystem
     {
         private readonly IEntityManager   entityManager = null!;
-        private readonly EnemyStatsConfig enemyStatsConfig = null!;
 
         private float cooldownTimer;
 
         //TODO
         private const float ATTACK_RANGE = 0.6f;
 
-        public EnemyAttackSystem(IEntityManager entityManager, EnemyStatsConfig enemyStatsConfig)
+        public EnemyAttackSystem(IEntityManager entityManager)
         {
             this.entityManager    = entityManager;
-            this.enemyStatsConfig = enemyStatsConfig;
         }
 
         public void Tick(float dt)
@@ -41,14 +39,16 @@ namespace VampireSurvival.Core.Systems
 
             var playerPos = (Vector2)player.transform.position;
 
-            foreach (var enemy in this.entityManager.Query<IDamageStat>())
+            foreach (var damageStat in this.entityManager.Query<IDamageStat>())
             {
-                var enemyPos = (Vector2)enemy.GameObject.transform.position;
+                var entity = damageStat.Entity;
+                if(!entity.gameObject.TryGetComponent<IEnemy>(out var enemyEntity)) continue;
+                var enemyPos = (Vector2)enemyEntity.transform.position;
                 var distSq   = (playerPos - enemyPos).sqrMagnitude;
 
-                if (distSq <= ATTACK_RANGE * ATTACK_RANGE)
+                if (distSq <= ATTACK_RANGE)
                 {
-                    playerHealth.TakeDamage(enemy.Value);
+                    playerHealth.TakeDamage(damageStat.Value);
                     this.cooldownTimer = 0.4f;
                     return;
                 }

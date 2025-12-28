@@ -10,16 +10,16 @@ namespace VampireSurvival.Core.Enemies
     [RequireComponent(typeof(Rigidbody2D))]
     public sealed class EnemyMovement : Component, IEnemyMoveable
     {
-        private Rigidbody2D rb        = null!;
-        private IMoveStat   moveSpeed = null!;
-        private Vector2     moveInput;
+        private Rigidbody2D    rb        = null!;
+        private IMoveSpeedStat moveSpeed = null!;
+        private Vector2        moveInput;
 
         public Vector2 Position => this.rb.position;
 
         protected override void OnInstantiate()
         {
             this.rb        = this.GetComponent<Rigidbody2D>();
-            this.moveSpeed = this.GetComponent<IMoveStat>();
+            this.moveSpeed = this.GetComponent<IMoveSpeedStat>();
         }
 
         public void Move(Vector2 move)

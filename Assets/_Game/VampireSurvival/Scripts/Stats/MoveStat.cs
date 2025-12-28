@@ -1,33 +1,28 @@
 #nullable enable
-using Core.Entities;
+using Component = Core.Entities.Component;
+using IComponent = Core.Entities.IComponent;
 
 namespace VampireSurvival.Core.Stats
 {
-    public interface IMoveStat
+    using VampireSurvival.Core.Abstractions;
+
+    public interface IMoveSpeedStat : IComponent
     {
-        float Base  { get; }
-        float Value { get; }
+        public float Value { get; }
     }
 
-    public sealed class MoveStat : Component, IMoveStat
+    public sealed class MoveStat : Component, IMoveSpeedStat
     {
-        private CharacterBasicStatsConfig config     = null!;
-        private float                multiplier = 1f;
-
-        public float Base  => this.config.MoveSpeed;
-        public float Value => this.config.MoveSpeed * this.multiplier;
+        private IStats stats = null!;
 
         protected override void OnInstantiate()
         {
-            this.config = this.GetComponent<ICharacterStats<CharacterBasicStatsConfig>>().Config;
+            this.stats = this.GetComponent<IStats>();
         }
 
-        protected override void OnSpawn()
-        {
-            this.multiplier = 1f;
-        }
+        public float Value => this.stats.Get(StatId.MoveSpeed);
 
-        public void Multiply(float mul) => this.multiplier *= mul;
-        public void ResetMultiplier()   => this.multiplier = 1f;
+        public void AddPercent(float percent)
+            => this.stats.Multiply(StatId.MoveSpeed, percent);
     }
 }

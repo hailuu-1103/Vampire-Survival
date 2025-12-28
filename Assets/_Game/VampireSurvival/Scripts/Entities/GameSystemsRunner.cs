@@ -9,11 +9,12 @@ namespace VampireSurvival.Core.Entities
 
     public sealed class GameSystemsRunner : Entity
     {
-        [SerializeField] private EnemyStatsConfig enemyStatsConfig = null!;
+        [SerializeField] private EnemyConfig enemyConfig = null!;
 
         private PlayerMovementSystem playerMovementSystem = null!;
         private EnemySpawnSystem     enemySpawnSystem     = null!;
         private EnemyChaseSystem     enemyChaseSystem     = null!;
+        private EnemyAttackSystem    enemyAttackSystem    = null!;
 
         protected override void OnInstantiate()
         {
@@ -21,11 +22,12 @@ namespace VampireSurvival.Core.Entities
             this.playerMovementSystem = container.Resolve<PlayerMovementSystem>();
             this.enemySpawnSystem     = container.Resolve<EnemySpawnSystem>();
             this.enemyChaseSystem     = container.Resolve<EnemyChaseSystem>();
+            this.enemyAttackSystem    = container.Resolve<EnemyAttackSystem>();
         }
 
         protected override void OnSpawn()
         {
-            this.enemySpawnSystem.Bind(this.enemyStatsConfig);
+            this.enemySpawnSystem.Bind(this.enemyConfig);
         }
 
         private void Update()
@@ -33,6 +35,7 @@ namespace VampireSurvival.Core.Entities
             this.playerMovementSystem.Tick();
             this.enemySpawnSystem.Tick(Time.deltaTime);
             this.enemyChaseSystem.Tick();
+            this.enemyAttackSystem.Tick(Time.deltaTime);
         }
     }
 }

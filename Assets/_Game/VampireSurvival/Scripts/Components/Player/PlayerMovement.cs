@@ -10,14 +10,14 @@ namespace VampireSurvival.Core.Components
     [RequireComponent(typeof(Rigidbody2D))]
     public sealed class PlayerMovement : Component, IPlayerMoveable
     {
-        private Rigidbody2D rb        = null!;
-        private IMoveStat   moveSpeed = null!;
-        private Vector2     moveInput;
+        private Rigidbody2D    rb        = null!;
+        private IMoveSpeedStat moveSpeed = null!;
+        private Vector2        moveInput;
 
         protected override void OnInstantiate()
         {
             this.rb        = this.GetComponent<Rigidbody2D>();
-            this.moveSpeed = this.GetComponent<IMoveStat>();
+            this.moveSpeed = this.GetComponent<IMoveSpeedStat>();
         }
 
         void IMoveable.Move(Vector2 move)

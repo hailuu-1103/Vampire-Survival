@@ -9,20 +9,20 @@ namespace VampireSurvival.Core.Systems
 
     public sealed class EnemySpawnSystem
     {
-        private readonly IEntityManager   entityManager;
+        private readonly IEntityManager entityManager;
 
-        private EnemyStatsConfig? config;
-        private float             timer;
+        private EnemyConfig? config;
+        private float        timer;
 
         public EnemySpawnSystem(IEntityManager entityManager)
         {
             this.entityManager = entityManager;
         }
 
-        public void Bind(EnemyStatsConfig config)
+        public void Bind(EnemyConfig config)
         {
             this.config = config;
-            this.timer     = this.config!.SpawnInterval;
+            this.timer  = this.config!.SpawnInterval;
         }
 
         public void Tick(float dt)
@@ -41,7 +41,7 @@ namespace VampireSurvival.Core.Systems
 
             var center = (Vector2)player.transform.position;
             var dir    = Random.insideUnitCircle.normalized;
-            var pos    = center + dir * this.config.SpawnRadius;
+            var pos    = center + dir * this.config.SpawnRadious;
 
             this.entityManager.Spawn(this.config.Prefab, pos);
         }

@@ -49,4 +49,5 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects: []
   player: {fileID: 706212245164874086, guid: c36937ac8749344319fc83cac71dcaf8, type: 3}
+  gameCanvas: {fileID: 869418171857816077, guid: d9d7e562ccfa74da8b6eb4695ee201d2, type: 3}
   systemsRunner: {fileID: 6520832304868239136, guid: 4fd702be2829f44e88a31803be0a4e2f, type: 3}

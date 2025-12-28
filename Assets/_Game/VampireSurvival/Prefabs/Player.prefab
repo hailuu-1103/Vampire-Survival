@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6026412691654971088}
   - component: {fileID: 1793313115857376838}
   - component: {fileID: 5379638053620064581}
-  - component: {fileID: -64610770853937824}
+  - component: {fileID: 7290376272497740428}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -52,6 +52,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79a5c936506743b5b8fdfa2a85111086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Entities.PlayerEntity
+  startLevel: 1
+  startExpToNext: 10
+  expToNextGrowth: 5
 --- !u!50 &5694462042266719133
 Rigidbody2D:
   serializedVersion: 5
@@ -173,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e080f6aab22e5463ea55b0063088434a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.DamageStat
---- !u!114 &-64610770853937824
+--- !u!114 &7290376272497740428
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,10 +185,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 335056665122574701}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef891d4812a440e8ac0897ff890948c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 07aa314944d4452f96425c85a0cc46ad, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.CharacterStats
-  config: {fileID: 11400000, guid: 5aff93ad905ce4a27a8f43548cf5da2e, type: 2}
+  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.StatsContainer
+  config: {fileID: 11400000, guid: ba0e482f88b1d479da9b019f7209daf7, type: 2}
 --- !u!1 &8668795031032674615
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,6 @@
 
 namespace Game
 {
-    using System;
     using Core.DI.DI;
     using Core.Entities;
     using Core.Entities.DI;
@@ -10,12 +9,14 @@ namespace Game
     using UnityEngine;
     using VampireSurvival.Core.DI;
     using VampireSurvival.Core.Entities;
+    using VampireSurvival.Core.UI;
     using VContainer;
     using VContainer.Unity;
 
-    public class TestScope : LifetimeScope
+    public class GameLifeTimeScope : LifetimeScope
     {
         [SerializeField] private Player            player        = null!;
+        [SerializeField] private GameCanvas        gameCanvas    = null!;
         [SerializeField] private GameSystemsRunner systemsRunner = null!;
 
         protected override void Configure(IContainerBuilder builder)
@@ -26,9 +27,10 @@ namespace Game
             builder.RegisterVampireSurvival();
             builder.RegisterBuildCallback(container =>
             {
-                var objectPoolManager = container.Resolve<IEntityManager>();
-                objectPoolManager.Spawn(this.player);
-                objectPoolManager.Spawn(this.systemsRunner);
+                var entityManager     = container.Resolve<IEntityManager>();
+                entityManager.Spawn(this.player);
+                entityManager.Spawn(this.systemsRunner);
+                entityManager.Spawn(this.gameCanvas);
             });
         }
     }

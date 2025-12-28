@@ -4,7 +4,9 @@ using Entity = Core.Entities.Entity;
 
 namespace VampireSurvival.Core.Entities
 {
-    public sealed class Enemy : Entity
+    using VampireSurvival.Core.Abstractions;
+
+    public sealed class Enemy : Entity, IEnemy
     {
 
     }

@@ -1,37 +1,30 @@
 #nullable enable
 using Entities_Component = Core.Entities.Component;
+using IComponent = Core.Entities.IComponent;
 
 namespace VampireSurvival.Core.Stats
 {
-    using UnityEngine;
+    using VampireSurvival.Core.Abstractions;
 
-    public interface IDamageStat
+    public interface IDamageStat : IComponent
     {
-        public GameObject GameObject { get; }
-        public float      Base       { get; }
-        public float      Value      { get; }
+        public float Value { get; }
+        public void  AddFlat(float    delta);
+        public void  AddPercent(float percent);
     }
 
     public sealed class DamageStat : Entities_Component, IDamageStat
     {
-        private CharacterBasicStatsConfig config     = null!;
-        private float                multiplier = 1f;
-
-        float IDamageStat.     Base       => this.config.Damage;
-        float IDamageStat.     Value      => this.config.Damage * this.multiplier;
-        GameObject IDamageStat.GameObject => this.gameObject;
+        private IStats stats = null!;
 
         protected override void OnInstantiate()
         {
-            this.config = this.GetComponent<ICharacterStats<CharacterBasicStatsConfig>>().Config;
+            this.stats = this.GetComponent<IStats>();
         }
 
-        protected override void OnSpawn()
-        {
-            this.multiplier = 1f;
-        }
+        public float      Value      => this.stats.Get(StatId.Damage);
 
-        public void Multiply(float mul) => this.multiplier *= mul;
-        public void ResetMultiplier()   => this.multiplier = 1f;
+        public void AddFlat(float    delta)   => this.stats.Add(StatId.Damage, delta);
+        public void AddPercent(float percent) => this.stats.Multiply(StatId.Damage, percent);
     }
 }
