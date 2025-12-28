@@ -27,9 +27,6 @@ namespace Game
             {
                 var entityManager = container.Resolve<IEntityManager>();
                 var player        = entityManager.Spawn(this.player);
-
-                Debug.Log("Player spawned with HP = " +
-                    player.Get<HealthComponent>().Current);
             });
         }
     }

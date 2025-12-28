@@ -4,211 +4,138 @@ namespace Core.Entities
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Core.Pooling;
     using UnityEngine;
+    using Core.DI;
+    using Core.Pooling;
+    using Core.Utils;
 
     public sealed class EntityManager : IEntityManager
     {
-        private readonly IObjectPoolManager pool;
+        private readonly IDependencyContainer container;
+        private readonly IObjectPoolManager   objectPoolManager;
 
-        private readonly Dictionary<GameObject, IEntity> objToEntity = new();
-        private readonly HashSet<IEntity> aliveEntities = new();
-        private readonly Dictionary<Type, HashSet<IComponent>> componentsByType = new();
-        private readonly Stack<object?> spawnParams = new();
+        private readonly Dictionary<GameObject, IEntity>                objToEntity             = new Dictionary<GameObject, IEntity>();
+        private readonly Dictionary<IEntity, IReadOnlyList<IComponent>> entityToComponents      = new Dictionary<IEntity, IReadOnlyList<IComponent>>();
+        private readonly Dictionary<IComponent, IReadOnlyList<Type>>    componentToTypes        = new Dictionary<IComponent, IReadOnlyList<Type>>();
+        private readonly Dictionary<Type, HashSet<IComponent>>          typeToSpawnedComponents = new Dictionary<Type, HashSet<IComponent>>();
 
-        public event Action<IEntity, IReadOnlyList<IComponent>>? Instantiated;
-        public event Action<IEntity, IReadOnlyList<IComponent>>? Spawned;
-        public event Action<IEntity, IReadOnlyList<IComponent>>? Recycled;
-        public event Action<IEntity, IReadOnlyList<IComponent>>? CleanedUp;
-
-        public EntityManager(IObjectPoolManager pool)
+        public EntityManager(IDependencyContainer container, IObjectPoolManager objectPoolManager)
         {
-            this.pool = pool;
-
-            pool.Instantiated += this.OnInstantiated;
-            pool.Spawned      += this.OnSpawned;
-            pool.Recycled     += this.OnRecycled;
-            pool.CleanedUp    += this.OnCleanedUp;
+            this.container                      =  container;
+            this.objectPoolManager              =  objectPoolManager;
+            this.objectPoolManager.Instantiated += this.OnInstantiated;
+            this.objectPoolManager.Spawned      += this.OnSpawned;
+            this.objectPoolManager.Recycled     += this.OnRecycled;
+            this.objectPoolManager.CleanedUp    += this.OnCleanedUp;
         }
 
 
-        private void OnInstantiated(GameObject go)
-        {
-            if (!go.TryGetComponent<IEntity>(out var entity))
-                return;
+        event Action<IEntity, IReadOnlyList<IComponent>> IEntityManager.Instantiated { add => this.instantiated += value; remove => this.instantiated -= value; }
+        event Action<IEntity, IReadOnlyList<IComponent>> IEntityManager.Spawned      { add => this.spawned += value;      remove => this.spawned -= value; }
+        event Action<IEntity, IReadOnlyList<IComponent>> IEntityManager.Recycled     { add => this.recycled += value;     remove => this.recycled -= value; }
+        event Action<IEntity, IReadOnlyList<IComponent>> IEntityManager.CleanedUp    { add => this.cleanedUp += value;    remove => this.cleanedUp -= value; }
 
-            this.objToEntity[go] = entity;
-            this.Instantiated?.Invoke(entity, entity.Components);
+        void IEntityManager.Load(IEntity prefab, int count) => this.objectPoolManager.Load(prefab.gameObject, count);
+
+        TEntity IEntityManager.Spawn<TEntity>(TEntity prefab, Vector3 position, Quaternion rotation, Transform? parent, bool spawnInWorldSpace)
+        {
+            return this.objectPoolManager.Spawn(prefab.gameObject, position, rotation, parent, spawnInWorldSpace).GetComponent<TEntity>();
         }
 
-        private void OnSpawned(GameObject go)
+        TEntity IEntityManager.Spawn<TEntity>(TEntity prefab, object @params, Vector3 position, Quaternion rotation, Transform? parent, bool spawnInWorldSpace)
         {
-            if (!this.objToEntity.TryGetValue(go, out var entity))
-                return;
+            this.nextParams = @params;
+            return this.objectPoolManager.Spawn(prefab.gameObject, position, rotation, parent, spawnInWorldSpace).GetComponent<TEntity>();
+        }
 
-            if (this.spawnParams.Count > 0)
+        void IEntityManager.Recycle(IEntity entity)
+        {
+            this.objectPoolManager.Recycle(entity.gameObject);
+        }
+
+        void IEntityManager.RecycleAll(IEntity prefab)
+        {
+            this.objectPoolManager.RecycleAll(prefab.gameObject);
+        }
+
+        void IEntityManager.Cleanup(IEntity prefab, int retainCount)
+        {
+            this.objectPoolManager.Cleanup(prefab.gameObject, retainCount);
+        }
+
+        void IEntityManager.Unload(IEntity prefab)
+        {
+            this.objectPoolManager.Unload(prefab.gameObject);
+        }
+
+        IEnumerable<T> IEntityManager.Query<T>()
+        {
+            return this.typeToSpawnedComponents.GetOrDefault(typeof(T))?.Cast<T>() ?? Enumerable.Empty<T>();
+        }
+
+        private Action<IEntity, IReadOnlyList<IComponent>>? instantiated;
+        private Action<IEntity, IReadOnlyList<IComponent>>? spawned;
+        private Action<IEntity, IReadOnlyList<IComponent>>? recycled;
+        private Action<IEntity, IReadOnlyList<IComponent>>? cleanedUp;
+
+        private object nextParams = null!;
+
+        private void OnInstantiated(GameObject instance)
+        {
+            if (!instance.TryGetComponent<IEntity>(out var entity)) return;
+            this.objToEntity.Add(instance, entity);
+            var components = entity.gameObject.GetComponentsInChildren<IComponent>();
+            this.entityToComponents.Add(entity, components);
+            components.ForEach(component =>
             {
-                var p = this.spawnParams.Peek();
-                if (p != null)
-                {
-                    var iface = entity
-                        .GetType()
+                this.componentToTypes.Add(
+                    component,
+                    component.GetType()
                         .GetInterfaces()
-                        .FirstOrDefault(i =>
-                            i.IsGenericType &&
-                            i.GetGenericTypeDefinition() == typeof(IEntityWithParams<>));
+                        .Prepend(component.GetType())
+                        .ToArray()
+                );
+                component.Container = this.container;
+                component.Manager   = this;
+                component.Entity    = entity;
+            });
+            components.ForEach(component => component.OnInstantiate());
+            this.instantiated?.Invoke(entity, components);
+        }
 
-                    iface?.GetMethod("Apply")?.Invoke(entity, new[] { p });
-                }
-            }
-
-            this.aliveEntities.Add(entity);
-
-            foreach (var component in entity.Components)
+        private void OnSpawned(GameObject instance)
+        {
+            if (!this.objToEntity.TryGetValue(instance, out var entity)) return;
+            if (entity is IEntityWithParams entityWithParams)
             {
-                var type = component.GetType();
-                if (!this.componentsByType.TryGetValue(type, out var set))
-                {
-                    set = new HashSet<IComponent>();
-                    this.componentsByType[type] = set;
-                }
-                set.Add(component);
+                entityWithParams.Params = this.nextParams;
             }
-
-            this.Spawned?.Invoke(entity, entity.Components);
+            var components = this.entityToComponents[entity];
+            components.ForEach(component => this.componentToTypes[component].ForEach(type => this.typeToSpawnedComponents.GetOrAdd(type).Add(component)));
+            components.ForEach(component => component.OnSpawn());
+            this.spawned?.Invoke(entity, components);
         }
 
-        private void OnRecycled(GameObject go)
+        private void OnRecycled(GameObject instance)
         {
-            if (!this.objToEntity.TryGetValue(go, out var entity))
-                return;
-
-            this.aliveEntities.Remove(entity);
-
-            // Remove component index
-            foreach (var component in entity.Components)
+            if (!this.objToEntity.TryGetValue(instance, out var entity)) return;
+            var components = this.entityToComponents[entity];
+            components.ForEach(component => this.componentToTypes[component].ForEach(type => this.typeToSpawnedComponents[type].Remove(component)));
+            components.ForEach(component => component.OnRecycle());
+            if (entity is IEntityWithParams entityWithParams)
             {
-                var type = component.GetType();
-                if (this.componentsByType.TryGetValue(type, out var set))
-                {
-                    set.Remove(component);
-                }
+                entityWithParams.Params = null!;
             }
-
-            this.Recycled?.Invoke(entity, entity.Components);
+            this.recycled?.Invoke(entity, components);
         }
 
-        private void OnCleanedUp(GameObject go)
+        private void OnCleanedUp(GameObject instance)
         {
-            if (!this.objToEntity.Remove(go, out var entity))
-                return;
-
-            this.CleanedUp?.Invoke(entity, entity.Components);
+            if (!this.objToEntity.Remove(instance, out var entity)) return;
+            this.entityToComponents.Remove(entity, out var components);
+            this.componentToTypes.RemoveRange(components);
+            components.ForEach(component => component.OnCleanup());
+            this.cleanedUp?.Invoke(entity, components);
         }
-
-        // ---------------- API ----------------
-
-        public void Load(IEntity prefab, int count = 1)
-        {
-            if (prefab is not Component c)
-                throw new InvalidOperationException("Entity prefab must be a Unity Component");
-
-            this.pool.Load(c.gameObject, count);
-        }
-
-        public TEntity Spawn<TEntity>(
-            TEntity prefab,
-            Vector3 position = default,
-            Quaternion rotation = default,
-            Transform? parent = null,
-            bool spawnInWorldSpace = true
-        )
-            where TEntity : Component, IEntity
-        {
-            this.spawnParams.Push(null);
-
-            var go = this.pool.Spawn(
-                prefab.gameObject,
-                position,
-                rotation,
-                parent,
-                spawnInWorldSpace
-            );
-
-            this.spawnParams.Pop();
-            return (TEntity)go.GetComponent(typeof(TEntity));
-        }
-
-        public TEntity Spawn<TEntity, TParams>(
-            TEntity prefab,
-            TParams @params,
-            Vector3 position = default,
-            Quaternion rotation = default,
-            Transform? parent = null,
-            bool spawnInWorldSpace = true
-        )
-            where TEntity : Component, IEntity, IEntityWithParams<TParams>
-        {
-            this.spawnParams.Push(@params);
-
-            var go = this.pool.Spawn(
-                prefab.gameObject,
-                position,
-                rotation,
-                parent,
-                spawnInWorldSpace
-            );
-
-            this.spawnParams.Pop();
-            return (TEntity)go.GetComponent(typeof(TEntity));
-        }
-
-        public void Recycle(IEntity instance)
-        {
-            if (instance is not Component c)
-                return;
-
-            this.pool.Recycle(c.gameObject);
-        }
-
-        public void RecycleAll(IEntity prefab)
-        {
-            if (prefab is not Component c)
-                return;
-
-            this.pool.RecycleAll(c.gameObject);
-        }
-
-        public void Cleanup(IEntity prefab, int retainCount = 1)
-        {
-            if (prefab is not Component c)
-                return;
-
-            this.pool.Cleanup(c.gameObject, retainCount);
-        }
-
-        public void Unload(IEntity prefab)
-        {
-            if (prefab is not Component c)
-                return;
-
-            this.pool.Unload(c.gameObject);
-        }
-
-
-        public IEnumerable<T> Query<T>() where T : IComponent
-        {
-            if (!this.componentsByType.TryGetValue(typeof(T), out var set))
-                yield break;
-
-            // snapshot to avoid mutation issues
-            foreach (var c in set.ToArray())
-            {
-                yield return (T)c;
-            }
-        }
-
-        public IEnumerable<IEntity> QueryEntities()
-            => this.aliveEntities;
     }
 }

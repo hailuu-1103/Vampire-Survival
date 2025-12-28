@@ -1,20 +1,16 @@
 #nullable enable
 namespace Core.Entities
 {
-    using System.Collections.Generic;
-    using UnityEngine;
-
-    public interface IEntity
+    public interface IEntity : IComponent
     {
-        public IReadOnlyList<IComponent> Components { get; }
-        public GameObject                GameObject { get; }
-
-        public T    Get<T>() where T : class, IComponent;
-        public bool TryGet<T>(out T? component) where T : class, IComponent;
-        public bool Has<T>() where T : class, IComponent;
     }
-    public interface IEntityWithParams<in TParams>
+
+    public interface IEntityWithoutParams : IEntity
     {
-        void Apply(TParams @params);
+    }
+
+    public interface IEntityWithParams : IEntity
+    {
+        public object Params { set; }
     }
 }

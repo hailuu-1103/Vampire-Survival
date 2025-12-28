@@ -2,6 +2,8 @@
   "name": "Core.Entities",
   "rootNamespace": "Core.Entities",
   "references": [
+    "Core.DI",
+    "Core.Utils",
     "Core.Pooling"
   ]
 }
