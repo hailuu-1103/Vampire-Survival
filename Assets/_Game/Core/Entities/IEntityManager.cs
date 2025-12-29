@@ -4,6 +4,7 @@ namespace Core.Entities
     using System;
     using System.Collections.Generic;
     using UnityEngine;
+    using Object = UnityEngine.Object;
 
     public interface IEntityManager
     {
@@ -21,7 +22,9 @@ namespace Core.Entities
 
         public TEntity Spawn<TEntity>(TEntity prefab, object @params, Vector3 position = default, Quaternion rotation = default, Transform? parent = null, bool spawnInWorldSpace = true) where TEntity : IEntityWithParams;
 
-        public void Recycle(IEntity instance);
+        public TEntity Spawn<TEntity>(Vector3 position = default, Quaternion rotation = default, Transform? parent   = null,    bool       spawnInWorldSpace = true) where TEntity : Object, IEntityWithoutParams;
+        public TEntity Spawn<TEntity>(object  @params,            Vector3    position = default, Quaternion rotation = default, Transform? parent            = null, bool spawnInWorldSpace = true) where TEntity : IEntityWithParams;
+        public void    Recycle(IEntity        instance);
 
         public void RecycleAll(IEntity prefab);
 

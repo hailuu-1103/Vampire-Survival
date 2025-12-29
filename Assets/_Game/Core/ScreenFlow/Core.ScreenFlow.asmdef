@@ -1,0 +1,9 @@
+{
+  "name": "Core.ScreenFlow",
+  "rootNamespace": "Core.ScreenFlow",
+  "references": [
+    "Core.DI",
+    "Core.Pooling",
+    "Core.Utils"
+  ]
+}

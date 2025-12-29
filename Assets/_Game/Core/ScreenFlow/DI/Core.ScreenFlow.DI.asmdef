@@ -1,0 +1,8 @@
+{
+  "name": "Core.ScreenFlow.DI",
+  "rootNamespace": "Core.ScreenFlow.DI",
+  "references": [
+    "VContainer",
+    "Core.ScreenFlow"
+  ]
+}

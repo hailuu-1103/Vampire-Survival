@@ -5,12 +5,12 @@ namespace Game.UI
     using Core.GameFlow;
     using Core.ScreenFlow;
     using UnityEngine;
+    using UnityEngine.UI;
     using VContainer;
 
-    public sealed class GameCanvas : MonoBehaviour
+    public sealed class LoseScreenView : BaseScreenView
     {
-        [SerializeField] private RectTransform  screenHolder   = null!;
-        [SerializeField] private LoseScreenView loseScreenView = null!;
+        [SerializeField] private Button btnReplay = null!;
 
         private IGameplayService gameplayService = null!;
         private IScreenManager   screenManager   = null!;
@@ -22,19 +22,17 @@ namespace Game.UI
             this.screenManager   = screenManager;
         }
 
-        public void OnEnable()
+        private void OnEnable()
         {
-            this.gameplayService.OnLost += this.OnLost;
+            this.btnReplay.onClick.AddListener(this.OnReplay);
         }
 
-        public void OnDisable()
+        private void OnReplay()
         {
-            this.gameplayService.OnLost -= this.OnLost;
-        }
-
-        private void OnLost()
-        {
-            this.screenManager.Open(this.loseScreenView, this.screenHolder);
+            this.gameplayService.Unload();
+            this.gameplayService.Load();
+            this.gameplayService.Resume();
+            this.screenManager.CloseAll();
         }
     }
 }

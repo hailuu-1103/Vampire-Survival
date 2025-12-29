@@ -48,6 +48,16 @@ namespace Core.Entities
             return this.objectPoolManager.Spawn(prefab.gameObject, position, rotation, parent, spawnInWorldSpace).GetComponent<TEntity>();
         }
 
+        TEntity IEntityManager.Spawn<TEntity>(Vector3 position, Quaternion rotation, Transform? parent,   bool       spawnInWorldSpace)
+        {
+            return this.objectPoolManager.Spawn(Resources.Load<GameObject>(typeof(TEntity).Name), position, rotation, parent, spawnInWorldSpace).GetComponent<TEntity>();
+        }
+        TEntity IEntityManager.Spawn<TEntity>(object  @params,  Vector3    position, Quaternion rotation, Transform? parent, bool spawnInWorldSpace)
+        {
+            this.nextParams = @params;
+            return this.objectPoolManager.Spawn(Resources.Load<GameObject>(typeof(TEntity).Name), position, rotation, parent, spawnInWorldSpace).GetComponent<TEntity>();
+        }
+
         void IEntityManager.Recycle(IEntity entity)
         {
             this.objectPoolManager.Recycle(entity.gameObject);

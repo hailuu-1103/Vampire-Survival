@@ -1,11 +1,13 @@
 #nullable enable
 
 using Core.Utils;
+using Entities_Component = Core.Entities.Component;
 using Entity = Core.Entities.Entity;
 using IEventBus = Core.Observer.IEventBus;
 
 namespace VampireSurvival.Core.Entities
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
@@ -19,9 +21,8 @@ namespace VampireSurvival.Core.Entities
         [SerializeField] private Entity    enemyPrefab  = null!;
         [SerializeField] private Tutorial? tutorialPrefab;
 
-        public Tutorial? TutorialPrefab => this.tutorialPrefab;
-
-        private IPlayer player = null!;
+        public  Tutorial? TutorialPrefab => this.tutorialPrefab;
+        private IPlayer?  player;
 
         private IEnumerable<IUpdateable> systems  = null!;
         private IEventBus                eventBus = null!;
@@ -42,7 +43,6 @@ namespace VampireSurvival.Core.Entities
 
         protected override void OnSpawn()
         {
-            this.player = this.Manager.Spawn(this.playerPrefab);
             this.eventBus.Subscribe<PlayerDiedEvent>(this.OnPlayerDied);
         }
 
@@ -54,6 +54,7 @@ namespace VampireSurvival.Core.Entities
 
         private async UniTaskVoid HandlePlayerDeathAsync()
         {
+            if (this.player == null) throw new NullReferenceException("Player is null!!!!");
             await this.player.Animation.PlayDeathAnimationAsync();
             var enemies = this.Manager.Query<IEnemy>().ToList();
             await UniTask.WhenAll(enemies.Select(e => e.Animation.PlayWonAnimationAsync()));
@@ -70,10 +71,9 @@ namespace VampireSurvival.Core.Entities
             this.player = null!;
         }
 
-        protected override void OnRecycle()
+        public void Load()
         {
-            this.ClearAllUnits();
-            this.eventBus.Unsubscribe<PlayerDiedEvent>(this.OnPlayerDied);
+            this.player = this.Manager.Spawn(this.playerPrefab);
         }
 
         public void Pause()
@@ -86,6 +86,19 @@ namespace VampireSurvival.Core.Entities
         {
             this.Container.ResolveAll<IPauseable>().ForEach(pause => pause.Resume());
             this.Manager.Query<IPauseable>().ForEach(pause => pause.Resume());
+        }
+
+        public void Unload()
+        {
+            if (this.player == null) return;
+            this.Manager.Recycle(this.player);
+            this.player = null;
+        }
+
+        protected override void OnRecycle()
+        {
+            this.ClearAllUnits();
+            this.eventBus.Unsubscribe<PlayerDiedEvent>(this.OnPlayerDied);
         }
     }
 }

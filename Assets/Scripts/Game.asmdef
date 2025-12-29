@@ -8,6 +8,8 @@
     "Core.Observer.DI",
     "Core.GameFlow",
     "Core.GameFlow.DI",
+    "Core.ScreenFlow",
+    "Core.ScreenFlow.DI",
     "Core.DI.DI",
     "VampireSurvival.Core",
     "VampireSurvival.Core.DI",

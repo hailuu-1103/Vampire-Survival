@@ -6,6 +6,7 @@ namespace Game
     using Core.Entities.DI;
     using Core.GameFlow.DI;
     using Core.Observer.DI;
+    using Core.ScreenFlow.DI;
     using VampireSurvival.Core.DI;
     using VContainer;
     using VContainer.Unity;
@@ -18,6 +19,7 @@ namespace Game
             builder.RegisterObserver();
             builder.RegisterEntityManager();
             builder.RegisterGameFlow();
+            builder.RegisterScreenFlow();
             builder.RegisterVampireSurvival();
         }
     }

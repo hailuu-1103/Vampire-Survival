@@ -9,7 +9,10 @@ namespace Game.Services
     using VampireSurvival.Core.Services;
     using VContainer.Unity;
 
-    public sealed class GameplayService : IGameplayService, IInitializable, IDisposable
+    public sealed class GameplayService :
+        IGameplayService,
+        IInitializable,
+        IDisposable
     {
         private readonly IEventBus              eventBus;
         private readonly VampireSurvivalService vampireSurvivalService;
@@ -27,11 +30,9 @@ namespace Game.Services
         private Action? onLost;
 
         void IGameplayService.Load()   => this.vampireSurvivalService.Load();
-        void IGameplayService.Play()   => this.vampireSurvivalService.Play();
         void IGameplayService.Pause()  => this.vampireSurvivalService.Pause();
         void IGameplayService.Resume() => this.vampireSurvivalService.Resume();
         void IGameplayService.Unload() => this.vampireSurvivalService.Unload();
-        void IGameplayService.GiveUp() => this.vampireSurvivalService.GiveUp();
 
         void IInitializable.Initialize()
         {

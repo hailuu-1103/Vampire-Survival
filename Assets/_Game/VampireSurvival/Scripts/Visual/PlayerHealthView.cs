@@ -1,5 +1,7 @@
 #nullable enable
-using Entity = Core.Entities.Entity;
+using System.Collections.Generic;
+using Core.Entities;
+using Entities_Component = Core.Entities.Component;
 
 namespace VampireSurvival.Core.UI
 {
@@ -9,7 +11,7 @@ namespace VampireSurvival.Core.UI
     using VampireSurvival.Core.Abstractions;
     using VampireSurvival.Core.Stats;
 
-    public sealed class PlayerHealthView : Entity
+    public sealed class PlayerHealthView : Entities_Component
     {
         [SerializeField] private Image healthFill = null!;
 
@@ -17,17 +19,25 @@ namespace VampireSurvival.Core.UI
 
         protected override void OnSpawn()
         {
-            this.player                    =  this.Manager.Query<IPlayer>().Single();
-            this.player.HealthStat.Changed += this.OnHealthChanged;
-            this.player.Stats.Changed      += this.OnStatsChanged;
+            this.Manager.Spawned += this.OnEntitySpawned;
         }
 
         protected override void OnRecycle()
         {
+            this.Manager.Spawned -= this.OnEntitySpawned;
             if (this.player == null) return;
             this.player.HealthStat.Changed -= this.OnHealthChanged;
             this.player.Stats.Changed      -= this.OnStatsChanged;
             this.player                    =  null;
+        }
+
+        private void OnEntitySpawned(IEntity entity, IReadOnlyList<IComponent> _)
+        {
+            if (entity is not IPlayer) return;
+            this.player                    =  this.Manager.Query<IPlayer>().Single();
+            this.Manager.Spawned           -= this.OnEntitySpawned;
+            this.player.HealthStat.Changed += this.OnHealthChanged;
+            this.player.Stats.Changed      += this.OnStatsChanged;
         }
 
         private void OnHealthChanged(float current, float max) => this.Refresh();
