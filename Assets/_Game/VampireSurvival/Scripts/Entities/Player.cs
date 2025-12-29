@@ -5,6 +5,7 @@ using IEventBus = Core.Observer.IEventBus;
 
 namespace VampireSurvival.Core.Entities
 {
+    using UnityEngine;
     using VampireSurvival.Core.Abstractions;
     using VampireSurvival.Core.Events;
     using VampireSurvival.Core.Stats;
@@ -18,10 +19,11 @@ namespace VampireSurvival.Core.Entities
             this.eventBus = this.Container.Resolve<IEventBus>();
         }
 
-        public  IPlayerAnimation Animation  => this.GetComponent<IPlayerAnimation>();
-        public  IPlayerMoveable  Movement   => this.GetComponent<IPlayerMoveable>();
-        public  IStats           Stats      => this.GetComponent<IStats>();
-        public  IHealthStat      HealthStat => this.GetComponent<IHealthStat>();
+        public IPlayerAnimation Animation  => this.GetComponent<IPlayerAnimation>();
+        public IPlayerMoveable  Movement   => this.GetComponent<IPlayerMoveable>();
+        public IStats           Stats      => this.GetComponent<IStats>();
+        public IHealthStat      HealthStat => this.GetComponent<IHealthStat>();
+        public Collider2D       Collider   => this.GetComponent<Collider2D>();
 
         protected override void OnSpawn()
         {

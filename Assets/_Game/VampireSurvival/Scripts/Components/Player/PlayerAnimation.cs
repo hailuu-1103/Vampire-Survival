@@ -18,12 +18,12 @@ namespace VampireSurvival.Core.Components
 
         void IPlayerAnimation.PlayIdleAnimation()
         {
-            this.characterAnimation.Play("idle_1");
+            this.characterAnimation.Play("idle_1", true);
         }
 
         void IPlayerAnimation.PlayRunAnimation()
         {
-            this.characterAnimation.Play("run");
+            this.characterAnimation.Play("run", true);
         }
 
         void IPlayerAnimation.PlayHitAnimation()

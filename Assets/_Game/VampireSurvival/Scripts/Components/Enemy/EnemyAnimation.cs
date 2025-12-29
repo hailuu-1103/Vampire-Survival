@@ -1,19 +1,25 @@
 #nullable enable
 
-using Component = Core.Entities.Component;
+using Entities_Component = Core.Entities.Component;
 
 namespace VampireSurvival.Core.Enemies
 {
     using Cysharp.Threading.Tasks;
+    using UnityEngine;
     using VampireSurvival.Core.Abstractions;
 
-    public sealed class EnemyAnimation : Component, IEnemyAnimation
+    public sealed class EnemyAnimation : Entities_Component, IEnemyAnimation
     {
         private ICharacterAnimation characterAnimation = null!;
 
         protected override void OnInstantiate()
         {
             this.characterAnimation = this.GetComponent<ICharacterAnimation>();
+        }
+
+        void IEnemyAnimation.SetColor(Color color)
+        {
+            this.characterAnimation.SetColor(color);
         }
 
         void IEnemyAnimation.PlayRunAnimation()
@@ -28,7 +34,7 @@ namespace VampireSurvival.Core.Enemies
 
         void IEnemyAnimation.PlayAttackAnimation()
         {
-            this.characterAnimation.Play("sword_attack");
+            this.characterAnimation.Play("sword_attack", mix:0.5f);
         }
 
         UniTask IEnemyAnimation.PlayDeathAnimationAsync()

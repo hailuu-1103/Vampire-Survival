@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2903768437107169385}
   - component: {fileID: 7587492821465254025}
   - component: {fileID: 2113679374438014754}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Spine GameObject (Knight)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 6003945898969772049}
   - component: {fileID: 1756404294979900164}
   - component: {fileID: 7080746748713808631}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 715653378714904782}
   m_BodyType: 0
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
@@ -210,7 +210,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d0f21cb015f42949b3ef95cb512c725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Entities.Enemy
-  skeletonAnimation: {fileID: 2113679374438014754}
 --- !u!114 &7748611844203849381
 MonoBehaviour:
   m_ObjectHideFlags: 0

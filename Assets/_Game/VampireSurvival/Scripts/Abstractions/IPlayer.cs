@@ -6,7 +6,7 @@ namespace VampireSurvival.Core.Abstractions
     using Cysharp.Threading.Tasks;
     using VampireSurvival.Core.Stats;
 
-    public interface IPlayer : IEntity
+    public interface IPlayer : IEntity, IHasCollider
     {
         public IPlayerAnimation Animation  { get; }
         public IPlayerMoveable  Movement   { get; }

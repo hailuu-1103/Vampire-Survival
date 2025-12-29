@@ -14,8 +14,6 @@ namespace VampireSurvival.Core.Entities
 
     public sealed class Enemy : Entity, IEnemy
     {
-        [SerializeField] private SkeletonAnimation skeletonAnimation = null!;
-
         private IEventBus eventBus = null!;
 
         protected override void OnInstantiate()
@@ -28,10 +26,11 @@ namespace VampireSurvival.Core.Entities
         public IStats          Stats      => this.GetComponent<IStats>();
         public IDamageStat     DamageStat => this.GetComponent<IDamageStat>();
         public IHealthStat     HealthStat => this.GetComponent<IHealthStat>();
+        public Collider2D      Collider   => this.GetComponent<Collider2D>();
 
         protected override void OnSpawn()
         {
-            this.skeletonAnimation.skeleton.SetColor(Color.red);
+            this.Animation.SetColor(Color.red);
             this.HealthStat.Died += this.OnDied;
         }
 

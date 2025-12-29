@@ -24,14 +24,12 @@ namespace VampireSurvival.Core.Components
         private void Awake()
         {
             if (this.State is { Data: { } }) this.State.Data.DefaultMix = DEFAULT_MIX;
-            ((ICharacterAnimation)this).SetColor(Color.white);
         }
 
         void ICharacterAnimation.Play(string animationName, bool loop, float? mix)
         {
             if (!this.HasAnimation(animationName))
             {
-                Debug.LogWarning($"[ActorAnimation] Animation '{animationName}' not found.", this);
                 return;
             }
 
@@ -43,7 +41,6 @@ namespace VampireSurvival.Core.Components
         {
             if (!this.HasAnimation(animationName))
             {
-                Debug.LogWarning($"[ActorAnimation] Animation '{animationName}' not found.", this);
                 return;
             }
 
