@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 1793313115857376838}
   - component: {fileID: 5379638053620064581}
   - component: {fileID: 7290376272497740428}
+  - component: {fileID: -5810385466295958474}
+  - component: {fileID: 4366472705815714219}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -186,6 +188,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.StatsContainer
   config: {fileID: 11400000, guid: ba0e482f88b1d479da9b019f7209daf7, type: 2}
+--- !u!114 &-5810385466295958474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335056665122574701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dc17013bfdd4f179a0db26f43f2f035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Components.CharacterAnimation
+  animation: {fileID: 6616743486910043962}
+--- !u!114 &4366472705815714219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335056665122574701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dc90307eeb743999900976d7de04770, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Components.PlayerAnimation
 --- !u!1 &8668795031032674615
 GameObject:
   m_ObjectHideFlags: 0

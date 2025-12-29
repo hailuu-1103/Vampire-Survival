@@ -3,6 +3,7 @@
   "rootNamespace": "VampireSurvival.Core",
   "references": [
     "VContainer",
+    "UniTask",
     "Core.DI",
     "Core.Utils",
     "Core.Observer",

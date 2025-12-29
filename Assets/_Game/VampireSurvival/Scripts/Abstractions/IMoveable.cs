@@ -6,9 +6,10 @@ namespace VampireSurvival.Core.Abstractions
     public interface IMoveable
     {
         public Vector2 Position { get; }
-        public void Move(Vector2 move);
+        public void    Move(Vector2 move);
     }
 
-    public interface IPlayerMoveable : IMoveable {}
-    public interface IEnemyMoveable : IMoveable {}
+    public interface IPlayerMoveable : IMoveable { }
+
+    public interface IEnemyMoveable : IMoveable { }
 }

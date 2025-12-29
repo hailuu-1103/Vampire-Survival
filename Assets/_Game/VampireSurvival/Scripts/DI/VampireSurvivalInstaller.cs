@@ -1,12 +1,11 @@
 #nullable enable
 
-using Core.Utils;
 namespace VampireSurvival.Core.DI
 {
     using UnityEngine;
-    using VampireSurvival.Core.Abstractions;
     using VampireSurvival.Core.Services;
     using VampireSurvival.Core.Stats;
+    using VampireSurvival.Core.Systems;
     using VContainer;
 
     public static class VampireSurvivalInstaller
@@ -15,7 +14,11 @@ namespace VampireSurvival.Core.DI
         {
             builder.Register(_ => Resources.Load<EnemyConfig>(nameof(EnemyConfig)), Lifetime.Singleton);
             builder.Register<VampireSurvivalService>(Lifetime.Singleton).AsSelf();
-            typeof(ISystem).GetDerivedTypes().ForEach(type => builder.Register(type, Lifetime.Singleton).AsImplementedInterfaces().AsSelf());
+
+            builder.Register<PlayerMovementSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<EnemySpawnSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<EnemyChaseSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<EnemyAttackSystem>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
 }

@@ -53,8 +53,7 @@ namespace VampireSurvival.Core.Stats
 
         public void TakeDamage(float amount)
         {
-            if (amount <= 0f) return;
-
+            if (amount <= 0f || this.current <= 0f) return;
             this.current = Mathf.Max(0f, this.current - amount);
             this.Changed?.Invoke(this.current, this.Max);
 

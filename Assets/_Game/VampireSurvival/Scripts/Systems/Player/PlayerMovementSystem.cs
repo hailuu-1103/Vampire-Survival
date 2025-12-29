@@ -1,4 +1,5 @@
 #nullable enable
+using System.Linq;
 using Core.Entities;
 using UnityEngine;
 
@@ -6,17 +7,24 @@ namespace VampireSurvival.Core.Systems
 {
     using VampireSurvival.Core.Abstractions;
 
-    public sealed class PlayerMovementSystem : ISystem
+    public sealed class PlayerMovementSystem : IUpdateable
     {
         private readonly IEntityManager entityManager;
+        private bool isPaused;
+        private bool wasMoving;
 
         public PlayerMovementSystem(IEntityManager entityManager)
         {
             this.entityManager = entityManager;
         }
 
+        public void Pause()  => this.isPaused = true;
+        public void Resume() => this.isPaused = false;
+
         public void Tick(float deltaTime)
         {
+            if (this.isPaused) return;
+
             var move = new Vector2(
                 Input.GetAxisRaw("Horizontal"),
                 Input.GetAxisRaw("Vertical")
@@ -24,10 +32,23 @@ namespace VampireSurvival.Core.Systems
 
             if (move.sqrMagnitude > 1f) move.Normalize();
 
-            foreach (var m in this.entityManager.Query<IPlayerMoveable>())
-            {
-                m.Move(move);
-            }
+            var player = this.entityManager.Query<IPlayer>().FirstOrDefault();
+            if (player == null) return;
+
+            player.Movement.Move(move);
+
+            var isMoving = move.sqrMagnitude > 0.01f;
+
+            if (isMoving)
+                player.Animation.SetFacing(move.x);
+
+            if (isMoving == this.wasMoving) return;
+
+            this.wasMoving = isMoving;
+            if (isMoving)
+                player.Animation.PlayRunAnimation();
+            else
+                player.Animation.PlayIdleAnimation();
         }
     }
 }

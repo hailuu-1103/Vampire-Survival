@@ -6,9 +6,10 @@ using IEventBus = Core.Observer.IEventBus;
 namespace VampireSurvival.Core.Components
 {
     using UnityEngine;
+    using VampireSurvival.Core.Abstractions;
     using VampireSurvival.Core.Events;
 
-    public class AutoDie : Entities_Component
+    public class AutoDie : Entities_Component, IPauseable
     {
         [SerializeField] private int experience;
 
@@ -16,6 +17,7 @@ namespace VampireSurvival.Core.Components
 
         private const float LIFETIME_SECONDS = 10f;
         private       float timer;
+        private       bool  isPaused;
 
         protected override void OnInstantiate()
         {
@@ -30,11 +32,16 @@ namespace VampireSurvival.Core.Components
 
         private void Update()
         {
+            if (this.isPaused) return;
             this.timer -= Time.deltaTime;
             if (this.timer > 0f) return;
 
             this.eventBus.Publish(new EnemyDiedEvent(this.experience));
             this.Manager.Recycle(this.Entity);
         }
+
+        void IPauseable.Pause() => this.isPaused = true;
+
+        void IPauseable.Resume() => this.isPaused = false;
     }
 }

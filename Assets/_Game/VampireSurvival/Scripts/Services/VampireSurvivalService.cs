@@ -1,23 +1,22 @@
 #nullable enable
 
 using IEntityManager = Core.Entities.IEntityManager;
-using Core.Utils;
+using IDependencyContainer = Core.DI.IDependencyContainer;
 
 namespace VampireSurvival.Core.Services
 {
     using System.Linq;
-    using VampireSurvival.Core.Abstractions;
-    using VampireSurvival.Core.Components;
     using VampireSurvival.Core.Entities;
-    using VampireSurvival.Core.UI;
 
     public class VampireSurvivalService
     {
-        private readonly IEntityManager entityManager;
+        private readonly IEntityManager       entityManager;
+        private readonly IDependencyContainer container;
 
-        public VampireSurvivalService(IEntityManager entityManager)
+        public VampireSurvivalService(IEntityManager entityManager, IDependencyContainer container)
         {
             this.entityManager = entityManager;
+            this.container     = container;
         }
 
         private GameManager? gameManager;
@@ -52,12 +51,12 @@ namespace VampireSurvival.Core.Services
 
         public void Pause()
         {
-            this.entityManager.Query<IPauseable>().ForEach(component => component.Pause());
+            this.gameManager.Pause();
         }
 
         public void Resume()
         {
-            this.entityManager.Query<IPauseable>().ForEach(component => component.Resume());
+            this.gameManager.Resume();
         }
 
         public void GiveUp()
