@@ -1,0 +1,6 @@
+{
+  "name": "Core.GameFlow",
+  "rootNamespace": "Core.GameFlow",
+  "references": [
+  ]
+}

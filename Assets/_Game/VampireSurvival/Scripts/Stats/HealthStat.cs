@@ -34,13 +34,18 @@ namespace VampireSurvival.Core.Stats
         protected override void OnInstantiate()
         {
             this.stats         =  this.GetComponent<IStats>();
-            this.stats.Changed += this.OnAnyStatChanged;
         }
 
         protected override void OnSpawn()
         {
             this.current = this.Max;
+            this.stats.Changed += this.OnAnyStatChanged;
             this.Changed?.Invoke(this.current, this.Max);
+        }
+
+        protected override void OnRecycle()
+        {
+            this.stats.Changed -= this.OnAnyStatChanged;
         }
 
         public float Max     => this.stats.Get(StatId.Health);
@@ -56,7 +61,6 @@ namespace VampireSurvival.Core.Stats
             if (this.current <= 0f)
             {
                 this.Died?.Invoke();
-                Debug.LogWarning($"HealthStat {this.gameObject.name} died");
             }
         }
 

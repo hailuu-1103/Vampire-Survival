@@ -7,7 +7,7 @@ namespace VampireSurvival.Core.Systems
     using VampireSurvival.Core.Abstractions;
     using VampireSurvival.Core.Stats;
 
-    public sealed class EnemySpawnSystem
+    public sealed class EnemySpawnSystem : ISystem
     {
         private readonly IEntityManager entityManager;
 

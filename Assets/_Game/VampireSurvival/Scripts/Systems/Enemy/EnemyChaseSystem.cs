@@ -7,7 +7,7 @@ namespace VampireSurvival.Core.Systems
 {
     using VampireSurvival.Core.Abstractions;
 
-    public sealed class EnemyChaseSystem
+    public sealed class EnemyChaseSystem : ISystem
     {
         private readonly IEntityManager entityManager;
 

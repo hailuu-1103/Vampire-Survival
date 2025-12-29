@@ -1,0 +1,9 @@
+{
+  "name": "Core.GameFlow.DI",
+  "rootNamespace": "Core.GameFlow.DI",
+  "references": [
+    "VContainer",
+    "Core.GameFlow",
+    "Core.Utils"
+  ]
+}

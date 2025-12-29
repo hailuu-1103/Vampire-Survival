@@ -6,8 +6,12 @@
     "Core.Entities",
     "Core.Entities.DI",
     "Core.Observer.DI",
+    "Core.GameFlow",
+    "Core.GameFlow.DI",
     "Core.DI.DI",
     "VampireSurvival.Core",
-    "VampireSurvival.Core.DI"
+    "VampireSurvival.Core.DI",
+    "Core.DI",
+    "Core.Observer"
   ]
 }
