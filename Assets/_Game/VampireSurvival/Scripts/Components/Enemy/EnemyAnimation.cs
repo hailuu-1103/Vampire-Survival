@@ -1,5 +1,6 @@
 #nullable enable
 
+using Component = Core.Entities.Component;
 using Entities_Component = Core.Entities.Component;
 
 namespace VampireSurvival.Core.Enemies

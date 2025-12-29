@@ -1,13 +1,13 @@
 #nullable enable
 
-using Entities_Component = Core.Entities.Component;
+using Component = Core.Entities.Component;
 
 namespace VampireSurvival.Core.Components
 {
     using Cysharp.Threading.Tasks;
     using VampireSurvival.Core.Abstractions;
 
-    public sealed class PlayerAnimation : Entities_Component, IPlayerAnimation
+    public sealed class PlayerAnimation : Component, IPlayerAnimation
     {
         private ICharacterAnimation characterAnimation = null!;
 

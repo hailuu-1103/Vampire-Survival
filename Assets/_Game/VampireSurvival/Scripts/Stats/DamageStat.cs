@@ -1,5 +1,5 @@
 #nullable enable
-using Entities_Component = Core.Entities.Component;
+using Component = Core.Entities.Component;
 using IComponent = Core.Entities.IComponent;
 
 namespace VampireSurvival.Core.Stats
@@ -13,7 +13,7 @@ namespace VampireSurvival.Core.Stats
         public void  Multiply(float percent);
     }
 
-    public sealed class DamageStat : Entities_Component, IDamageStat
+    public sealed class DamageStat : Component, IDamageStat
     {
         private IStats stats = null!;
 

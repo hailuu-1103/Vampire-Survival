@@ -1,7 +1,7 @@
 #nullable enable
 
 using Core.Utils;
-using Entities_Component = Core.Entities.Component;
+using Component = Core.Entities.Component;
 using Entity = Core.Entities.Entity;
 using IEventBus = Core.Observer.IEventBus;
 
