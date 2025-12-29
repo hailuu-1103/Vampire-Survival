@@ -16,7 +16,7 @@ namespace VampireSurvival.Core.Systems
             this.entityManager = entityManager;
         }
 
-        public void Tick()
+        public void Tick(float deltaTime)
         {
             var player = this.entityManager.Query<IPlayer>().FirstOrDefault();
             if (player == null) return;

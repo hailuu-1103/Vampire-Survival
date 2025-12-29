@@ -6,7 +6,7 @@ namespace VampireSurvival.Core.Systems
 {
     using VampireSurvival.Core.Abstractions;
 
-    public sealed class PlayerMovementSystem
+    public sealed class PlayerMovementSystem : ISystem
     {
         private readonly IEntityManager entityManager;
 
@@ -15,7 +15,7 @@ namespace VampireSurvival.Core.Systems
             this.entityManager = entityManager;
         }
 
-        public void Tick()
+        public void Tick(float deltaTime)
         {
             var move = new Vector2(
                 Input.GetAxisRaw("Horizontal"),

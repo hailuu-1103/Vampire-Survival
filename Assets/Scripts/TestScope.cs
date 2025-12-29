@@ -3,18 +3,18 @@
 namespace Game
 {
     using Core.DI;
+    using Core.Entities;
     using Core.GameFlow;
     using UnityEngine;
     using VampireSurvival.Core;
+    using VampireSurvival.Core.Components;
     using VampireSurvival.Core.Entities;
-    using VampireSurvival.Core.UI;
     using VContainer;
     using VContainer.Unity;
 
     public sealed class TestScope : SceneScope
     {
-        [SerializeField] private GameCanvas        gameCanvas    = null!;
-        [SerializeField] private GameSystemsRunner systemsRunner = null!;
+        [SerializeField] private GameManager gameManager = null!;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -22,6 +22,8 @@ namespace Game
             builder.RegisterComponentInHierarchy<GameCamera>();
             builder.RegisterBuildCallback(container =>
             {
+                var entityManager = container.Resolve<IEntityManager>();
+                entityManager.Spawn(this.gameManager);
                 var gameplayService = container.Resolve<IGameplayService>();
                 gameplayService.Load();
                 gameplayService.Play();

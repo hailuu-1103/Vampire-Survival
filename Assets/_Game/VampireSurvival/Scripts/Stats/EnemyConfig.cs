@@ -10,6 +10,6 @@ namespace VampireSurvival.Core.Stats
     {
         public Enemy Prefab        = null!;
         public float SpawnInterval = 1f;
-        public float SpawnRadious  = 10f;
+        public float SpawnRadius   = 10f;
     }
 }

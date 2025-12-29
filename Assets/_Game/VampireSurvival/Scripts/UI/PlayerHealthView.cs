@@ -9,34 +9,25 @@ namespace VampireSurvival.Core.UI
     using VampireSurvival.Core.Abstractions;
     using VampireSurvival.Core.Stats;
 
-    public sealed class GameCanvas : Entity
+    public sealed class PlayerHealthView : Entity
     {
-        [SerializeField] private GameObject gameOverPanel = null!;
-        [SerializeField] private Image      healthFill    = null!;
+        [SerializeField] private Image healthFill = null!;
 
         private IPlayer? player;
 
         protected override void OnSpawn()
         {
-            this.gameOverPanel.SetActive(false);
             this.player                    =  this.Manager.Query<IPlayer>().Single();
             this.player.HealthStat.Changed += this.OnHealthChanged;
             this.player.Stats.Changed      += this.OnStatsChanged;
-            this.player.HealthStat.Died    += this.OnPlayerDied;
         }
 
         protected override void OnRecycle()
         {
             if (this.player == null) return;
-            this.player!.HealthStat.Changed -= this.OnHealthChanged;
-            this.player.Stats.Changed       -= this.OnStatsChanged;
-            this.player.HealthStat.Died     -= this.OnPlayerDied;
-            this.player                     =  null;
-        }
-
-        private void OnPlayerDied()
-        {
-            this.gameOverPanel.SetActive(true);
+            this.player.HealthStat.Changed -= this.OnHealthChanged;
+            this.player.Stats.Changed      -= this.OnStatsChanged;
+            this.player                    =  null;
         }
 
         private void OnHealthChanged(float current, float max) => this.Refresh();

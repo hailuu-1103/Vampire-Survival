@@ -20,52 +20,29 @@ namespace VampireSurvival.Core.Services
             this.entityManager = entityManager;
         }
 
-        private Tutorial?          tutorial;
-        private GameCanvas?        gameCanvas;
-        private GameSystemsRunner? gameSystemsRunner;
+        private GameManager? gameManager;
+        private Tutorial?    tutorial;
 
         private void Init()
         {
-            var gameManager = this.entityManager.Query<GameManager>().Single();
-            this.tutorial          ??= gameManager.Tutorial;
-            this.gameCanvas        ??= gameManager.GameCanvas;
-            this.gameSystemsRunner ??= gameManager.GameSystemsRunner;
+            this.gameManager = this.entityManager.Query<GameManager>().Single();
         }
 
         public void Load(bool hasTutorial = false)
         {
             this.Init();
-            this.Unload();
-            if (this.gameCanvas is { }) this.entityManager.Spawn(this.gameCanvas);
-            if (this.gameSystemsRunner is { }) this.entityManager.Spawn(this.gameSystemsRunner);
             if (hasTutorial && this.tutorial is { })
             {
-                this.tutorial = this.entityManager.Spawn(this.tutorial);
+                this.tutorial = this.entityManager.Spawn(this.tutorial, parent: this.gameManager.transform);
             }
             this.Pause();
         }
 
         public void Unload()
         {
-            if (this.tutorial is { })
-            {
-                this.entityManager.Unload(this.tutorial);
-                this.tutorial.Recycle();
-                this.tutorial = null;
-            }
-
-            if (this.gameCanvas is { })
-            {
-                this.entityManager.Unload(this.gameCanvas);
-                this.gameCanvas.Recycle();
-                this.gameCanvas = null;
-            }
-            if (this.gameSystemsRunner is { })
-            {
-                this.entityManager.Unload(this.gameSystemsRunner);
-                this.gameSystemsRunner.Recycle();
-                this.gameSystemsRunner = null;
-            }
+            if (this.gameManager is null) return;
+            this.entityManager.Unload(this.gameManager);
+            this.gameManager.Recycle();
         }
 
         public void Play()

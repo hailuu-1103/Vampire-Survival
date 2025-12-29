@@ -14,7 +14,6 @@ namespace VampireSurvival.Core.Systems
         private readonly Dictionary<IEntity, float> cooldownByEnemy = new();
 
         private const float ATTACK_RANGE = 0.6f;
-        private const float ATTACK_RANGE_SQ = ATTACK_RANGE * ATTACK_RANGE;
         private const float COOLDOWN = 0.4f;
 
         public EnemyAttackSystem(IEntityManager entityManager)
@@ -64,7 +63,7 @@ namespace VampireSurvival.Core.Systems
                 var enemyPos = (Vector2)enemy.transform.position;
                 var distSq = (playerPos - enemyPos).sqrMagnitude;
 
-                if (distSq <= ATTACK_RANGE_SQ)
+                if (distSq <= ATTACK_RANGE)
                 {
                     player.HealthStat.TakeDamage(damageStat.Value);
                     this.cooldownByEnemy[enemy] = COOLDOWN;

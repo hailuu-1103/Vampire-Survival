@@ -24725,9 +24725,8 @@ MonoBehaviour:
     TypeName: Game.GameLifeTimeScope
   autoRun: 1
   autoInjectGameObjects: []
-  gameCamera: {fileID: 0}
-  gameCanvas: {fileID: 869418171857816077, guid: d9d7e562ccfa74da8b6eb4695ee201d2, type: 3}
-  systemsRunner: {fileID: 6520832304868239136, guid: 4fd702be2829f44e88a31803be0a4e2f, type: 3}
+  player: {fileID: 706212245164874086, guid: c36937ac8749344319fc83cac71dcaf8, type: 3}
+  gameManager: {fileID: 7192272441377208156, guid: 28ed599531bb2487e87d70754e8a39e1, type: 3}
 --- !u!4 &906792965
 Transform:
   m_ObjectHideFlags: 0

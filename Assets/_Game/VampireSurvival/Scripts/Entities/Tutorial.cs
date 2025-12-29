@@ -2,7 +2,7 @@
 
 using Entity = Core.Entities.Entity;
 
-namespace VampireSurvival.Core.Components
+namespace VampireSurvival.Core.Entities
 {
     public sealed class Tutorial : Entity
     {
