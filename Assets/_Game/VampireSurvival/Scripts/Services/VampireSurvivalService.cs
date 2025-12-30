@@ -4,6 +4,7 @@ using IEntityManager = Core.Entities.IEntityManager;
 
 namespace VampireSurvival.Core.Services
 {
+    using System;
     using VampireSurvival.Core.Entities;
 
     public sealed class VampireSurvivalService
@@ -42,6 +43,12 @@ namespace VampireSurvival.Core.Services
         public void Resume()
         {
             if (this.loaded is null) return;
+            this.loaded.Resume();
+        }
+
+        public void Play()
+        {
+            if (this.loaded is null) throw new NullReferenceException("GameManager is null!");
             this.loaded.Resume();
         }
     }

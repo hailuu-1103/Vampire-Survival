@@ -25,13 +25,17 @@ namespace VampireSurvival.Core.Systems
         {
             if (this.isPaused) return;
 
-            var player = this.entityManager.Query<IPlayer>().SingleOrDefault();
-            if (player == null) return;
-
+            var player = this.entityManager.Query<IPlayer>().Single();
             var playerPos = (Vector2)player.transform.position;
 
             foreach (var enemy in this.entityManager.Query<IEnemy>().ToList())
             {
+                if (!enemy.Animation.CanMove)
+                {
+                    enemy.Movement.Move(Vector2.zero);
+                    continue;
+                }
+
                 var enemyPos = (Vector2)enemy.transform.position;
                 var dir = playerPos - enemyPos;
                 var moveDir = dir.sqrMagnitude < 0.0001f ? Vector2.zero : dir.normalized;

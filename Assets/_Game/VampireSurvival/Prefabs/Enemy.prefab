@@ -145,7 +145,6 @@ GameObject:
   - component: {fileID: -9038530233541763890}
   - component: {fileID: 533348889162103814}
   - component: {fileID: 5343002870945848641}
-  - component: {fileID: 6003945898969772049}
   - component: {fileID: 1756404294979900164}
   - component: {fileID: 7080746748713808631}
   m_Layer: 7
@@ -317,19 +316,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.StatsContainer
   config: {fileID: 11400000, guid: 58d487476d6294681a6e7fb6a1a72543, type: 2}
---- !u!114 &6003945898969772049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 715653378714904782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70247a2c07664b368f1e6fc80bddda1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Components.AutoDie
-  experience: 0
 --- !u!114 &1756404294979900164
 MonoBehaviour:
   m_ObjectHideFlags: 0

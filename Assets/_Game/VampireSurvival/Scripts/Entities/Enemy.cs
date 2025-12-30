@@ -5,8 +5,6 @@ using IEventBus = Core.Observer.IEventBus;
 
 namespace VampireSurvival.Core.Entities
 {
-    using Cysharp.Threading.Tasks;
-    using Spine.Unity;
     using UnityEngine;
     using VampireSurvival.Core.Abstractions;
     using VampireSurvival.Core.Events;
@@ -36,14 +34,7 @@ namespace VampireSurvival.Core.Entities
 
         private void OnDied()
         {
-            this.HandleDeathAsync().Forget();
-        }
-
-        private async UniTaskVoid HandleDeathAsync()
-        {
-            this.eventBus.Publish(new EnemyDiedEvent(5));
-            await this.Animation.PlayDeathAnimationAsync();
-            this.Manager.Recycle(this);
+            this.eventBus.Publish(new EnemyDiedEvent(this));
         }
 
         protected override void OnRecycle()

@@ -16,6 +16,7 @@ namespace VampireSurvival.Core.DI
             builder.Register<VampireSurvivalService>(Lifetime.Singleton).AsSelf();
 
             builder.Register<PlayerMovementSystem>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<PlayerAttackSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<EnemySpawnSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<EnemyChaseSystem>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<EnemyAttackSystem>(Lifetime.Singleton).AsImplementedInterfaces();

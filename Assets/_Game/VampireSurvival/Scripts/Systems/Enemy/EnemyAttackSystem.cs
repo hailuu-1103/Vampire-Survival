@@ -14,7 +14,7 @@ namespace VampireSurvival.Core.Systems
         private readonly IEntityManager            entityManager;
         private readonly Dictionary<IEnemy, float> cooldowns = new();
 
-        private const float ATTACK_RANGE = 0.3f;
+        private const float ATTACK_RANGE = 0.15f;
         private const float COOLDOWN     = 2f;
 
         private bool isPaused;
@@ -58,6 +58,12 @@ namespace VampireSurvival.Core.Systems
 
                 var distance = enemy.Collider.Distance(player.Collider);
                 if (!distance.isValid || distance.distance > ATTACK_RANGE) continue;
+                if (player.HealthStat.Current <= 0) continue;
+
+                var dir = player.transform.position.x - enemy.transform.position.x;
+                var isFacingPlayer = (enemy.Animation.FacingDirection > 0 && dir > 0) ||
+                                     (enemy.Animation.FacingDirection < 0 && dir < 0);
+                if (!isFacingPlayer) continue;
 
                 enemy.Animation.PlayAttackAnimation();
                 player.Animation.PlayHitAnimation();

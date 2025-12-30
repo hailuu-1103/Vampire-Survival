@@ -23,6 +23,7 @@ namespace VampireSurvival.Core.Entities
         public IPlayerMoveable  Movement   => this.GetComponent<IPlayerMoveable>();
         public IStats           Stats      => this.GetComponent<IStats>();
         public IHealthStat      HealthStat => this.GetComponent<IHealthStat>();
+        public IDamageStat      DamageStat => this.GetComponent<IDamageStat>();
         public Collider2D       Collider   => this.GetComponent<Collider2D>();
 
         protected override void OnSpawn()

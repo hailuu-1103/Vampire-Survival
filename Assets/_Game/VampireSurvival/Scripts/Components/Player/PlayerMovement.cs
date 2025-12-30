@@ -25,6 +25,11 @@ namespace VampireSurvival.Core.Components
             this.moveInput = move;
         }
 
+        void IMoveable.Stop()
+        {
+            this.moveInput = Vector2.zero;
+        }
+
         Vector2 IMoveable.Position => this.transform.position;
 
         private void FixedUpdate()

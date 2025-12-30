@@ -9,6 +9,7 @@ namespace Core.GameFlow
         public event Action OnLost;
 
         public void Load();
+        public void Play();
         public void Pause();
         public void Resume();
         public void Unload();

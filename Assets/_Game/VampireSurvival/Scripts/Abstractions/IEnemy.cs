@@ -18,10 +18,14 @@ namespace VampireSurvival.Core.Abstractions
 
     public interface IEnemyAnimation
     {
+        public bool    CanMove         { get; }
+        public float   FacingDirection { get; }
         public void    SetColor(Color color);
         public void    PlayRunAnimation();
         public void    SetFacing(float direction);
         public void    PlayAttackAnimation();
+        public void    PlayHitAnimation();
+        public void    Stop();
         public UniTask PlayDeathAnimationAsync();
         public UniTask PlayWonAnimationAsync();
     }

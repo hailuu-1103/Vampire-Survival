@@ -30,6 +30,7 @@ namespace Game.Services
         private Action? onLost;
 
         void IGameplayService.Load()   => this.vampireSurvivalService.Load();
+        void IGameplayService.Play()   => this.vampireSurvivalService.Play();
         void IGameplayService.Pause()  => this.vampireSurvivalService.Pause();
         void IGameplayService.Resume() => this.vampireSurvivalService.Resume();
         void IGameplayService.Unload() => this.vampireSurvivalService.Unload();

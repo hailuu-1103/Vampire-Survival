@@ -24,15 +24,19 @@ namespace VampireSurvival.Core.Systems
         {
             if (this.isPaused) return;
 
+            var player = this.entityManager.Query<IPlayer>().Single();
+            if (!player.Animation.CanMove)
+            {
+                player.Movement.Move(Vector2.zero);
+                return;
+            }
+
             var move = new Vector2(
                 Input.GetAxisRaw("Horizontal"),
                 Input.GetAxisRaw("Vertical")
             );
 
             if (move.sqrMagnitude > 1f) move.Normalize();
-
-            var player = this.entityManager.Query<IPlayer>().FirstOrDefault();
-            if (player == null) return;
 
             player.Movement.Move(move);
 

@@ -3,18 +3,14 @@
 namespace Game
 {
     using Core.DI;
-    using Core.Entities;
     using Core.GameFlow;
     using Game.UI;
-    using UnityEngine;
     using VampireSurvival.Core;
-    using VampireSurvival.Core.Entities;
     using VContainer;
     using VContainer.Unity;
 
     public sealed class TestScope : SceneScope
     {
-
         protected override void Configure(IContainerBuilder builder)
         {
             builder.RegisterComponentInHierarchy<GameCanvas>();
@@ -23,7 +19,7 @@ namespace Game
             {
                 var gameplayService = container.Resolve<IGameplayService>();
                 gameplayService.Load();
-                gameplayService.Resume();
+                gameplayService.Play();
             });
         }
     }

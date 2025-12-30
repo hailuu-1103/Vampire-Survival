@@ -2,5 +2,6 @@
   "name": "Core.Utils",
   "rootNamespace": "Core.Utils",
   "references": [
+    "UniTask"
   ]
 }

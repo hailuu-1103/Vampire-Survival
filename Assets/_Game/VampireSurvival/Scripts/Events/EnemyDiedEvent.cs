@@ -2,5 +2,7 @@
 
 namespace VampireSurvival.Core.Events
 {
-    public sealed record EnemyDiedEvent(int Exp);
+    using VampireSurvival.Core.Abstractions;
+
+    public sealed record EnemyDiedEvent(IEnemy Enemy);
 }

@@ -9,6 +9,7 @@ namespace Core.ScreenFlow
 
     public interface IScreenManager
     {
+        public void Load<T>(T prefab) where T : MonoBehaviour, IScreenView;
         public T    Open<T>(T prefab, RectTransform parent) where T : MonoBehaviour, IScreenView;
         public void Close<T>() where T : IScreenView;
         public void CloseAll();
@@ -33,6 +34,8 @@ namespace Core.ScreenFlow
             if (instance.GetComponent<IScreenView>() == null) return;
             this.container.InjectGameObject(instance);
         }
+
+        public void Load<T>(T prefab) where T : MonoBehaviour, IScreenView => this.objectPoolManager.Load(prefab.gameObject);
 
         public T Open<T>(T prefab, RectTransform parent) where T : MonoBehaviour, IScreenView
         {

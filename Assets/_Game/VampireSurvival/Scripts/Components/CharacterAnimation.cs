@@ -21,6 +21,8 @@ namespace VampireSurvival.Core.Components
         private Vector3        baseScale;
         private AnimationState State => this.animation.AnimationState;
 
+        float ICharacterAnimation.FacingDirection => this.animation.skeleton.ScaleX;
+
         private void Awake()
         {
             if (this.State is { Data: { } }) this.State.Data.DefaultMix = DEFAULT_MIX;
@@ -30,6 +32,7 @@ namespace VampireSurvival.Core.Components
         {
             if (!this.HasAnimation(animationName))
             {
+                Debug.LogError($"Animation {animationName} not found");
                 return;
             }
 
@@ -41,6 +44,7 @@ namespace VampireSurvival.Core.Components
         {
             if (!this.HasAnimation(animationName))
             {
+                Debug.LogError($"Animation {animationName} not found");
                 return;
             }
 

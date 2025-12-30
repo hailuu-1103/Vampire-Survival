@@ -7,6 +7,7 @@ namespace VampireSurvival.Core.Abstractions
     {
         public Vector2 Position { get; }
         public void    Move(Vector2 move);
+        public void    Stop();
     }
 
     public interface IPlayerMoveable : IMoveable { }

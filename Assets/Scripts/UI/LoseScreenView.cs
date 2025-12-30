@@ -29,9 +29,8 @@ namespace Game.UI
 
         private void OnReplay()
         {
-            this.gameplayService.Unload();
             this.gameplayService.Load();
-            this.gameplayService.Resume();
+            this.gameplayService.Play();
             this.screenManager.CloseAll();
         }
     }

@@ -22,9 +22,14 @@ namespace VampireSurvival.Core.Enemies
             this.moveSpeed = this.GetComponent<IMoveSpeedStat>();
         }
 
-        public void Move(Vector2 move)
+        void IMoveable.Move(Vector2 move)
         {
             this.moveInput = move;
+        }
+
+        void IMoveable.Stop()
+        {
+            this.moveInput = Vector2.zero;
         }
 
         private void FixedUpdate()

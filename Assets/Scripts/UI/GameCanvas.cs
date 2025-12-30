@@ -22,6 +22,11 @@ namespace Game.UI
             this.screenManager   = screenManager;
         }
 
+        private void Start()
+        {
+            this.screenManager.Load(this.loseScreenView);
+        }
+
         public void OnEnable()
         {
             this.gameplayService.OnLost += this.OnLost;
