@@ -11,6 +11,9 @@ namespace VampireSurvival.Core.Enemies
 
     public sealed class EnemyAnimation : Entities_Component, IEnemyAnimation
     {
+        private const string RUN_ANIM    = "run";
+        private const string ATTACK_ANIM = "sword_attack";
+
         private ICharacterAnimation characterAnimation = null!;
 
         protected override void OnInstantiate()
@@ -25,7 +28,9 @@ namespace VampireSurvival.Core.Enemies
 
         void IEnemyAnimation.PlayRunAnimation()
         {
-            this.characterAnimation.Play("run", loop: true);
+            if (this.characterAnimation.IsPlaying(RUN_ANIM)) return;
+            if (this.characterAnimation.IsPlaying(ATTACK_ANIM)) return;
+            this.characterAnimation.Play(RUN_ANIM, loop: true);
         }
 
         void IEnemyAnimation.SetFacing(float direction)
@@ -35,7 +40,7 @@ namespace VampireSurvival.Core.Enemies
 
         void IEnemyAnimation.PlayAttackAnimation()
         {
-            this.characterAnimation.Play("sword_attack", mix:0.5f);
+            this.characterAnimation.Play(ATTACK_ANIM, mix: 0.5f);
         }
 
         UniTask IEnemyAnimation.PlayDeathAnimationAsync()

@@ -5,7 +5,6 @@ using Entities_Component = Core.Entities.Component;
 
 namespace VampireSurvival.Core.UI
 {
-    using System.Linq;
     using UnityEngine;
     using UnityEngine.UI;
     using VampireSurvival.Core.Abstractions;
@@ -33,11 +32,12 @@ namespace VampireSurvival.Core.UI
 
         private void OnEntitySpawned(IEntity entity, IReadOnlyList<IComponent> _)
         {
-            if (entity is not IPlayer) return;
-            this.player                    =  this.Manager.Query<IPlayer>().Single();
-            this.Manager.Spawned           -= this.OnEntitySpawned;
+            if (entity is not IPlayer player) return;
+            this.player                    =  player;
+            this.Refresh();
             this.player.HealthStat.Changed += this.OnHealthChanged;
             this.player.Stats.Changed      += this.OnStatsChanged;
+            this.Manager.Spawned           -= this.OnEntitySpawned;
         }
 
         private void OnHealthChanged(float current, float max) => this.Refresh();

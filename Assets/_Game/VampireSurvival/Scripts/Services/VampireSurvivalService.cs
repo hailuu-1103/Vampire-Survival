@@ -4,20 +4,18 @@ using IEntityManager = Core.Entities.IEntityManager;
 
 namespace VampireSurvival.Core.Services
 {
-    using System;
     using VampireSurvival.Core.Entities;
 
-    public class VampireSurvivalService
+    public sealed class VampireSurvivalService
     {
-        private readonly IEntityManager       entityManager;
+        private readonly IEntityManager entityManager;
+
+        private GameManager? loaded;
 
         public VampireSurvivalService(IEntityManager entityManager)
         {
             this.entityManager = entityManager;
         }
-
-        private GameManager? loaded;
-        private Tutorial?    tutorial;
 
         public void Load()
         {
@@ -29,23 +27,21 @@ namespace VampireSurvival.Core.Services
 
         public void Unload()
         {
-            if (this.loaded is { })
-            {
-                this.loaded.Unload();
-                this.entityManager.Recycle(this.loaded);
-                this.loaded = null;
-            }
+            if (this.loaded is null) return;
+            this.loaded.Unload();
+            this.entityManager.Recycle(this.loaded);
+            this.loaded = null;
         }
 
         public void Pause()
         {
-            if(this.loaded is null) throw new NullReferenceException("GameManager is not loaded");
+            if (this.loaded is null) return;
             this.loaded.Pause();
         }
 
         public void Resume()
         {
-            if(this.loaded is null) throw new NullReferenceException("GameManager is not loaded");
+            if (this.loaded is null) return;
             this.loaded.Resume();
         }
     }

@@ -9,6 +9,10 @@ namespace VampireSurvival.Core.Components
 
     public sealed class PlayerAnimation : Component, IPlayerAnimation
     {
+        private const string IDLE_ANIM = "idle_1";
+        private const string RUN_ANIM  = "run";
+        private const string HIT_ANIM  = "hit";
+
         private ICharacterAnimation characterAnimation = null!;
 
         protected override void OnInstantiate()
@@ -18,17 +22,21 @@ namespace VampireSurvival.Core.Components
 
         void IPlayerAnimation.PlayIdleAnimation()
         {
-            this.characterAnimation.Play("idle_1", true);
+            if (this.characterAnimation.IsPlaying(IDLE_ANIM)) return;
+            if (this.characterAnimation.IsPlaying(HIT_ANIM)) return;
+            this.characterAnimation.Play(IDLE_ANIM, true);
         }
 
         void IPlayerAnimation.PlayRunAnimation()
         {
-            this.characterAnimation.Play("run", true);
+            if (this.characterAnimation.IsPlaying(RUN_ANIM)) return;
+            if (this.characterAnimation.IsPlaying(HIT_ANIM)) return;
+            this.characterAnimation.Play(RUN_ANIM, true);
         }
 
         void IPlayerAnimation.PlayHitAnimation()
         {
-            this.characterAnimation.Play("hit");
+            this.characterAnimation.Play(HIT_ANIM);
         }
 
         void IPlayerAnimation.SetFacing(float direction)

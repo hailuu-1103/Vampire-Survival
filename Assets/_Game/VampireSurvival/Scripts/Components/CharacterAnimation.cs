@@ -69,7 +69,9 @@ namespace VampireSurvival.Core.Components
         bool ICharacterAnimation.IsPlaying(string name)
         {
             var current = this.State.GetCurrent(TRACK_INDEX);
-            return current != null && (current.Animation?.Name == name);
+            if (current == null || current.Animation?.Name != name) return false;
+            if (!current.Loop && current.TrackTime >= current.AnimationEnd) return false;
+            return true;
         }
 
         void ICharacterAnimation.SetColor(Color color)

@@ -11,7 +11,6 @@ namespace VampireSurvival.Core.Systems
     {
         private readonly IEntityManager entityManager;
         private bool isPaused;
-        private bool wasMoving;
 
         public PlayerMovementSystem(IEntityManager entityManager)
         {
@@ -40,15 +39,14 @@ namespace VampireSurvival.Core.Systems
             var isMoving = move.sqrMagnitude > 0.01f;
 
             if (isMoving)
+            {
                 player.Animation.SetFacing(move.x);
-
-            if (isMoving == this.wasMoving) return;
-
-            this.wasMoving = isMoving;
-            if (isMoving)
                 player.Animation.PlayRunAnimation();
+            }
             else
+            {
                 player.Animation.PlayIdleAnimation();
+            }
         }
     }
 }

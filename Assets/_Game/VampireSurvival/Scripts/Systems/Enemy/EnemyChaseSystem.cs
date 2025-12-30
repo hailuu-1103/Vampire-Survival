@@ -1,5 +1,4 @@
 #nullable enable
-using System.Collections.Generic;
 using System.Linq;
 using Core.Entities;
 using UnityEngine;
@@ -11,22 +10,12 @@ namespace VampireSurvival.Core.Systems
     public sealed class EnemyChaseSystem : IUpdateable
     {
         private readonly IEntityManager entityManager;
-        private readonly HashSet<IEnemy> animatedEnemies = new();
 
         private bool isPaused;
 
         public EnemyChaseSystem(IEntityManager entityManager)
         {
             this.entityManager = entityManager;
-            this.entityManager.Recycled += this.OnRecycled;
-        }
-
-
-
-        private void OnRecycled(IEntity entity, IReadOnlyList<IComponent> _)
-        {
-            if (entity is IEnemy enemy)
-                this.animatedEnemies.Remove(enemy);
         }
 
         public void Pause()  => this.isPaused = true;
@@ -36,7 +25,9 @@ namespace VampireSurvival.Core.Systems
         {
             if (this.isPaused) return;
 
-            var player = this.entityManager.Query<IPlayer>().Single();
+            var player = this.entityManager.Query<IPlayer>().SingleOrDefault();
+            if (player == null) return;
+
             var playerPos = (Vector2)player.transform.position;
 
             foreach (var enemy in this.entityManager.Query<IEnemy>().ToList())
@@ -45,9 +36,8 @@ namespace VampireSurvival.Core.Systems
                 var dir = playerPos - enemyPos;
                 var moveDir = dir.sqrMagnitude < 0.0001f ? Vector2.zero : dir.normalized;
 
-                if (this.animatedEnemies.Add(enemy)) enemy.Animation.PlayRunAnimation();
-
                 enemy.Animation.SetFacing(dir.x);
+                enemy.Animation.PlayRunAnimation();
                 enemy.Movement.Move(moveDir);
             }
         }
