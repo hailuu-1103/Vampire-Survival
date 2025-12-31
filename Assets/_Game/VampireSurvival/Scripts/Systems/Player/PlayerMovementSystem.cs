@@ -1,44 +1,36 @@
 #nullable enable
-using System.Linq;
-using Core.Entities;
 using UnityEngine;
 
 namespace VampireSurvival.Core.Systems
 {
     using VampireSurvival.Core.Abstractions;
+    using VampireSurvival.Core.Models;
 
-    public sealed class PlayerMovementSystem : IUpdateable
+
+    public sealed class PlayerMovementSystem : System<IPlayer>
     {
-        private readonly IEntityManager entityManager;
-        private bool isPaused;
-
-        public PlayerMovementSystem(IEntityManager entityManager)
+        protected override bool Filter(IPlayer player)
         {
-            this.entityManager = entityManager;
+            return player.StatsHolder.Stats[StatNames.HEALTH].Value > 0;
         }
 
-        public void Pause()  => this.isPaused = true;
-        public void Resume() => this.isPaused = false;
-
-        public void Tick(float deltaTime)
+        protected override void Apply(IPlayer player)
         {
-            if (this.isPaused) return;
-
-            var player = this.entityManager.Query<IPlayer>().Single();
-            if (!player.Animation.CanMove)
-            {
-                player.Movement.Move(Vector2.zero);
-                return;
-            }
-
             var move = new Vector2(
                 Input.GetAxisRaw("Horizontal"),
                 Input.GetAxisRaw("Vertical")
             );
 
+            if (!player.Animation.CanMove)
+            {
+                player.Rigidbody.linearVelocity = Vector2.zero;
+                return;
+            }
+
             if (move.sqrMagnitude > 1f) move.Normalize();
 
-            player.Movement.Move(move);
+            var speed = player.StatsHolder.Stats[StatNames.MOVE_SPEED].Value;
+            player.Rigidbody.linearVelocity = move * speed;
 
             var isMoving = move.sqrMagnitude > 0.01f;
 

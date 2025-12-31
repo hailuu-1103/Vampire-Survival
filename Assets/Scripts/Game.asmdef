@@ -11,6 +11,7 @@
     "Core.ScreenFlow",
     "Core.ScreenFlow.DI",
     "Core.DI.DI",
+    "Core.Lifecycle.DI",
     "VampireSurvival.Core",
     "VampireSurvival.Core.DI",
     "Core.DI",

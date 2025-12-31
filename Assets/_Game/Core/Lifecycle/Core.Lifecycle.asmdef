@@ -1,0 +1,8 @@
+{
+  "name": "Core.Lifecycle",
+  "rootNamespace": "Core.Lifecycle",
+  "references": [
+    "UniTask",
+    "Core.Utils"
+  ]
+}

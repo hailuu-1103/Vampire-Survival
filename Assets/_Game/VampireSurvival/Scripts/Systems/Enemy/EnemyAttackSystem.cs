@@ -1,81 +1,87 @@
 #nullable enable
-using System.Collections.Generic;
 using System.Linq;
-using Core.Entities;
 using UnityEngine;
-using VampireSurvival.Core.Abstractions;
+using IEntityManager = Core.Entities.IEntityManager;
+using IEventBus = Core.Observer.IEventBus;
+using Core.Utils;
+using IComponent = Core.Entities.IComponent;
+using IEntity = Core.Entities.IEntity;
 
 namespace VampireSurvival.Core.Systems
 {
-    using System;
+    using System.Collections.Generic;
+    using VampireSurvival.Core.Abstractions;
+    using VampireSurvival.Core.Components;
+    using VampireSurvival.Core.Events;
+    using VampireSurvival.Core.Models;
 
-    public sealed class EnemyAttackSystem : IUpdateable, IDisposable
+    public sealed class EnemyAttackSystem : System<IEnemy>
     {
-        private readonly IEntityManager            entityManager;
+        private IEventBus    eventBus     = null!;
+        private EnemySpawner enemySpawner = null!;
+
+        protected override void OnInstantiate()
+        {
+            this.eventBus = this.Container.Resolve<IEventBus>();
+        }
+
+        protected override void OnSystemSpawn()
+        {
+            this.enemySpawner = this.Manager.Query<EnemySpawner>().Single();
+        }
+
         private readonly Dictionary<IEnemy, float> cooldowns = new();
 
-        private const float ATTACK_RANGE = 0.15f;
-        private const float COOLDOWN     = 2f;
-
-        private bool isPaused;
-
-        public EnemyAttackSystem(IEntityManager entityManager)
+        protected override void OnEntitySpawned(IEntity entity, IReadOnlyList<IComponent> components)
         {
-            this.entityManager          =  entityManager;
-            this.entityManager.Spawned  += this.OnSpawned;
-            this.entityManager.Recycled += this.OnRecycled;
+            base.OnEntitySpawned(entity, components);
+            if (entity is not IEnemy enemy) return;
+            this.cooldowns.TryAdd(enemy, 0);
         }
 
-        public void Pause() => this.isPaused = true;
-
-        public void Resume() => this.isPaused = false;
-
-        private void OnSpawned(IEntity entity, IReadOnlyList<IComponent> arg2)
+        protected override void OnEntityRecycled(IEntity entity, IReadOnlyList<IComponent> components)
         {
-            if (entity is IEnemy enemy) this.cooldowns.TryAdd(enemy, 0);
+            base.OnEntityRecycled(entity, components);
+            if (entity is not IEnemy enemy) return;
+            this.cooldowns.Remove(enemy);
         }
 
-        private void OnRecycled(IEntity entity, IReadOnlyList<IComponent> _)
+        protected override bool Filter(IEnemy enemy)
         {
-            if (entity is IEnemy enemy) this.cooldowns.Remove(enemy);
+            var player = this.Manager.Query<IPlayer>().SingleOrDefault();
+            if(player == null) return false;
+            return player.StatsHolder.Stats[StatNames.HEALTH] > 0 && !this.enemySpawner.IsDead(enemy) && this.cooldowns.ContainsKey(enemy);
         }
 
-        public void Tick(float deltaTime)
+        protected override void Apply(IEnemy enemy)
         {
-            if (this.isPaused) return;
+            var player   = this.Manager.Query<IPlayer>().Single();
+            var cooldown = this.cooldowns[enemy];
+            cooldown              -= Time.deltaTime;
+            this.cooldowns[enemy] =  Mathf.Max(0, cooldown);
+            if (cooldown > 0f) return;
 
-            var player = this.entityManager.Query<IPlayer>().SingleOrDefault();
-            if (player?.Collider == null) return;
+            var attackRange = enemy.StatsHolder.Stats[StatNames.ATTACK_RANGE].Value;
 
-            foreach (var enemy in this.entityManager.Query<IEnemy>().ToList())
+            var distance = enemy.Collider.Distance(player.Collider);
+            if (!distance.isValid || distance.distance > attackRange) return;
+
+            var dir            = player.transform.position.x - enemy.transform.position.x;
+            var isFacingPlayer = (enemy.Animation.FacingDirection > 0 && dir > 0) || (enemy.Animation.FacingDirection < 0 && dir < 0);
+            if (!isFacingPlayer) return;
+
+            var damage = enemy.StatsHolder.Stats[StatNames.ATTACK].Value;
+            player.StatsHolder.Add(StatNames.HEALTH, -damage);
+
+            enemy.Animation.PlayAttackAnimation();
+            player.Animation.PlayHitAnimation();
+
+            if (player.StatsHolder.Stats[StatNames.HEALTH].Value <= 0)
             {
-                if (!this.cooldowns.TryGetValue(enemy, out var cooldown)) continue;
-                if (enemy.Collider == null) continue;
-
-                cooldown              -= deltaTime;
-                this.cooldowns[enemy] =  Mathf.Max(0, cooldown);
-                if (cooldown > 0f) continue;
-
-                var distance = enemy.Collider.Distance(player.Collider);
-                if (!distance.isValid || distance.distance > ATTACK_RANGE) continue;
-                if (player.HealthStat.Current <= 0) continue;
-
-                var dir = player.transform.position.x - enemy.transform.position.x;
-                var isFacingPlayer = (enemy.Animation.FacingDirection > 0 && dir > 0) ||
-                                     (enemy.Animation.FacingDirection < 0 && dir < 0);
-                if (!isFacingPlayer) continue;
-
-                enemy.Animation.PlayAttackAnimation();
-                player.Animation.PlayHitAnimation();
-                player.HealthStat.TakeDamage(enemy.DamageStat.Value);
-                this.cooldowns[enemy] = COOLDOWN;
+                this.eventBus.Publish(new PlayerDiedEvent());
             }
-        }
 
-        void IDisposable.Dispose()
-        {
-            this.entityManager.Recycled -= this.OnRecycled;
-            this.entityManager.Spawned  -= this.OnSpawned;
+            this.cooldowns[enemy] = enemy.StatsHolder.Stats[StatNames.ATTACK_COOLDOWN];
         }
     }
 }

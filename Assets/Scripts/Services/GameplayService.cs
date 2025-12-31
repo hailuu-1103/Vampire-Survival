@@ -48,6 +48,7 @@ namespace Game.Services
 
         private void OnLostHandler(LostEvent obj)
         {
+            this.vampireSurvivalService.Unload();
             this.onLost?.Invoke();
         }
 

@@ -142,6 +142,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2926224190460661392}
   - {fileID: 6751470529426969630}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -158,8 +159,77 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Components.GameManager
   playerPrefab: {fileID: 706212245164874086, guid: c36937ac8749344319fc83cac71dcaf8, type: 3}
+--- !u!1 &4431378654467887937
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4190017239706673659}
+  - component: {fileID: 60895705387140721}
+  - component: {fileID: 4389177572827895985}
+  - component: {fileID: 881602569989661649}
+  m_Layer: 0
+  m_Name: Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4190017239706673659
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4431378654467887937}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2926224190460661392}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &60895705387140721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4431378654467887937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5633ed652bed41cab189b0e044305758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Systems.EnemyAttackSystem
+--- !u!114 &4389177572827895985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4431378654467887937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e2b41f2ee6e4088a52f642271a3337a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Systems.EnemyChaseSystem
+--- !u!114 &881602569989661649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4431378654467887937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cbeb76542ea48098d7fa827eb3549d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Components.EnemySpawner
   enemyPrefab: {fileID: 8619483909028521419, guid: 0924e961822744e9eb8121cbdafb29e8, type: 3}
-  tutorialPrefab: {fileID: 0}
 --- !u!1 &4490713406319511415
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +242,6 @@ GameObject:
   - component: {fileID: 5046631379992742541}
   - component: {fileID: 2509548809913573116}
   - component: {fileID: 3256776423143612779}
-  - component: {fileID: 4256110864822849127}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -263,19 +332,123 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4256110864822849127
+--- !u!1 &4591326333065565315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4260272564840356059}
+  - component: {fileID: 3382036144430974269}
+  - component: {fileID: 4065053901970059122}
+  - component: {fileID: 7731099096815545190}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4260272564840356059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4591326333065565315}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2926224190460661392}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3382036144430974269
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4490713406319511415}
+  m_GameObject: {fileID: 4591326333065565315}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98ab7ef433804a2b9c505035bc0ba420, type: 3}
+  m_Script: {fileID: 11500000, guid: 25fb3205b41a642ae94d4d8f7d1fd4ed, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.UI.GamePanel
-  healthFill: {fileID: 8595636686270267574}
+  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Systems.PlayerAttackSystem
+--- !u!114 &4065053901970059122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4591326333065565315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7f31742cff3a435c87a77a2e9aebc7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Systems.PlayerCollectionSystem
+--- !u!114 &7731099096815545190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4591326333065565315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790eb1cba96e4d1c98cf122ac6b16969, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Systems.PlayerMovementSystem
+--- !u!1 &5579965660589588392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2926224190460661392}
+  - component: {fileID: 3074689469983855404}
+  m_Layer: 0
+  m_Name: Systems
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2926224190460661392
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5579965660589588392}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4260272564840356059}
+  - {fileID: 4190017239706673659}
+  m_Father: {fileID: 704702548607455931}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3074689469983855404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5579965660589588392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93486d35cda1c4a7685110f1f0657759, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Components.XPCollectableSpawner
+  prefab: {fileID: 7856123718079124233, guid: 9eb189469e5de4d1aa83f0d859d12146, type: 3}
 --- !u!1 &5617673637268223337
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,6 +631,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5109556403142769477}
+  - component: {fileID: 4364289292881367830}
   m_Layer: 5
   m_Name: PlayerInfo
   m_TagString: Untagged
@@ -486,6 +660,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4364289292881367830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827063041412712173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98ab7ef433804a2b9c505035bc0ba420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Game.UI.GamePanel
+  healthFill: {fileID: 8595636686270267574}
 --- !u!1 &8745915360524179180
 GameObject:
   m_ObjectHideFlags: 0

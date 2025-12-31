@@ -1,55 +1,62 @@
 #nullable enable
 using System.Linq;
-using Core.Entities;
-using VampireSurvival.Core.Abstractions;
+using UnityEngine;
+using IEventBus = Core.Observer.IEventBus;
 
 namespace VampireSurvival.Core.Systems
 {
-    public sealed class PlayerAttackSystem : IUpdateable
+    using AbilitySystem.Components;
+    using VampireSurvival.Core.Abstractions;
+    using VampireSurvival.Core.Events;
+    using VampireSurvival.Core.Models;
+
+    public sealed class PlayerAttackSystem : System<IPlayer>
     {
-        private readonly IEntityManager entityManager;
+        private IEventBus eventBus = null!;
 
-        private const float ATTACK_RANGE = 0.2f;
-        private const float COOLDOWN     = 1f;
-
-        private float cooldown;
-        private bool  isPaused;
-
-        public PlayerAttackSystem(IEntityManager entityManager)
+        protected override void OnInstantiate()
         {
-            this.entityManager = entityManager;
+            this.eventBus = this.Container.Resolve<IEventBus>();
         }
 
-        public void Pause()  => this.isPaused = true;
-        public void Resume() => this.isPaused = false;
+        private float cooldown;
 
-        public void Tick(float deltaTime)
+        protected override bool Filter(IPlayer player)
         {
-            if (this.isPaused) return;
+            return player.StatsHolder.Stats[StatNames.HEALTH].Value > 0;
+        }
 
-            this.cooldown -= deltaTime;
+        protected override void Apply(IPlayer player)
+        {
+            this.cooldown -= Time.deltaTime;
             if (this.cooldown > 0f) return;
 
-            var player = this.entityManager.Query<IPlayer>().Single();
-            if (player.Collider == null) return;
+            var attackRange = player.StatsHolder.Stats[StatNames.ATTACK_RANGE].Value;
 
-            foreach (var enemy in this.entityManager.Query<IEnemy>().ToList())
+            foreach (var enemy in this.Manager.Query<IEnemy>().ToList())
             {
-                if (enemy.Collider == null) continue;
+                var enemyHealth = enemy.StatsHolder.Stats[StatNames.HEALTH].Value;
+                if (enemyHealth <= 0) continue;
 
                 var distance = player.Collider.Distance(enemy.Collider);
-                if (!distance.isValid || distance.distance > ATTACK_RANGE) continue;
-                if (enemy.HealthStat.Current <= 0) continue;
+                if (!distance.isValid || distance.distance > attackRange) continue;
 
-                var dir = enemy.transform.position.x - player.transform.position.x;
-                var isFacingEnemy = (player.Animation.FacingDirection > 0 && dir > 0) ||
-                                    (player.Animation.FacingDirection < 0 && dir < 0);
+                var dir           = enemy.transform.position.x - player.transform.position.x;
+                var isFacingEnemy = (player.Animation.FacingDirection > 0 && dir > 0) || (player.Animation.FacingDirection < 0 && dir < 0);
                 if (!isFacingEnemy) continue;
+
+                var damage = player.StatsHolder.Stats[StatNames.ATTACK].Value;
+                enemy.StatsHolder.Add(StatNames.HEALTH, -damage);
 
                 player.Animation.PlayAttackAnimation();
                 enemy.Animation.PlayHitAnimation();
-                enemy.HealthStat.TakeDamage(player.DamageStat.Value);
-                this.cooldown = COOLDOWN;
+
+                if (enemy.StatsHolder.Stats[StatNames.HEALTH].Value <= 0)
+                {
+                    this.eventBus.Publish(new EnemyDiedEvent(enemy));
+                }
+
+                this.cooldown = player.StatsHolder.Stats[StatNames.ATTACK_COOLDOWN].Value;
                 break;
             }
         }

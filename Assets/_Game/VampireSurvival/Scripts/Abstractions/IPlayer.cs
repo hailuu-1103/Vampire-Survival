@@ -3,16 +3,13 @@ using IEntity = Core.Entities.IEntity;
 
 namespace VampireSurvival.Core.Abstractions
 {
+    using AbilitySystem.Components;
     using Cysharp.Threading.Tasks;
-    using VampireSurvival.Core.Stats;
 
-    public interface IPlayer : IEntity, IHasCollider
+    public interface IPlayer : IEntity, IHasCollider, IHasRigidbody
     {
-        public IPlayerAnimation Animation  { get; }
-        public IPlayerMoveable  Movement   { get; }
-        public IStats           Stats      { get; }
-        public IHealthStat      HealthStat { get; }
-        public IDamageStat      DamageStat { get; }
+        public IPlayerAnimation Animation   { get; }
+        public IStatsHolder     StatsHolder { get; }
     }
 
     public interface IPlayerAnimation

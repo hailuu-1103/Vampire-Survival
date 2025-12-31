@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daee597ec15b4d629f6da67643e48c3e, type: 3}
   m_Name: EnemyStatsConfig
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.CharacterStatsConfig
-  entries:
-  - Id: 0
-    Value: 3
-  - Id: 1
-    Value: 2
-  - Id: 2
-    Value: 5
+  maxHealth: 5
+  attack: 3
+  attackRange: 0.15
+  attackCooldown: 2
+  moveSpeed: 3

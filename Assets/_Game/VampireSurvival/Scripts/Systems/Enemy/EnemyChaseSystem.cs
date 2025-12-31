@@ -1,49 +1,49 @@
 #nullable enable
 using System.Linq;
-using Core.Entities;
 using UnityEngine;
 
 namespace VampireSurvival.Core.Systems
 {
     using VampireSurvival.Core.Abstractions;
+    using VampireSurvival.Core.Components;
+    using VampireSurvival.Core.Models;
 
-    public sealed class EnemyChaseSystem : IUpdateable
+    public sealed class EnemyChaseSystem : System<IEnemy>
     {
-        private readonly IEntityManager entityManager;
+        private EnemySpawner enemySpawner = null!;
 
-        private bool isPaused;
-
-        public EnemyChaseSystem(IEntityManager entityManager)
+        protected override void OnSystemSpawn()
         {
-            this.entityManager = entityManager;
+            this.enemySpawner = this.Manager.Query<EnemySpawner>().Single();
         }
 
-        public void Pause()  => this.isPaused = true;
-        public void Resume() => this.isPaused = false;
-
-        public void Tick(float deltaTime)
+        protected override bool Filter(IEnemy enemy)
         {
-            if (this.isPaused) return;
+            //TODO expensive, refactor this
+            var player = this.Manager.Query<IPlayer>().SingleOrDefault();
+            if (player == null) return false;
+            return player.StatsHolder.Stats[StatNames.HEALTH] > 0 && !this.enemySpawner.IsDead(enemy);
+        }
 
-            var player = this.entityManager.Query<IPlayer>().Single();
-            var playerPos = (Vector2)player.transform.position;
+        protected override void Apply(IEnemy enemy)
+        {
+            var player = this.Manager.Query<IPlayer>().Single();
 
-            foreach (var enemy in this.entityManager.Query<IEnemy>().ToList())
+            if (!enemy.Animation.CanMove)
             {
-                if (!enemy.Animation.CanMove)
-                {
-                    enemy.Movement.Move(Vector2.zero);
-                    continue;
-                }
-
-                var enemyPos = (Vector2)enemy.transform.position;
-                var dir = playerPos - enemyPos;
-                var moveDir = dir.sqrMagnitude < 0.0001f ? Vector2.zero : dir.normalized;
-
-                enemy.Animation.SetFacing(dir.x);
-                enemy.Animation.PlayRunAnimation();
-                enemy.Movement.Move(moveDir);
+                enemy.Rigidbody.linearVelocity = Vector2.zero;
+                return;
             }
+
+            var playerPos = (Vector2)player.transform.position;
+            var enemyPos  = (Vector2)enemy.transform.position;
+            var dir       = playerPos - enemyPos;
+            var moveDir   = dir.sqrMagnitude < 0.0001f ? Vector2.zero : dir.normalized;
+
+            var speed = player.StatsHolder.Stats[StatNames.MOVE_SPEED].Value;
+            enemy.Rigidbody.linearVelocity = moveDir * speed;
+            enemy.Animation.SetFacing(dir.x);
+            enemy.Animation.PlayRunAnimation();
         }
     }
 }

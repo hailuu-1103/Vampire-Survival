@@ -2,6 +2,7 @@
   "name": "Core.Utils",
   "rootNamespace": "Core.Utils",
   "references": [
+    "VContainer",
     "UniTask"
   ]
 }

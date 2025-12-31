@@ -1,0 +1,8 @@
+{
+  "name": "Core.Lifecycle.DI",
+  "rootNamespace": "Core.Lifecycle.DI",
+  "references": [
+    "VContainer",
+    "Core.Lifecycle"
+  ]
+}

@@ -16,6 +16,7 @@ namespace Core.Pooling
         private readonly Transform                          poolsContainer = new GameObject(nameof(ObjectPoolManager)).DontDestroyOnLoad().transform;
         private readonly Dictionary<GameObject, ObjectPool> prefabToPool   = new Dictionary<GameObject, ObjectPool>();
         private readonly Dictionary<GameObject, ObjectPool> instanceToPool = new Dictionary<GameObject, ObjectPool>();
+        private readonly Dictionary<Type, GameObject>       typeToPrefab   = new Dictionary<Type, GameObject>();
 
         #endregion
 
@@ -28,7 +29,13 @@ namespace Core.Pooling
 
         void IObjectPoolManager.Load(GameObject prefab, int count) => this.Load(prefab, count);
 
+        void IObjectPoolManager.Load<T>(int count) => this.Load<T>(typeof(T).Name, count);
+
+        void IObjectPoolManager.Load<T>(string resourcePath, int count) => this.Load<T>(resourcePath, count);
+
         GameObject IObjectPoolManager.Spawn(GameObject prefab, Vector3 position, Quaternion rotation, Transform? parent, bool spawnInWorldSpace) => this.Spawn(prefab, position, rotation, parent, spawnInWorldSpace);
+
+        T IObjectPoolManager.Spawn<T>(Vector3 position, Quaternion rotation, Transform? parent, bool spawnInWorldSpace) => this.Spawn<T>(position, rotation, parent, spawnInWorldSpace);
 
         void IObjectPoolManager.Recycle(GameObject instance)
         {
@@ -39,9 +46,15 @@ namespace Core.Pooling
 
         void IObjectPoolManager.RecycleAll(GameObject prefab) => this.RecycleAll(prefab);
 
+        void IObjectPoolManager.RecycleAll<T>() => this.RecycleAll<T>();
+
         void IObjectPoolManager.Cleanup(GameObject prefab, int retainCount) => this.Cleanup(prefab, retainCount);
 
+        void IObjectPoolManager.Cleanup<T>(int retainCount) => this.Cleanup<T>(retainCount);
+
         void IObjectPoolManager.Unload(GameObject prefab) => this.Unload(prefab);
+
+        void IObjectPoolManager.Unload<T>() => this.Unload<T>();
 
         #endregion
 
@@ -65,6 +78,22 @@ namespace Core.Pooling
             }).Load(count);
         }
 
+        private void Load<T>(string resourcePath, int count) where T : Component
+        {
+            var type = typeof(T);
+            if (this.typeToPrefab.ContainsKey(type)) return;
+
+            var prefab = Resources.Load<T>(resourcePath);
+            if (prefab == null)
+            {
+                Debug.LogError($"Failed to load {type.Name} from Resources/{resourcePath}");
+                return;
+            }
+
+            this.typeToPrefab[type] = prefab.gameObject;
+            this.Load(prefab.gameObject, count);
+        }
+
         private GameObject Spawn(GameObject prefab, Vector3 position, Quaternion rotation, Transform? parent, bool spawnInWorldSpace)
         {
             if (!this.prefabToPool.ContainsKey(prefab))
@@ -79,6 +108,19 @@ namespace Core.Pooling
             return instance;
         }
 
+        private T Spawn<T>(Vector3 position, Quaternion rotation, Transform? parent, bool spawnInWorldSpace) where T : Component
+        {
+            var type = typeof(T);
+            if (!this.typeToPrefab.TryGetValue(type, out var prefab))
+            {
+                this.Load<T>(type.Name, 1);
+                if (!this.typeToPrefab.TryGetValue(type, out prefab))
+                    throw new InvalidOperationException($"Failed to load {type.Name} from Resources");
+            }
+
+            return this.Spawn(prefab, position, rotation, parent, spawnInWorldSpace).GetComponent<T>();
+        }
+
         private void RecycleAll(GameObject prefab)
         {
             if (!this.TryGetPool(prefab, out var pool)) return;
@@ -87,11 +129,23 @@ namespace Core.Pooling
             Debug.Log($"Recycled all {pool.name}");
         }
 
+        private void RecycleAll<T>() where T : Component
+        {
+            if (!this.TryGetPrefab<T>(out var prefab)) return;
+            this.RecycleAll(prefab);
+        }
+
         private void Cleanup(GameObject prefab, int retainCount)
         {
             if (!this.TryGetPool(prefab, out var pool)) return;
             pool.Cleanup(retainCount);
             Debug.Log($"Cleaned up {pool.name}");
+        }
+
+        private void Cleanup<T>(int retainCount) where T : Component
+        {
+            if (!this.TryGetPrefab<T>(out var prefab)) return;
+            this.Cleanup(prefab, retainCount);
         }
 
         private void Unload(GameObject prefab)
@@ -107,10 +161,24 @@ namespace Core.Pooling
             Debug.Log($"Destroyed {pool.name}");
         }
 
+        private void Unload<T>() where T : Component
+        {
+            if (!this.TryGetPrefab<T>(out var prefab)) return;
+            this.Unload(prefab);
+            this.typeToPrefab.Remove(typeof(T));
+        }
+
         private bool TryGetPool(GameObject prefab, [MaybeNullWhen(false)] out ObjectPool pool)
         {
             if (this.prefabToPool.TryGetValue(prefab, out pool)) return true;
             Debug.LogWarning($"{prefab.name} pool not loaded");
+            return false;
+        }
+
+        private bool TryGetPrefab<T>([MaybeNullWhen(false)] out GameObject prefab) where T : Component
+        {
+            if (this.typeToPrefab.TryGetValue(typeof(T), out prefab)) return true;
+            Debug.LogWarning($"{typeof(T).Name} pool not loaded");
             return false;
         }
 

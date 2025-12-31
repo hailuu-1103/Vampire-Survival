@@ -7,4 +7,9 @@ namespace VampireSurvival.Core.Abstractions
     {
         public Collider2D Collider { get; }
     }
+
+    public interface IHasRigidbody
+    {
+        public Rigidbody2D Rigidbody { get; }
+    }
 }

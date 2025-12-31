@@ -23,7 +23,6 @@ namespace VampireSurvival.Core.Components
         }
 
         bool IPlayerAnimation.CanMove =>
-            !this.characterAnimation.IsPlaying(HIT_ANIM) &&
             !this.characterAnimation.IsPlaying(ATTACK_ANIM) &&
             !this.characterAnimation.IsPlaying(DEAD_ANIM);
 

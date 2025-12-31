@@ -24725,7 +24725,6 @@ MonoBehaviour:
     TypeName: Game.GameLifeTimeScope
   autoRun: 1
   autoInjectGameObjects: []
-  gameManager: {fileID: 7192272441377208156, guid: 28ed599531bb2487e87d70754e8a39e1, type: 3}
 --- !u!4 &906792965
 Transform:
   m_ObjectHideFlags: 0

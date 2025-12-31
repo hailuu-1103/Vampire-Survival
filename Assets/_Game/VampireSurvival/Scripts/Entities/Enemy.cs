@@ -1,45 +1,24 @@
 #nullable enable
 
 using Entity = Core.Entities.Entity;
-using IEventBus = Core.Observer.IEventBus;
 
 namespace VampireSurvival.Core.Entities
 {
+    using AbilitySystem.Components;
     using UnityEngine;
     using VampireSurvival.Core.Abstractions;
-    using VampireSurvival.Core.Events;
-    using VampireSurvival.Core.Stats;
 
+    [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
     public sealed class Enemy : Entity, IEnemy
     {
-        private IEventBus eventBus = null!;
-
-        protected override void OnInstantiate()
-        {
-            this.eventBus = this.Container.Resolve<IEventBus>();
-        }
-
-        public IEnemyAnimation Animation  => this.GetComponent<IEnemyAnimation>();
-        public IEnemyMoveable  Movement   => this.GetComponent<IEnemyMoveable>();
-        public IStats          Stats      => this.GetComponent<IStats>();
-        public IDamageStat     DamageStat => this.GetComponent<IDamageStat>();
-        public IHealthStat     HealthStat => this.GetComponent<IHealthStat>();
-        public Collider2D      Collider   => this.GetComponent<Collider2D>();
+        public IEnemyAnimation Animation   => this.GetComponent<IEnemyAnimation>();
+        public IStatsHolder    StatsHolder => this.GetComponent<IStatsHolder>();
+        public Collider2D      Collider    => this.GetComponent<Collider2D>();
+        public Rigidbody2D     Rigidbody   => this.GetComponent<Rigidbody2D>();
 
         protected override void OnSpawn()
         {
             this.Animation.SetColor(Color.red);
-            this.HealthStat.Died += this.OnDied;
-        }
-
-        private void OnDied()
-        {
-            this.eventBus.Publish(new EnemyDiedEvent(this));
-        }
-
-        protected override void OnRecycle()
-        {
-            this.HealthStat.Died -= this.OnDied;
         }
     }
 }

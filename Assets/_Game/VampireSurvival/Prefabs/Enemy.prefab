@@ -139,14 +139,10 @@ GameObject:
   - component: {fileID: 922989774680392513}
   - component: {fileID: 3359776525705008561}
   - component: {fileID: 8619483909028521419}
-  - component: {fileID: 7748611844203849381}
-  - component: {fileID: -5352471889609930336}
-  - component: {fileID: 3605896433454116394}
-  - component: {fileID: -9038530233541763890}
   - component: {fileID: 533348889162103814}
-  - component: {fileID: 5343002870945848641}
   - component: {fileID: 1756404294979900164}
   - component: {fileID: 7080746748713808631}
+  - component: {fileID: 3288403242677342408}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -209,54 +205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d0f21cb015f42949b3ef95cb512c725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Entities.Enemy
---- !u!114 &7748611844203849381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 715653378714904782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3a6bcc4cf97243fe968277cb8b295d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.MoveStat
---- !u!114 &-5352471889609930336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 715653378714904782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a6582eb064924a44ab7a75141036d2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.HealthStat
---- !u!114 &3605896433454116394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 715653378714904782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e080f6aab22e5463ea55b0063088434a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.DamageStat
---- !u!114 &-9038530233541763890
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 715653378714904782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 238ce996346a49468033debb386967ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Components.EnemyMovement
 --- !u!61 &533348889162103814
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -303,19 +251,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.6518459, y: 1.1023984}
   m_EdgeRadius: 0
---- !u!114 &5343002870945848641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 715653378714904782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07aa314944d4452f96425c85a0cc46ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.StatsContainer
-  config: {fileID: 11400000, guid: 58d487476d6294681a6e7fb6a1a72543, type: 2}
 --- !u!114 &1756404294979900164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,3 +276,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0662f9768db649079abefba5c7910b9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Enemies.EnemyAnimation
+--- !u!114 &3288403242677342408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715653378714904782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72990536ba4f4cc0b0a24f855c9ec9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.StatsHolder
+  config: {fileID: 11400000, guid: 58d487476d6294681a6e7fb6a1a72543, type: 2}

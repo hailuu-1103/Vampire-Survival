@@ -8,11 +8,13 @@ namespace VampireSurvival.Core
     using VampireSurvival.Core.Abstractions;
     using VContainer;
 
+    [RequireComponent(typeof(Camera))]
     public sealed class GameCamera : MonoBehaviour
     {
         [SerializeField] private Vector3 offset     = new(0f, 0f, -10f);
         [SerializeField] private float   smoothTime = 0.12f;
 
+        public  Camera         Camera => this.GetComponent<Camera>();
         private IEntityManager entityManager = null!;
         private IPlayer?       player;
 

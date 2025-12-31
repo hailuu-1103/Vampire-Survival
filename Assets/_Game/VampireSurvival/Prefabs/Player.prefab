@@ -12,13 +12,9 @@ GameObject:
   - component: {fileID: 706212245164874086}
   - component: {fileID: 5694462042266719133}
   - component: {fileID: 8818479815432747622}
-  - component: {fileID: 3376083661304184444}
-  - component: {fileID: 6026412691654971088}
-  - component: {fileID: 1793313115857376838}
-  - component: {fileID: 5379638053620064581}
-  - component: {fileID: 7290376272497740428}
   - component: {fileID: -5810385466295958474}
   - component: {fileID: 4366472705815714219}
+  - component: {fileID: 8732308448707329147}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -127,67 +123,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.6481629, y: 1.1220659}
   m_EdgeRadius: 0
---- !u!114 &3376083661304184444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 335056665122574701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 690fa72f809f49749fe2b9b56439fa2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.PlayerMovement
---- !u!114 &6026412691654971088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 335056665122574701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3a6bcc4cf97243fe968277cb8b295d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.MoveStat
---- !u!114 &1793313115857376838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 335056665122574701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a6582eb064924a44ab7a75141036d2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.HealthStat
---- !u!114 &5379638053620064581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 335056665122574701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e080f6aab22e5463ea55b0063088434a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.DamageStat
---- !u!114 &7290376272497740428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 335056665122574701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07aa314944d4452f96425c85a0cc46ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.StatsContainer
-  config: {fileID: 11400000, guid: ba0e482f88b1d479da9b019f7209daf7, type: 2}
 --- !u!114 &-5810385466295958474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,6 +148,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc90307eeb743999900976d7de04770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Components.PlayerAnimation
+--- !u!114 &8732308448707329147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335056665122574701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72990536ba4f4cc0b0a24f855c9ec9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.StatsHolder
+  config: {fileID: 11400000, guid: ba0e482f88b1d479da9b019f7209daf7, type: 2}
 --- !u!1 &8668795031032674615
 GameObject:
   m_ObjectHideFlags: 0

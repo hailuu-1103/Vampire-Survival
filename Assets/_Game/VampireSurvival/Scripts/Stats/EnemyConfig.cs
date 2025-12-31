@@ -3,13 +3,12 @@
 namespace VampireSurvival.Core.Stats
 {
     using UnityEngine;
-    using VampireSurvival.Core.Entities;
 
     [CreateAssetMenu(menuName = "VampireSurvival/Enemy Config")]
     public sealed class EnemyConfig : ScriptableObject
     {
-        public Enemy Prefab        = null!;
-        public float SpawnInterval = 1f;
-        public float SpawnRadius   = 10f;
+        public float spawnInterval = 1f;
+        public float spawnRadius   = 10f;
+        public int   xpReward      = 10;
     }
 }
