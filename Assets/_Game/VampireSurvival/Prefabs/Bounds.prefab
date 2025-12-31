@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1782366690483726412}
   - component: {fileID: 558306542163053164}
   - component: {fileID: 7515039973110930247}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   m_Component:
   - component: {fileID: 407859078590536775}
   - component: {fileID: 5630716770688291382}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,7 +226,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2417837049104684872}
   - component: {fileID: 352911057554792191}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,8 +303,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5286620730155197270}
-  - component: {fileID: 5268148285184144198}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -330,23 +329,6 @@ Transform:
   - {fileID: 7802146377435401574}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5268148285184144198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7498303725849796343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d616d2ed6ccb443e88d780a67314aab0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Components.SpawnBounds
-  top: {fileID: 279886888985170613}
-  bottom: {fileID: 5630716770688291382}
-  left: {fileID: 352911057554792191}
-  right: {fileID: 558306542163053164}
-  padding: 0.5
 --- !u!1 &9034742486265387782
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,7 +339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7802146377435401574}
   - component: {fileID: 279886888985170613}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}

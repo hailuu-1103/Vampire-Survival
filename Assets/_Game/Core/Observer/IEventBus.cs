@@ -6,9 +6,8 @@ namespace Core.Observer
 
     public interface IEventBus
     {
-        void Publish<T>(T             signal);
-        void Subscribe<T>(Action<T>   handler);
-        void Unsubscribe<T>(Action<T> handler);
+        public void Publish<T>(T             signal);
+        public void Subscribe<T>(Action<T>   handler);
+        public void Unsubscribe<T>(Action<T> handler);
     }
-
 }

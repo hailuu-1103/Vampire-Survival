@@ -16,7 +16,7 @@ namespace VampireSurvival.Core.DI
             builder.RegisterResource<EnemyConfig>(nameof(EnemyConfig), Lifetime.Singleton).AsSelf();
             builder.RegisterResource<PlayerConfig>(nameof(PlayerConfig), Lifetime.Singleton).AsSelf();
             builder.Register<VampireSurvivalService>(Lifetime.Singleton).AsSelf();
-            builder.Register<PlayerProgressionService>(Lifetime.Singleton).AsSelf();
+            builder.Register<PlayerProgressionService>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
 
             typeof(IReactiveSystem).GetDerivedTypes().ForEach(type => builder.Register(type, Lifetime.Singleton).AsImplementedInterfaces());
         }

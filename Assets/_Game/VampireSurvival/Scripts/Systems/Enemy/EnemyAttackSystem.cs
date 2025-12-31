@@ -70,7 +70,7 @@ namespace VampireSurvival.Core.Systems
             var isFacingPlayer = (enemy.Animation.FacingDirection > 0 && dir > 0) || (enemy.Animation.FacingDirection < 0 && dir < 0);
             if (!isFacingPlayer) return;
 
-            var damage = enemy.StatsHolder.Stats[StatNames.ATTACK].Value;
+            var damage = player.IsImmortal ? 0 : enemy.StatsHolder.Stats[StatNames.ATTACK].Value;
             player.StatsHolder.Add(StatNames.HEALTH, -damage);
 
             enemy.Animation.PlayAttackAnimation();

@@ -3,7 +3,6 @@ using IEntity = Core.Entities.IEntity;
 
 namespace VampireSurvival.Core.Abstractions
 {
-    using AbilitySystem.Components;
     using Cysharp.Threading.Tasks;
     using UnityEngine;
 

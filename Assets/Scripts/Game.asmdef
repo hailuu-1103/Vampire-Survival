@@ -3,18 +3,24 @@
   "rootNamespace": "Game",
   "references": [
     "VContainer",
+    "UniTask",
+    "Unity.TextMeshPro",
     "Core.Entities",
     "Core.Entities.DI",
+    "Core.Observer",
     "Core.Observer.DI",
     "Core.GameFlow",
     "Core.GameFlow.DI",
     "Core.ScreenFlow",
     "Core.ScreenFlow.DI",
-    "Core.DI.DI",
-    "Core.Lifecycle.DI",
-    "VampireSurvival.Core",
-    "VampireSurvival.Core.DI",
     "Core.DI",
-    "Core.Observer"
+    "Core.DI.DI",
+    "Core.Lifecycle",
+    "Core.Lifecycle.DI",
+    "Core.FTUE",
+    "Core.FTUE.DI",
+    "Core.Utils",
+    "VampireSurvival.Core",
+    "VampireSurvival.Core.DI"
   ]
 }

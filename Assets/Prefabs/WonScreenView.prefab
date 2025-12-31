@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game Over
+  m_text: You won!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -283,9 +283,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2321085905164743243}
-  - component: {fileID: 2627358458656442434}
+  - component: {fileID: 1511727568170774634}
   m_Layer: 5
-  m_Name: LoseScreenView
+  m_Name: WonScreenView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -312,7 +312,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2627358458656442434
+--- !u!114 &1511727568170774634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -321,9 +321,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7994343361326131911}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02aa2a67a4f54d0eb383a68cea9c5fb7, type: 3}
+  m_Script: {fileID: 11500000, guid: fdf44606f5954b59abf805798a165ba1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game::Game.UI.LoseScreenView
+  m_EditorClassIdentifier: Game::Game.UI.WonScreenView
   btnReplay: {fileID: 6441702785005200758}
 --- !u!1 &8480296316217478971
 GameObject:

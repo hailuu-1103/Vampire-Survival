@@ -5,6 +5,7 @@ namespace Core.GameFlow
 
     public interface IGameplayService
     {
+        public event Action OnStarted;
         public event Action OnWon;
         public event Action OnLost;
 
@@ -13,5 +14,6 @@ namespace Core.GameFlow
         public void Pause();
         public void Resume();
         public void Unload();
+        public bool IsLoaded { get; }
     }
 }

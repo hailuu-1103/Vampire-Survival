@@ -1,19 +1,19 @@
 #nullable enable
 
 using IEntity = Core.Entities.IEntity;
-using Core.Utils;
 using Entities_Component = Core.Entities.Component;
 using IComponent = Core.Entities.IComponent;
 
 namespace VampireSurvival.Core.Systems
 {
     using System.Collections.Generic;
-    using System.Linq;
     using VampireSurvival.Core.Abstractions;
 
     public abstract class System<TTarget> : Entities_Component, IUpdateable where TTarget : IEntity
     {
-        protected readonly List<TTarget> cache = new();
+        protected readonly HashSet<TTarget> cache  = new();
+        private readonly   List<TTarget>    buffer = new();
+
         private bool isPaused;
 
         protected sealed override void OnSpawn()
@@ -50,7 +50,18 @@ namespace VampireSurvival.Core.Systems
         void IUpdateable.Tick(float deltaTime)
         {
             if (this.isPaused) return;
-            this.cache.Where(this.Filter).ForEach(this.Apply);
+
+            this.buffer.Clear();
+            this.buffer.AddRange(this.cache);
+
+            var count = this.buffer.Count;
+            for (var i = 0; i < count; i++)
+            {
+                var entity = this.buffer[i];
+                if (!this.cache.Contains(entity)) continue;
+                if (!this.Filter(entity)) continue;
+                this.Apply(entity);
+            }
         }
 
         void IPauseable.Pause()  => this.isPaused = true;
@@ -64,6 +75,7 @@ namespace VampireSurvival.Core.Systems
             this.Manager.Recycled -= this.OnEntityRecycled;
 
             this.cache.Clear();
+            this.buffer.Clear();
         }
 
         protected virtual void OnSystemRecycle() { }

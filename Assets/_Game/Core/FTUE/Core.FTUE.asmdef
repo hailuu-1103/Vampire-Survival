@@ -1,0 +1,8 @@
+{
+  "name": "Core.FTUE",
+  "rootNamespace": "Core.FTUE",
+  "references": [
+    "UniTask",
+    "Core.Observer"
+  ]
+}

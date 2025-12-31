@@ -7,6 +7,7 @@ namespace VampireSurvival.Core.Services
 {
     using System;
     using Cysharp.Threading.Tasks;
+    using UnityEngine;
     using VampireSurvival.Core.Entities;
 
     public sealed class VampireSurvivalService
@@ -16,16 +17,21 @@ namespace VampireSurvival.Core.Services
 
         private GameManager? loaded;
 
-        public VampireSurvivalService(IEntityManager entityManager, ILifecycleManager lifecycleManager)
+        public VampireSurvivalService(
+            IEntityManager entityManager,
+            ILifecycleManager lifecycleManager)
         {
             this.entityManager = entityManager;
             this.lifecycleManager = lifecycleManager;
         }
 
+        public bool IsLoaded => this.loaded is { };
+
         public async UniTask LoadAsync()
         {
             this.Unload();
             await this.lifecycleManager.LoadAsync();
+
             this.loaded = this.entityManager.Spawn<GameManager>();
             this.loaded.Load();
             this.Pause();
@@ -60,6 +66,30 @@ namespace VampireSurvival.Core.Services
         {
             if (this.loaded is null) throw new NullReferenceException("GameManager is null!");
             this.loaded.Resume();
+        }
+
+        public void ForceClearAllUnits()
+        {
+            if (this.loaded is null) throw new NullReferenceException("GameManager is null!");
+            this.loaded.ForceClearAllUnits();
+        }
+
+        public void PauseEnemySpawner()
+        {
+            if (this.loaded is null) return;
+            this.loaded.PauseEnemySpawner();
+        }
+
+        public void ResumeEnemySpawner()
+        {
+            if (this.loaded is null) return;
+            this.loaded.ResumeEnemySpawner();
+        }
+
+        public void SetPlayerImmortal(bool immortal)
+        {
+            if (this.loaded is null) return;
+            this.loaded.SetPlayerImmortal(immortal);
         }
     }
 }

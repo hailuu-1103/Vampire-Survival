@@ -4,55 +4,45 @@ using Entities_Component = Core.Entities.Component;
 using IComponent = Core.Entities.IComponent;
 using IEntity = Core.Entities.IEntity;
 
-namespace VampireSurvival.Core.Visual
+namespace Game.UI
 {
+    using System;
+    using System.Linq;
+    using Core.DI;
+    using Core.Entities;
     using UnityEngine;
     using UnityEngine.UI;
     using VampireSurvival.Core.Abstractions;
     using VampireSurvival.Core.Models;
 
-    public sealed class PlayerHealthView : Entities_Component
+    public sealed class PlayerHealthBar : MonoBehaviour
     {
         [SerializeField] private Image healthFill = null!;
 
-        private IPlayer? player;
+        private IEntityManager entityManager = null!;
+        private IPlayer?       player;
 
-        protected override void OnSpawn()
+        private void Awake()
         {
-            this.Manager.Spawned += this.OnEntitySpawned;
+            this.entityManager = this.GetCurrentContainer().Resolve<IEntityManager>();
         }
 
-        protected override void OnRecycle()
+        private void OnEnable()
         {
-            this.Manager.Spawned -= this.OnEntitySpawned;
-            this.UnsubscribeFromPlayer();
-        }
-
-        private void OnEntitySpawned(IEntity entity, IReadOnlyList<IComponent> _)
-        {
-            if (entity is not IPlayer player) return;
-
-            this.player = player;
-            this.SubscribeToPlayer();
             this.Refresh();
-            this.Manager.Spawned -= this.OnEntitySpawned;
-        }
 
-        private void SubscribeToPlayer()
-        {
-            if (this.player == null) return;
-
-            this.player.StatsHolder.Stats[StatNames.HEALTH].ValueChanged += this.OnStatChanged;
+            this.player                                                      =  this.entityManager.Query<IPlayer>().Single();
+            this.player.StatsHolder.Stats[StatNames.HEALTH].ValueChanged     += this.OnStatChanged;
             this.player.StatsHolder.Stats[StatNames.MAX_HEALTH].ValueChanged += this.OnStatChanged;
         }
 
-        private void UnsubscribeFromPlayer()
+        private void OnDisable()
         {
             if (this.player == null) return;
 
-            this.player.StatsHolder.Stats[StatNames.HEALTH].ValueChanged -= this.OnStatChanged;
+            this.player.StatsHolder.Stats[StatNames.HEALTH].ValueChanged     -= this.OnStatChanged;
             this.player.StatsHolder.Stats[StatNames.MAX_HEALTH].ValueChanged -= this.OnStatChanged;
-            this.player = null;
+            this.player                                                      =  null;
         }
 
         private void OnStatChanged(float _) => this.Refresh();

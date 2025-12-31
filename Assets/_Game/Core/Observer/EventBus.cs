@@ -16,7 +16,7 @@ namespace Core.Observer
             if (!this.handlers.TryGetValue(type, out var list))
                 return;
 
-            foreach (var callback in list)
+            foreach (var callback in list.ToArray())
             {
                 ((Action<T>)callback)?.Invoke(signal);
             }

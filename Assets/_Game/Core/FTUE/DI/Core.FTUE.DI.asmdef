@@ -1,0 +1,8 @@
+{
+  "name": "Core.FTUE.DI",
+  "rootNamespace": "Core.FTUE.DI",
+  "references": [
+    "VContainer",
+    "Core.FTUE"
+  ]
+}

@@ -48,3 +48,4 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
+  ftueConfig: {fileID: 587788443208920028, guid: 511ebd83bfc8a4529a6856a2782f494b, type: 3}

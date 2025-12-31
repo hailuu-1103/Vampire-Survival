@@ -5,7 +5,7 @@ using Component = Core.Entities.Component;
 
 namespace VampireSurvival.Core.Stats
 {
-    using AbilitySystem.Components;
+    using VampireSurvival.Core.Abstractions;
     using VampireSurvival.Core.Models;
 
     public sealed class StatsHolder : Component, IStatsHolder

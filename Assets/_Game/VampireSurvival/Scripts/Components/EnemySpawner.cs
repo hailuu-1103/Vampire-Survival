@@ -28,9 +28,8 @@ namespace VampireSurvival.Core.Components
 
         private readonly HashSet<IEnemy> deadEnemies = new();
 
-        private          float          timer;
-
-        private          bool           isPaused;
+        private float timer;
+        private bool  isPaused;
 
         protected override void OnSpawn()
         {
@@ -55,11 +54,11 @@ namespace VampireSurvival.Core.Components
             if (this.timer > 0f) return;
             this.timer = this.config.spawnInterval;
 
-            var player = this.Manager.Query<IPlayer>().Single();
-            var center = (Vector2)player.transform.position;
-            var dir    = Random.insideUnitCircle.normalized;
-            var pos    = center + dir * this.config.spawnRadius;
-            IEnemy enemy = this.Manager.Spawn(this.enemyPrefab, pos);
+            var    player = this.Manager.Query<IPlayer>().Single();
+            var    center = (Vector2)player.transform.position;
+            var    dir    = Random.insideUnitCircle.normalized;
+            var    pos    = center + dir * this.config.spawnRadius;
+            IEnemy enemy  = this.Manager.Spawn(this.enemyPrefab, pos);
             this.deadEnemies.Remove(enemy);
         }
 

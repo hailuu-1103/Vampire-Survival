@@ -1,6 +1,5 @@
 #nullable enable
 
-using IEventBus = Core.Observer.IEventBus;
 using ILateLoadable = Core.Lifecycle.ILateLoadable;
 
 namespace VampireSurvival.Core.Services
@@ -21,12 +20,10 @@ namespace VampireSurvival.Core.Services
     public sealed class PlayerProgressionService : ILateLoadable, IPlayerProgressionService
     {
         private readonly PlayerConfig config;
-        private readonly IEventBus    eventBus;
 
-        public PlayerProgressionService(PlayerConfig config, IEventBus eventBus)
+        public PlayerProgressionService(PlayerConfig config)
         {
             this.config   = config;
-            this.eventBus = eventBus;
         }
 
         Action<PlayerXPChanged>? IPlayerProgressionService.PlayerXPChanged { get => this.playerXPChanged; set => this.playerXPChanged = value; }
@@ -85,8 +82,11 @@ namespace VampireSurvival.Core.Services
 
         private void NotifyChanged()
         {
-            this.eventBus.Publish(new PlayerXPChanged(
-                this.currentXp,
+            var xpForCurrentLevel = this.config.GetXpForLevel(this.level);
+            var xpInCurrentLevel  = this.currentXp - xpForCurrentLevel;
+
+            this.playerXPChanged?.Invoke(new(
+                xpInCurrentLevel,
                 this.XpToNextLevel,
                 this.Progress
             ));

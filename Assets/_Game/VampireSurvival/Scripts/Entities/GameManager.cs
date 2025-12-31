@@ -9,6 +9,7 @@ namespace VampireSurvival.Core.Entities
     using System.Linq;
     using UnityEngine;
     using VampireSurvival.Core.Abstractions;
+    using VampireSurvival.Core.Components;
 
     public sealed class GameManager : Entity
     {
@@ -41,21 +42,40 @@ namespace VampireSurvival.Core.Entities
 
         public void Pause()
         {
-            this.updateables.ForEach(s => s.Pause());
+            this.Manager.Query<IPauseable>().ToList().ForEach(s => s.Pause());
         }
 
         public void Resume()
         {
-            this.updateables.ForEach(s => s.Resume());
+            this.Manager.Query<IPauseable>().ToList().ForEach(s => s.Resume());
         }
 
-        private void ForceClearAllUnits()
+        public void PauseEnemySpawner()
+        {
+            var enemySpawner = this.Manager.Query<IPauseable>().Single(pause => pause is EnemySpawner);
+            enemySpawner.Pause();
+        }
+
+        public void ResumeEnemySpawner()
+        {
+            var enemySpawner = this.Manager.Query<IPauseable>().Single(pause => pause is EnemySpawner);
+            enemySpawner.Resume();
+        }
+
+        public void SetPlayerImmortal(bool immortal)
+        {
+            if (this.player is null) return;
+            this.player.SetImmortal(immortal);
+        }
+
+        public void ForceClearAllUnits()
         {
             if (this.player != null)
             {
                 this.Manager.Recycle(this.player);
                 this.player = null;
             }
+
             this.Manager.Query<IEnemy>().ToList().ForEach(this.Manager.Recycle);
             this.Manager.Query<ICollectable>().ToList().ForEach(this.Manager.Recycle);
         }

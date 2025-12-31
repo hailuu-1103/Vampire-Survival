@@ -9,17 +9,21 @@ namespace Core.ScreenFlow
 
     public interface IScreenManager
     {
-        public void Load<T>(T prefab) where T : MonoBehaviour, IScreenView;
-        public T    Open<T>(T prefab, RectTransform parent) where T : MonoBehaviour, IScreenView;
-        public void Close<T>() where T : IScreenView;
-        public void CloseAll();
+        public IScreenView? CurrentActiveScreen { get; }
+        public void         Load<T>(T prefab) where T : MonoBehaviour, IScreenView;
+        public T            Open<T>(T prefab, RectTransform parent) where T : MonoBehaviour, IScreenView;
+        public void         Close<T>() where T : IScreenView;
+        public void         CloseAll();
     }
 
     public sealed class ScreenManager : IScreenManager, IDisposable
     {
         private readonly IDependencyContainer                                      container;
         private readonly IObjectPoolManager                                        objectPoolManager;
-        private readonly Dictionary<Type, (IScreenView screen, GameObject prefab)> openScreens = new();
+        private readonly Dictionary<Type, (IScreenView screen, GameObject prefab)> screens = new();
+
+        private IScreenView? currentActiveScreen;
+        public  IScreenView? CurrentActiveScreen => this.currentActiveScreen;
 
         public ScreenManager(IDependencyContainer container, IObjectPoolManager objectPoolManager)
         {
@@ -35,26 +39,28 @@ namespace Core.ScreenFlow
             this.container.InjectGameObject(instance);
         }
 
-        public void Load<T>(T prefab) where T : MonoBehaviour, IScreenView => this.objectPoolManager.Load(prefab.gameObject);
+        public void Load<T>(T prefab) where T : MonoBehaviour, IScreenView
+        {
+            this.objectPoolManager.Load(prefab.gameObject);
+        }
 
         public T Open<T>(T prefab, RectTransform parent) where T : MonoBehaviour, IScreenView
         {
             var type = typeof(T);
 
-            if (this.openScreens.TryGetValue(type, out var entry))
+            if (this.screens.TryGetValue(type, out var entry))
             {
-                entry.screen.Close();
-                this.objectPoolManager.Recycle(entry.screen.GameObject);
-                this.openScreens.Remove(type);
+                entry.screen.Open();
+                this.currentActiveScreen = entry.screen;
+                return (T)entry.screen;
             }
 
-            var go = this.objectPoolManager.Spawn(prefab.gameObject, parent: parent);
-            go.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            var go     = this.objectPoolManager.Spawn(prefab.gameObject, parent: parent, spawnInWorldSpace: false);
             var screen = go.GetComponent<T>();
 
-            this.openScreens[type] = (screen, prefab.gameObject);
+            this.screens[type] = (screen, prefab.gameObject);
             screen.Open();
-
+            this.currentActiveScreen = screen;
             return screen;
         }
 
@@ -62,26 +68,28 @@ namespace Core.ScreenFlow
         {
             var type = typeof(T);
 
-            if (!this.openScreens.TryGetValue(type, out var entry)) return;
+            if (!this.screens.TryGetValue(type, out var entry)) return;
 
             entry.screen.Close();
-            this.objectPoolManager.Recycle(entry.screen.GameObject);
-            this.openScreens.Remove(type);
+            this.currentActiveScreen = null;
         }
 
         public void CloseAll()
         {
-            foreach (var entry in this.openScreens.Values)
+            foreach (var entry in this.screens.Values)
             {
                 entry.screen.Close();
-                this.objectPoolManager.Recycle(entry.screen.GameObject);
             }
-
-            this.openScreens.Clear();
+            this.currentActiveScreen = null;
         }
 
         void IDisposable.Dispose()
         {
+            foreach (var entry in this.screens.Values)
+            {
+                this.objectPoolManager.Recycle(entry.screen.GameObject);
+            }
+            this.screens.Clear();
             this.objectPoolManager.Instantiated -= this.OnInstantiated;
         }
     }

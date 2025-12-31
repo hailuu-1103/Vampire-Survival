@@ -5,7 +5,6 @@ using IEventBus = Core.Observer.IEventBus;
 
 namespace VampireSurvival.Core.Systems
 {
-    using AbilitySystem.Components;
     using VampireSurvival.Core.Abstractions;
     using VampireSurvival.Core.Events;
     using VampireSurvival.Core.Models;

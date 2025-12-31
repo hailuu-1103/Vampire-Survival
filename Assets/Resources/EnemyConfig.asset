@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 307e4362738346f4936e48a9de90093c, type: 3}
   m_Name: EnemyConfig
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.EnemyConfig
-  Prefab: {fileID: 8619483909028521419, guid: 0924e961822744e9eb8121cbdafb29e8, type: 3}
-  SpawnInterval: 1.5
-  SpawnRadius: 10
+  spawnInterval: 2
+  spawnRadius: 15
+  xpReward: 10

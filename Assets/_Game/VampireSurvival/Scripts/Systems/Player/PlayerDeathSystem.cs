@@ -25,14 +25,8 @@ namespace VampireSurvival.Core.Systems
             this.progressionService = progressionService;
         }
 
-        protected override void OnLoad()
-        {
-            Debug.Log("PlayerDeathSystem subscribed to PlayerDiedEvent");
-        }
-
         protected override void OnEvent(PlayerDiedEvent e)
         {
-            Debug.Log("PlayerDeathSystem received PlayerDiedEvent");
             this.progressionService.Reset();
             this.HandleDeathAsync().Forget();
         }
@@ -42,14 +36,11 @@ namespace VampireSurvival.Core.Systems
             var player = this.entityManager.Query<IPlayer>().SingleOrDefault();
             if (player == null)
             {
-                Debug.LogError("PlayerDeathSystem: Player not found!");
                 this.eventBus.Publish(new LostEvent());
                 return;
             }
 
-            Debug.Log("PlayerDeathSystem: Death animation start");
             await player.Animation.PlayDeathAnimationAsync();
-            Debug.Log("PlayerDeathSystem: Death animation completed, publishing LostEvent");
             this.eventBus.Publish(new LostEvent());
         }
     }
