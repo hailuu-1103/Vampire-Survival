@@ -1,9 +1,9 @@
 #nullable enable
-using IEventBus = Core.Observer.IEventBus;
-using ILateLoadable = Core.Lifecycle.ILateLoadable;
 
 namespace VampireSurvival.Core.Systems
 {
+    using IEventBus     = global::Core.Observer.IEventBus;
+    using ILateLoadable = global::Core.Lifecycle.ILateLoadable;
     using System;
 
     public interface IReactiveSystem { }

@@ -1,15 +1,13 @@
 #nullable enable
-using System.Linq;
-using UnityEngine;
-using IEntityManager = Core.Entities.IEntityManager;
-using IEventBus = Core.Observer.IEventBus;
-using Core.Utils;
-using IComponent = Core.Entities.IComponent;
-using IEntity = Core.Entities.IEntity;
 
 namespace VampireSurvival.Core.Systems
 {
+    using IComponent     = global::Core.Entities.IComponent;
+    using IEntity        = global::Core.Entities.IEntity;
+    using IEventBus      = global::Core.Observer.IEventBus;
     using System.Collections.Generic;
+    using System.Linq;
+    using UnityEngine;
     using VampireSurvival.Core.Abstractions;
     using VampireSurvival.Core.Components;
     using VampireSurvival.Core.Events;
@@ -48,8 +46,7 @@ namespace VampireSurvival.Core.Systems
 
         protected override bool Filter(IEnemy enemy)
         {
-            var player = this.Manager.Query<IPlayer>().SingleOrDefault();
-            if(player == null) return false;
+            var player = this.Manager.Query<IPlayer>().Single();
             return player.StatsHolder.Stats[StatNames.HEALTH] > 0 && !this.enemySpawner.IsDead(enemy) && this.cooldowns.ContainsKey(enemy);
         }
 

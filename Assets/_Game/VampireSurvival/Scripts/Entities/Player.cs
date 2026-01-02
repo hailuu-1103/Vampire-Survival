@@ -1,9 +1,8 @@
 #nullable enable
 
-using Entity = Core.Entities.Entity;
-
 namespace VampireSurvival.Core.Entities
 {
+    using Entity = global::Core.Entities.Entity;
     using UnityEngine;
     using VampireSurvival.Core.Abstractions;
 

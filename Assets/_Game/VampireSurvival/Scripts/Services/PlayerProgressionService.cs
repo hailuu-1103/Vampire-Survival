@@ -1,9 +1,8 @@
 #nullable enable
 
-using ILateLoadable = Core.Lifecycle.ILateLoadable;
-
 namespace VampireSurvival.Core.Services
 {
+    using ILateLoadable = global::Core.Lifecycle.ILateLoadable;
     using System;
     using VampireSurvival.Core.Stats;
 

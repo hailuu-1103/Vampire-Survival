@@ -1,10 +1,10 @@
 #nullable enable
-using UnityEngine;
-using IEntityManager = Core.Entities.IEntityManager;
 
 namespace VampireSurvival.Core
 {
+    using IEntityManager = global::Core.Entities.IEntityManager;
     using System.Linq;
+    using UnityEngine;
     using VampireSurvival.Core.Abstractions;
     using VContainer;
 
@@ -14,9 +14,11 @@ namespace VampireSurvival.Core
         [SerializeField] private Vector3 offset     = new(0f, 0f, -10f);
         [SerializeField] private float   smoothTime = 0.12f;
 
-        public  Camera         Camera => this.GetComponent<Camera>();
         private IEntityManager entityManager = null!;
         private IPlayer?       player;
+        private Vector3        velocity;
+
+        public Camera Camera { get; private set; } = null!;
 
         [Inject]
         private void Construct(IEntityManager entityManager)
@@ -24,7 +26,10 @@ namespace VampireSurvival.Core
             this.entityManager = entityManager;
         }
 
-        private Vector3    velocity;
+        private void Awake()
+        {
+            this.Camera = this.GetComponent<Camera>();
+        }
 
         private void Start()
         {

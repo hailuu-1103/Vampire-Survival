@@ -1,10 +1,10 @@
 #nullable enable
-using System.Collections.Generic;
-using UnityEngine;
-using Component = Core.Entities.Component;
 
 namespace VampireSurvival.Core.Stats
 {
+    using Component = global::Core.Entities.Component;
+    using System.Collections.Generic;
+    using UnityEngine;
     using VampireSurvival.Core.Abstractions;
     using VampireSurvival.Core.Models;
 

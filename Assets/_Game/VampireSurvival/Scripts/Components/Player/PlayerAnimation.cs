@@ -1,9 +1,8 @@
 #nullable enable
 
-using Component = Core.Entities.Component;
-
 namespace VampireSurvival.Core.Components
 {
+    using Component = global::Core.Entities.Component;
     using Cysharp.Threading.Tasks;
     using VampireSurvival.Core.Abstractions;
 

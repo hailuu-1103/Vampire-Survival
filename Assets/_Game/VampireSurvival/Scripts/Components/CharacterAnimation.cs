@@ -1,9 +1,9 @@
 #nullable enable
 
-using Entities_Component = Core.Entities.Component;
-
 namespace VampireSurvival.Core.Components
 {
+    using Component = global::Core.Entities.Component;
+    using System;
     using Cysharp.Threading.Tasks;
     using Spine;
     using Spine.Unity;
@@ -11,7 +11,7 @@ namespace VampireSurvival.Core.Components
     using VampireSurvival.Core.Abstractions;
     using AnimationState = Spine.AnimationState;
 
-    public sealed class CharacterAnimation : Entities_Component, ICharacterAnimation
+    public sealed class CharacterAnimation : Component, ICharacterAnimation
     {
         [SerializeField] private new SkeletonAnimation animation = null!;
 
@@ -31,10 +31,7 @@ namespace VampireSurvival.Core.Components
         void ICharacterAnimation.Play(string animationName, bool loop, float? mix)
         {
             if (!this.HasAnimation(animationName))
-            {
-                Debug.LogError($"Animation {animationName} not found");
-                return;
-            }
+                throw new InvalidOperationException($"Animation {animationName} not found");
 
             this.SetMix(mix);
             this.State.SetAnimation(TRACK_INDEX, animationName, loop);
@@ -43,10 +40,7 @@ namespace VampireSurvival.Core.Components
         async UniTask ICharacterAnimation.PlayAsync(string animationName, float? mix)
         {
             if (!this.HasAnimation(animationName))
-            {
-                Debug.LogError($"Animation {animationName} not found");
-                return;
-            }
+                throw new InvalidOperationException($"Animation {animationName} not found");
 
             this.SetMix(mix);
             var track = this.State.SetAnimation(TRACK_INDEX, animationName, false);

@@ -1,12 +1,12 @@
 #nullable enable
-using System.Linq;
-using UnityEngine;
-using Component = Core.Entities.Component;
-using IEventBus = Core.Observer.IEventBus;
 
 namespace VampireSurvival.Core.Components
 {
+    using Component = global::Core.Entities.Component;
+    using IEventBus = global::Core.Observer.IEventBus;
     using System.Collections.Generic;
+    using System.Linq;
+    using UnityEngine;
     using VampireSurvival.Core.Abstractions;
     using VampireSurvival.Core.Entities;
     using VampireSurvival.Core.Events;

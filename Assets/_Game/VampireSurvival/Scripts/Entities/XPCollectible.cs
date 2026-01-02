@@ -13,18 +13,19 @@ namespace VampireSurvival.Core.Entities
     public sealed class XPCollectible : Entity<XPCollectableParams>, ICollectable
     {
         private PlayerProgressionService progressionService = null!;
+        private Collider2D               col                = null!;
+        private int                      xpValue;
 
         protected override void OnInstantiate()
         {
             this.progressionService = this.Container.Resolve<PlayerProgressionService>();
+            this.col                = this.GetComponent<Collider2D>();
         }
 
-        public  Collider2D Collider => this.GetComponent<Collider2D>();
-        private int        xpValue;
+        public Collider2D Collider => this.col;
 
         protected override void OnSpawn()
         {
-            Debug.Log("OnSpawn XPCollectible");
             this.xpValue = this.Params.XpValue;
         }
 

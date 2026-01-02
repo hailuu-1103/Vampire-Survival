@@ -1,15 +1,15 @@
 #nullable enable
 
-using IEntity = Core.Entities.IEntity;
-using Entities_Component = Core.Entities.Component;
-using IComponent = Core.Entities.IComponent;
-
 namespace VampireSurvival.Core.Systems
 {
+    using Component  = global::Core.Entities.Component;
+    using IEntity    = global::Core.Entities.IEntity;
+    using IComponent = global::Core.Entities.IComponent;
     using System.Collections.Generic;
     using VampireSurvival.Core.Abstractions;
 
-    public abstract class System<TTarget> : Entities_Component, IUpdateable where TTarget : IEntity
+    public abstract class System<TTarget> : Component, IUpdateable
+        where TTarget : IEntity
     {
         protected readonly HashSet<TTarget> cache  = new();
         private readonly   List<TTarget>    buffer = new();
@@ -22,9 +22,7 @@ namespace VampireSurvival.Core.Systems
             this.Manager.Recycled += this.OnEntityRecycled;
 
             foreach (var entity in this.Manager.Query<TTarget>())
-            {
                 this.cache.Add(entity);
-            }
 
             this.OnSystemSpawn();
         }
@@ -44,7 +42,6 @@ namespace VampireSurvival.Core.Systems
         }
 
         protected abstract bool Filter(TTarget entity);
-
         protected abstract void Apply(TTarget entity);
 
         void IUpdateable.Tick(float deltaTime)
@@ -54,8 +51,7 @@ namespace VampireSurvival.Core.Systems
             this.buffer.Clear();
             this.buffer.AddRange(this.cache);
 
-            var count = this.buffer.Count;
-            for (var i = 0; i < count; i++)
+            for (var i = 0; i < this.buffer.Count; i++)
             {
                 var entity = this.buffer[i];
                 if (!this.cache.Contains(entity)) continue;

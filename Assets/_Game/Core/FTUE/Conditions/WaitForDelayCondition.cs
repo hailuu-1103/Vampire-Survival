@@ -1,7 +1,6 @@
 #nullable enable
 namespace Core.FTUE.Conditions
 {
-    using System;
     using System.Threading;
     using Cysharp.Threading.Tasks;
 
@@ -16,7 +15,7 @@ namespace Core.FTUE.Conditions
 
         public async UniTask WaitAsync(CancellationToken ct = default)
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(this.seconds), cancellationToken: ct);
+            await UniTask.WaitForSeconds(this.seconds, cancellationToken: ct);
         }
     }
 }

@@ -1,10 +1,10 @@
 #nullable enable
-using System.Linq;
-using UnityEngine;
-using IEventBus = Core.Observer.IEventBus;
 
 namespace VampireSurvival.Core.Systems
 {
+    using IEventBus = global::Core.Observer.IEventBus;
+    using System.Linq;
+    using UnityEngine;
     using VampireSurvival.Core.Abstractions;
     using VampireSurvival.Core.Events;
     using VampireSurvival.Core.Models;
@@ -32,7 +32,7 @@ namespace VampireSurvival.Core.Systems
 
             var attackRange = player.StatsHolder.Stats[StatNames.ATTACK_RANGE].Value;
 
-            foreach (var enemy in this.Manager.Query<IEnemy>().ToList())
+            foreach (var enemy in this.Manager.Query<IEnemy>().ToArray())
             {
                 var enemyHealth = enemy.StatsHolder.Stats[StatNames.HEALTH].Value;
                 if (enemyHealth <= 0) continue;

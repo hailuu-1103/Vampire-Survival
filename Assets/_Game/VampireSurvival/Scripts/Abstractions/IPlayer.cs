@@ -1,8 +1,8 @@
 #nullable enable
-using IEntity = Core.Entities.IEntity;
 
 namespace VampireSurvival.Core.Abstractions
 {
+    using IEntity = global::Core.Entities.IEntity;
     using Cysharp.Threading.Tasks;
 
     public interface IPlayer : IEntity, IHasCollider, IHasRigidbody, IImmortalable

@@ -1,10 +1,9 @@
 #nullable enable
 
-using Core.Utils;
-using Entity = Core.Entities.Entity;
-
 namespace VampireSurvival.Core.Entities
 {
+    using global::Core.Utils;
+    using Entity = global::Core.Entities.Entity;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
@@ -20,7 +19,7 @@ namespace VampireSurvival.Core.Entities
 
         protected override void OnInstantiate()
         {
-            this.updateables = this.GetComponentsInChildren<IUpdateable>().ToList();
+            this.updateables = this.GetComponentsInChildren<IUpdateable>().ToArray();
             this.Manager.Load(this.playerPrefab);
         }
 
@@ -42,12 +41,14 @@ namespace VampireSurvival.Core.Entities
 
         public void Pause()
         {
-            this.Manager.Query<IPauseable>().ToList().ForEach(s => s.Pause());
+            foreach (var pauseable in this.Manager.Query<IPauseable>())
+                pauseable.Pause();
         }
 
         public void Resume()
         {
-            this.Manager.Query<IPauseable>().ToList().ForEach(s => s.Resume());
+            foreach (var pauseable in this.Manager.Query<IPauseable>())
+                pauseable.Resume();
         }
 
         public void PauseEnemySpawner()
@@ -76,8 +77,10 @@ namespace VampireSurvival.Core.Entities
                 this.player = null;
             }
 
-            this.Manager.Query<IEnemy>().ToList().ForEach(this.Manager.Recycle);
-            this.Manager.Query<ICollectable>().ToList().ForEach(this.Manager.Recycle);
+            foreach (var enemy in this.Manager.Query<IEnemy>().ToArray())
+                this.Manager.Recycle(enemy);
+            foreach (var collectable in this.Manager.Query<ICollectable>().ToArray())
+                this.Manager.Recycle(collectable);
         }
     }
 }

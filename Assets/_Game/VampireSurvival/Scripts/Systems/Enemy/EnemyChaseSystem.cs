@@ -19,9 +19,7 @@ namespace VampireSurvival.Core.Systems
 
         protected override bool Filter(IEnemy enemy)
         {
-            //TODO expensive, refactor this
-            var player = this.Manager.Query<IPlayer>().SingleOrDefault();
-            if (player == null) return false;
+            var player = this.Manager.Query<IPlayer>().Single();
             return player.StatsHolder.Stats[StatNames.HEALTH] > 0 && !this.enemySpawner.IsDead(enemy);
         }
 

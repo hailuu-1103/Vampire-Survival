@@ -1,16 +1,17 @@
 #nullable enable
-using Entities_Component = Core.Entities.Component;
-using IEventBus = Core.Observer.IEventBus;
 
 namespace VampireSurvival.Core.Components
 {
+    using Component = global::Core.Entities.Component;
+    using IEventBus = global::Core.Observer.IEventBus;
+
     using UnityEngine;
     using VampireSurvival.Core.Abstractions;
     using VampireSurvival.Core.Entities;
     using VampireSurvival.Core.Events;
     using VampireSurvival.Core.Stats;
 
-    public sealed class XPCollectableSpawner : Entities_Component, IPauseable
+    public sealed class XPCollectableSpawner : Component, IPauseable
     {
         [SerializeField] private XPCollectible prefab = null!;
 

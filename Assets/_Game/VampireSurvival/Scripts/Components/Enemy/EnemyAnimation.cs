@@ -1,14 +1,13 @@
 #nullable enable
 
-using Entities_Component = Core.Entities.Component;
-
 namespace VampireSurvival.Core.Components
 {
+    using Component = global::Core.Entities.Component;
     using Cysharp.Threading.Tasks;
     using UnityEngine;
     using VampireSurvival.Core.Abstractions;
 
-    public sealed class EnemyAnimation : Entities_Component, IEnemyAnimation
+    public sealed class EnemyAnimation : Component, IEnemyAnimation
     {
         private const string RUN_ANIM    = "run";
         private const string ATTACK_ANIM = "sword_attack";

@@ -41,7 +41,6 @@ namespace Core.Pooling
         {
             if (!this.instanceToPool.Remove(instance, out var pool)) throw new InvalidOperationException($"{instance.name} was not spawned from {nameof(ObjectPoolManager)}");
             pool.Recycle(instance);
-            Debug.Log($"Recycled {instance.name}");
         }
 
         void IObjectPoolManager.RecycleAll(GameObject prefab) => this.RecycleAll(prefab);
@@ -85,10 +84,7 @@ namespace Core.Pooling
 
             var prefab = Resources.Load<T>(resourcePath);
             if (prefab == null)
-            {
-                Debug.LogError($"Failed to load {type.Name} from Resources/{resourcePath}");
-                return;
-            }
+                throw new InvalidOperationException($"Failed to load {type.Name} from Resources/{resourcePath}");
 
             this.typeToPrefab[type] = prefab.gameObject;
             this.Load(prefab.gameObject, count);
@@ -97,14 +93,11 @@ namespace Core.Pooling
         private GameObject Spawn(GameObject prefab, Vector3 position, Quaternion rotation, Transform? parent, bool spawnInWorldSpace)
         {
             if (!this.prefabToPool.ContainsKey(prefab))
-            {
                 this.Load(prefab, 1);
-                Debug.LogWarning($"Auto loaded {prefab.name} pool. Consider preload it with `Load` or `LoadAsync` for better performance.");
-            }
+
             var pool     = this.prefabToPool[prefab];
             var instance = pool.Spawn(position, rotation, parent, spawnInWorldSpace);
             this.instanceToPool.Add(instance, pool);
-            Debug.Log($"Spawned {instance.name}");
             return instance;
         }
 
@@ -126,7 +119,6 @@ namespace Core.Pooling
             if (!this.TryGetPool(prefab, out var pool)) return;
             pool.RecycleAll();
             this.instanceToPool.RemoveWhere((_, otherPool) => otherPool == pool);
-            Debug.Log($"Recycled all {pool.name}");
         }
 
         private void RecycleAll<T>() where T : Component
@@ -139,7 +131,6 @@ namespace Core.Pooling
         {
             if (!this.TryGetPool(prefab, out var pool)) return;
             pool.Cleanup(retainCount);
-            Debug.Log($"Cleaned up {pool.name}");
         }
 
         private void Cleanup<T>(int retainCount) where T : Component
@@ -158,7 +149,6 @@ namespace Core.Pooling
             pool.CleanedUp    -= this.OnCleanedUp;
             Object.Destroy(pool.gameObject);
             this.prefabToPool.Remove(prefab);
-            Debug.Log($"Destroyed {pool.name}");
         }
 
         private void Unload<T>() where T : Component
@@ -170,16 +160,12 @@ namespace Core.Pooling
 
         private bool TryGetPool(GameObject prefab, [MaybeNullWhen(false)] out ObjectPool pool)
         {
-            if (this.prefabToPool.TryGetValue(prefab, out pool)) return true;
-            Debug.LogWarning($"{prefab.name} pool not loaded");
-            return false;
+            return this.prefabToPool.TryGetValue(prefab, out pool);
         }
 
         private bool TryGetPrefab<T>([MaybeNullWhen(false)] out GameObject prefab) where T : Component
         {
-            if (this.typeToPrefab.TryGetValue(typeof(T), out prefab)) return true;
-            Debug.LogWarning($"{typeof(T).Name} pool not loaded");
-            return false;
+            return this.typeToPrefab.TryGetValue(typeof(T), out prefab);
         }
 
         private void OnInstantiated(GameObject instance) => this.instantiated?.Invoke(instance);

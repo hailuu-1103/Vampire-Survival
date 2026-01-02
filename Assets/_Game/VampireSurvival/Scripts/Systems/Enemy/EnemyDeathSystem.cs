@@ -1,11 +1,11 @@
 #nullable enable
-using IEntityManager = Core.Entities.IEntityManager;
-using IEventBus = Core.Observer.IEventBus;
-using UnityEngine;
 
 namespace VampireSurvival.Core.Systems
 {
+    using IEntityManager = global::Core.Entities.IEntityManager;
+    using IEventBus      = global::Core.Observer.IEventBus;
     using Cysharp.Threading.Tasks;
+    using UnityEngine;
     using VampireSurvival.Core.Abstractions;
     using VampireSurvival.Core.Events;
 

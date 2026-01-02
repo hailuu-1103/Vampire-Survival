@@ -1,13 +1,11 @@
 #nullable enable
 
-using IEntityManager = Core.Entities.IEntityManager;
-using ILifecycleManager = Core.Lifecycle.ILifecycleManager;
-
 namespace VampireSurvival.Core.Services
 {
+    using IEntityManager    = global::Core.Entities.IEntityManager;
+    using ILifecycleManager = global::Core.Lifecycle.ILifecycleManager;
     using System;
     using Cysharp.Threading.Tasks;
-    using UnityEngine;
     using VampireSurvival.Core.Entities;
 
     public sealed class VampireSurvivalService
