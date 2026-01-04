@@ -1,17 +1,18 @@
 #nullable enable
+
 using UnityEngine;
+using Core.Entities;
 
-namespace VampireSurvival.Core.Systems
+namespace VampireSurvival.Systems
 {
-    using VampireSurvival.Core.Abstractions;
-    using VampireSurvival.Core.Models;
-
+    using VampireSurvival.Abstractions;
+    using VampireSurvival.Models;
 
     public sealed class PlayerMovementSystem : System<IPlayer>
     {
         protected override bool Filter(IPlayer player)
         {
-            return player.StatsHolder.Stats[StatNames.HEALTH].Value > 0;
+            return player.IsAlive;
         }
 
         protected override void Apply(IPlayer player)
@@ -21,15 +22,9 @@ namespace VampireSurvival.Core.Systems
                 Input.GetAxisRaw("Vertical")
             );
 
-            if (!player.Animation.CanMove)
-            {
-                player.Rigidbody.linearVelocity = Vector2.zero;
-                return;
-            }
-
             if (move.sqrMagnitude > 1f) move.Normalize();
 
-            var speed = player.StatsHolder.Stats[StatNames.MOVE_SPEED].Value;
+            var speed = player.StatsHolder.Stats[CharacterStatNames.MOVE_SPEED].Value;
             player.Rigidbody.linearVelocity = move * speed;
 
             var isMoving = move.sqrMagnitude > 0.01f;
@@ -37,11 +32,11 @@ namespace VampireSurvival.Core.Systems
             if (isMoving)
             {
                 player.Animation.SetFacing(move.x);
-                player.Animation.PlayRunAnimation();
+                player.Animation.SetAnimation(AnimationType.Run);
             }
             else
             {
-                player.Animation.PlayIdleAnimation();
+                player.Animation.SetAnimation(AnimationType.Idle);
             }
         }
     }

@@ -83,6 +83,45 @@ namespace Core.Entities
             return this.typeToSpawnedComponents.GetOrDefault(typeof(T))?.Cast<T>() ?? Enumerable.Empty<T>();
         }
 
+        void IEntityManager.RegisterComponent(IEntity entity, IComponent component)
+        {
+            var types = component.GetType()
+                .GetInterfaces()
+                .Prepend(component.GetType())
+                .ToArray();
+
+            this.componentToTypes.Add(component, types);
+            component.Container = this.container;
+            component.Manager   = this;
+            component.Entity    = entity;
+            component.OnInstantiate();
+
+            types.ForEach(type => this.typeToSpawnedComponents.GetOrAdd(type).Add(component));
+            component.OnSpawn();
+
+            if (this.entityToComponents.TryGetValue(entity, out var existing))
+            {
+                var updated = existing.ToList();
+                updated.Add(component);
+                this.entityToComponents[entity] = updated;
+            }
+        }
+
+        void IEntityManager.UnregisterComponent(IComponent component)
+        {
+            if (!this.componentToTypes.TryGetValue(component, out var types)) return;
+
+            types.ForEach(type =>
+            {
+                if (this.typeToSpawnedComponents.TryGetValue(type, out var set))
+                    set.Remove(component);
+            });
+
+            component.OnRecycle();
+            component.OnCleanup();
+            this.componentToTypes.Remove(component);
+        }
+
         private Action<IEntity, IReadOnlyList<IComponent>>? instantiated;
         private Action<IEntity, IReadOnlyList<IComponent>>? spawned;
         private Action<IEntity, IReadOnlyList<IComponent>>? recycled;

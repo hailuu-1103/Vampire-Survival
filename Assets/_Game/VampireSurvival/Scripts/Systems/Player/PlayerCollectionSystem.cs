@@ -1,10 +1,11 @@
 #nullable enable
 
-namespace VampireSurvival.Core.Systems
+using Core.Entities;
+
+namespace VampireSurvival.Systems
 {
     using System.Linq;
-    using VampireSurvival.Core.Abstractions;
-    using VampireSurvival.Core.Models;
+    using VampireSurvival.Abstractions;
 
     public sealed class PlayerCollectionSystem : System<IPlayer>
     {
@@ -12,7 +13,7 @@ namespace VampireSurvival.Core.Systems
 
         protected override bool Filter(IPlayer player)
         {
-            return player.StatsHolder.Stats[StatNames.HEALTH].Value > 0;
+            return player.IsAlive;
         }
 
         protected override void Apply(IPlayer player)

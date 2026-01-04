@@ -1,5 +1,6 @@
 #nullable enable
-namespace VampireSurvival.Core.Models
+
+namespace VampireSurvival.Models
 {
     using System;
     using System.Globalization;

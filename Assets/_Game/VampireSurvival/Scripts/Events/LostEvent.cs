@@ -1,5 +1,6 @@
 #nullable enable
-namespace VampireSurvival.Core.Events
+
+namespace VampireSurvival.Events
 {
     public sealed record LostEvent();
 }

@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: daee597ec15b4d629f6da67643e48c3e, type: 3}
+  m_Script: {fileID: 11500000, guid: 39704bfee9e944fe7a36c687d7a0c7db, type: 3}
   m_Name: EnemyStatsConfig
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.CharacterStatsConfig
-  maxHealth: 10
+  m_EditorClassIdentifier: VampireSurvival::VampireSurvival.Configs.CharacterStatsConfig
+  maxHealth: 5
   attack: 3
-  attackRange: 0.15
-  attackCooldown: 2
-  moveSpeed: 3
+  moveSpeed: 0.5

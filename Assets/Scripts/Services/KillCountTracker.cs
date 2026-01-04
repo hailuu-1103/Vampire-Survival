@@ -5,7 +5,7 @@ namespace Game.Services
     using System;
     using Core.Lifecycle;
     using Core.Observer;
-    using VampireSurvival.Core.Events;
+    using VampireSurvival.Events;
 
     public class KillCountTracker : ILateLoadable, IDisposable
     {

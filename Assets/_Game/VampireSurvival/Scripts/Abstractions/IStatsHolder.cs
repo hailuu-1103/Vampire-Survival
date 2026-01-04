@@ -1,8 +1,9 @@
 #nullable enable
-namespace VampireSurvival.Core.Abstractions
+
+namespace VampireSurvival.Abstractions
 {
     using System.Collections.Generic;
-    using VampireSurvival.Core.Models;
+    using VampireSurvival.Models;
 
     public interface IStatsHolder
     {

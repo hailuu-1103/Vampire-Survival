@@ -1,10 +1,10 @@
 #nullable enable
 
-namespace VampireSurvival.Core.Services
+namespace VampireSurvival.Services
 {
     using ILateLoadable = global::Core.Lifecycle.ILateLoadable;
     using System;
-    using VampireSurvival.Core.Stats;
+    using VampireSurvival.Configs;
 
     public sealed record PlayerXPChanged(int CurrentXp, int XpToNextLevel, float Progress);
 

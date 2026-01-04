@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 307e4362738346f4936e48a9de90093c, type: 3}
+  m_Script: {fileID: 11500000, guid: ba44f2b34aa7749118c889d254f8a057, type: 3}
   m_Name: EnemyConfig
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.EnemyConfig
-  spawnInterval: 2
-  spawnRadius: 15
+  m_EditorClassIdentifier: VampireSurvival::VampireSurvival.Configs.EnemyConfig
+  spawnInterval: 1.5
+  spawnRadius: 8
   xpReward: 10

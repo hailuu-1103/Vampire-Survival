@@ -7,7 +7,7 @@ namespace Game.UI.Player
     using Core.ScreenFlow;
     using UnityEngine;
     using UnityEngine.UI;
-    using VampireSurvival.Core.Abstractions;
+    using VampireSurvival.Abstractions;
     using IEntityManager = Core.Entities.IEntityManager;
     using VContainer;
 

@@ -1,8 +1,8 @@
 #nullable enable
 
-namespace VampireSurvival.Core.Events
+namespace VampireSurvival.Events
 {
-    using VampireSurvival.Core.Abstractions;
+    using VampireSurvival.Abstractions;
 
     public sealed record EnemyDiedEvent(IEnemy Enemy);
 }

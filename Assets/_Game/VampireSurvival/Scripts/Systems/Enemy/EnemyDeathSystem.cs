@@ -1,17 +1,20 @@
 #nullable enable
 
-namespace VampireSurvival.Core.Systems
+using Core.Entities;
+namespace VampireSurvival.Systems
 {
-    using IEntityManager = global::Core.Entities.IEntityManager;
-    using IEventBus      = global::Core.Observer.IEventBus;
+    using IEntityManager   = global::Core.Entities.IEntityManager;
+    using IEventBus        = global::Core.Observer.IEventBus;
     using Cysharp.Threading.Tasks;
     using UnityEngine;
-    using VampireSurvival.Core.Abstractions;
-    using VampireSurvival.Core.Events;
+    using VampireSurvival.Abstractions;
+    using VampireSurvival.Events;
+    using VampireSurvival.Models;
 
     public sealed class EnemyDeathSystem : ReactiveSystem<EnemyDiedEvent>
     {
         private readonly IEntityManager entityManager;
+
         public EnemyDeathSystem(IEventBus eventBus, IEntityManager entityManager) : base(eventBus)
         {
             this.entityManager = entityManager;
@@ -24,8 +27,9 @@ namespace VampireSurvival.Core.Systems
 
         private async UniTaskVoid HandleDeathAsync(IEnemy enemy)
         {
+            enemy.Collider.isTrigger       = true;
             enemy.Rigidbody.linearVelocity = Vector2.zero;
-            await enemy.Animation.PlayDeathAnimationAsync();
+            await enemy.Animation.PlayAnimationAsync(AnimationType.Death);
             this.entityManager.Recycle(enemy);
         }
     }

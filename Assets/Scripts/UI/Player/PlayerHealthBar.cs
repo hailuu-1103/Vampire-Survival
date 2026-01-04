@@ -12,8 +12,8 @@ namespace Game.UI
     using Core.Entities;
     using UnityEngine;
     using UnityEngine.UI;
-    using VampireSurvival.Core.Abstractions;
-    using VampireSurvival.Core.Models;
+    using VampireSurvival.Abstractions;
+    using VampireSurvival.Models;
 
     public sealed class PlayerHealthBar : MonoBehaviour
     {
@@ -32,16 +32,16 @@ namespace Game.UI
             this.Refresh();
 
             this.player                                                      =  this.entityManager.Query<IPlayer>().Single();
-            this.player.StatsHolder.Stats[StatNames.HEALTH].ValueChanged     += this.OnStatChanged;
-            this.player.StatsHolder.Stats[StatNames.MAX_HEALTH].ValueChanged += this.OnStatChanged;
+            this.player.StatsHolder.Stats[CharacterStatNames.HEALTH].ValueChanged     += this.OnStatChanged;
+            this.player.StatsHolder.Stats[CharacterStatNames.MAX_HEALTH].ValueChanged += this.OnStatChanged;
         }
 
         private void OnDisable()
         {
             if (this.player == null) return;
 
-            this.player.StatsHolder.Stats[StatNames.HEALTH].ValueChanged     -= this.OnStatChanged;
-            this.player.StatsHolder.Stats[StatNames.MAX_HEALTH].ValueChanged -= this.OnStatChanged;
+            this.player.StatsHolder.Stats[CharacterStatNames.HEALTH].ValueChanged     -= this.OnStatChanged;
+            this.player.StatsHolder.Stats[CharacterStatNames.MAX_HEALTH].ValueChanged -= this.OnStatChanged;
             this.player                                                      =  null;
         }
 
@@ -51,8 +51,8 @@ namespace Game.UI
         {
             if (this.player == null) return;
 
-            var max = this.player.StatsHolder.Stats[StatNames.MAX_HEALTH].Value;
-            var cur = this.player.StatsHolder.Stats[StatNames.HEALTH].Value;
+            var max = this.player.StatsHolder.Stats[CharacterStatNames.MAX_HEALTH].Value;
+            var cur = this.player.StatsHolder.Stats[CharacterStatNames.HEALTH].Value;
             this.healthFill.fillAmount = max <= 0f ? 0f : Mathf.Clamp01(cur / max);
         }
     }

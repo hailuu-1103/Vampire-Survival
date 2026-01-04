@@ -30,8 +30,7 @@ namespace VampireSurvival.Core.Components
 
         void ICharacterAnimation.Play(string animationName, bool loop, float? mix)
         {
-            if (!this.HasAnimation(animationName))
-                throw new InvalidOperationException($"Animation {animationName} not found");
+            if (!this.HasAnimation(animationName)) throw new InvalidOperationException($"Animation {animationName} not found");
 
             this.SetMix(mix);
             this.State.SetAnimation(TRACK_INDEX, animationName, loop);
@@ -39,8 +38,7 @@ namespace VampireSurvival.Core.Components
 
         async UniTask ICharacterAnimation.PlayAsync(string animationName, float? mix)
         {
-            if (!this.HasAnimation(animationName))
-                throw new InvalidOperationException($"Animation {animationName} not found");
+            if (!this.HasAnimation(animationName)) throw new InvalidOperationException($"Animation {animationName} not found");
 
             this.SetMix(mix);
             var track = this.State.SetAnimation(TRACK_INDEX, animationName, false);

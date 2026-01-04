@@ -12,7 +12,7 @@ namespace Game
     using Game.FTUE;
     using Game.Services;
     using UnityEngine;
-    using VampireSurvival.Core.DI;
+    using VampireSurvival.DI;
     using VContainer;
     using VContainer.Unity;
 
@@ -32,7 +32,7 @@ namespace Game
             builder.RegisterVampireSurvival();
             builder.RegisterInstance(this.ftueConfig).AsSelf();
             builder.Register<KillCountTracker>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-            builder.Register<PlayerLevelUpBonusService>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<LevelUpService>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
 }

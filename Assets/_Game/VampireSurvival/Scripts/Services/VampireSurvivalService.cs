@@ -1,26 +1,31 @@
 #nullable enable
 
-namespace VampireSurvival.Core.Services
+namespace VampireSurvival.Services
 {
     using IEntityManager    = global::Core.Entities.IEntityManager;
     using ILifecycleManager = global::Core.Lifecycle.ILifecycleManager;
+    using IReactiveSystem   = global::Core.Entities.IReactiveSystem;
     using System;
+    using System.Collections.Generic;
     using Cysharp.Threading.Tasks;
-    using VampireSurvival.Core.Entities;
+    using VampireSurvival.Entities;
 
     public sealed class VampireSurvivalService
     {
-        private readonly IEntityManager entityManager;
-        private readonly ILifecycleManager lifecycleManager;
+        private readonly IEntityManager              entityManager;
+        private readonly ILifecycleManager           lifecycleManager;
+        private readonly IEnumerable<IReactiveSystem> reactiveSystems;
 
         private GameManager? loaded;
 
         public VampireSurvivalService(
-            IEntityManager entityManager,
-            ILifecycleManager lifecycleManager)
+            IEntityManager               entityManager,
+            ILifecycleManager            lifecycleManager,
+            IEnumerable<IReactiveSystem> reactiveSystems)
         {
-            this.entityManager = entityManager;
+            this.entityManager    = entityManager;
             this.lifecycleManager = lifecycleManager;
+            this.reactiveSystems  = reactiveSystems;
         }
 
         public bool IsLoaded => this.loaded is { };
@@ -43,9 +48,16 @@ namespace VampireSurvival.Core.Services
         public void Unload()
         {
             if (this.loaded is null) return;
+
             this.loaded.Unload();
             this.entityManager.Recycle(this.loaded);
             this.loaded = null;
+
+            foreach (var system in this.reactiveSystems)
+            {
+                if (system is IDisposable disposable)
+                    disposable.Dispose();
+            }
         }
 
         public void Pause()

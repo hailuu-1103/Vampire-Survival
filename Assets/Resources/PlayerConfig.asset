@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f37c2d859d0345fcb9d213b1237d2645, type: 3}
+  m_Script: {fileID: 11500000, guid: fb94dcde5e9d34cf88fa322b299d25f1, type: 3}
   m_Name: PlayerConfig
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.PlayerConfig
-  xpThresholds: 0000000064000000fa000000f40100005203000014050000d0070000b80b00009411000064190000
+  m_EditorClassIdentifier: VampireSurvival::VampireSurvival.Configs.PlayerConfig
+  xpThresholds: 3200000064000000c80000002c010000f4010000bc020000e803000014050000dc050000d0070000
+  startingWeapons:
+  - {fileID: 1216519887820857385, guid: 022c401d93ea640afb3b694678d93422, type: 3}

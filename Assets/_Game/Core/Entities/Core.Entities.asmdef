@@ -4,6 +4,8 @@
   "references": [
     "Core.DI",
     "Core.Utils",
-    "Core.Pooling"
+    "Core.Pooling",
+    "Core.Observer",
+    "Core.Lifecycle"
   ]
 }

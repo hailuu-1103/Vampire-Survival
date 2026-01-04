@@ -1,14 +1,17 @@
 #nullable enable
 
-namespace VampireSurvival.Core.Systems
+using Core.Entities;
+
+namespace VampireSurvival.Systems
 {
     using IEntityManager = global::Core.Entities.IEntityManager;
-    using IEventBus      = global::Core.Observer.IEventBus;
+    using IEventBus = global::Core.Observer.IEventBus;
     using System.Linq;
     using Cysharp.Threading.Tasks;
-    using VampireSurvival.Core.Abstractions;
-    using VampireSurvival.Core.Events;
-    using VampireSurvival.Core.Services;
+    using VampireSurvival.Abstractions;
+    using VampireSurvival.Events;
+    using VampireSurvival.Models;
+    using VampireSurvival.Services;
 
     public sealed class PlayerDeathSystem : ReactiveSystem<PlayerDiedEvent>
     {
@@ -16,9 +19,10 @@ namespace VampireSurvival.Core.Systems
         private readonly PlayerProgressionService progressionService;
 
         public PlayerDeathSystem(
-            IEventBus                 eventBus,
-            IEntityManager            entityManager,
-            PlayerProgressionService  progressionService) : base(eventBus)
+            IEventBus                eventBus,
+            IEntityManager           entityManager,
+            PlayerProgressionService progressionService
+        ) : base(eventBus)
         {
             this.entityManager      = entityManager;
             this.progressionService = progressionService;
@@ -32,14 +36,8 @@ namespace VampireSurvival.Core.Systems
 
         private async UniTaskVoid HandleDeathAsync()
         {
-            var player = this.entityManager.Query<IPlayer>().SingleOrDefault();
-            if (player == null)
-            {
-                this.eventBus.Publish(new LostEvent());
-                return;
-            }
-
-            await player.Animation.PlayDeathAnimationAsync();
+            var player = this.entityManager.Query<IPlayer>().Single();
+            await player.Animation.PlayAnimationAsync(AnimationType.Death);
             this.eventBus.Publish(new LostEvent());
         }
     }

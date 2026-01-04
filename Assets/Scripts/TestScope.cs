@@ -5,9 +5,8 @@ namespace Game
     using Core.DI;
     using Core.GameFlow;
     using Game.FTUE;
-    using Game.Services;
     using Game.UI;
-    using VampireSurvival.Core;
+    using VampireSurvival.Components;
     using VContainer;
     using VContainer.Unity;
 

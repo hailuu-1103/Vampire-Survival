@@ -1,13 +1,12 @@
 #nullable enable
-using IEntityManager = Core.Entities.IEntityManager;
-using IFTUEService = Core.FTUE.IFTUEService;
-
 namespace Game.FTUE
 {
     using System;
+    using Core.Entities;
+    using Core.FTUE;
     using Core.GameFlow;
     using Cysharp.Threading.Tasks;
-    using VampireSurvival.Core.Services;
+    using VampireSurvival.Services;
     using VContainer.Unity;
 
     public sealed class FTUEHandler : IInitializable, IDisposable

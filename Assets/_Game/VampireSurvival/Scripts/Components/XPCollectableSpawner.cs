@@ -1,15 +1,14 @@
 #nullable enable
 
-namespace VampireSurvival.Core.Components
+namespace VampireSurvival.Components
 {
-    using Component = global::Core.Entities.Component;
-    using IEventBus = global::Core.Observer.IEventBus;
-
+    using Component  = global::Core.Entities.Component;
+    using IEventBus  = global::Core.Observer.IEventBus;
+    using IPauseable = global::Core.Entities.IPauseable;
     using UnityEngine;
-    using VampireSurvival.Core.Abstractions;
-    using VampireSurvival.Core.Entities;
-    using VampireSurvival.Core.Events;
-    using VampireSurvival.Core.Stats;
+    using VampireSurvival.Entities;
+    using VampireSurvival.Events;
+    using VampireSurvival.Configs;
 
     public sealed class XPCollectableSpawner : Component, IPauseable
     {

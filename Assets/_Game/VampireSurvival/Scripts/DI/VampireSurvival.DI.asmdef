@@ -1,0 +1,10 @@
+{
+  "name": "VampireSurvival.DI",
+  "rootNamespace": "VampireSurvival.DI",
+  "references": [
+    "VampireSurvival",
+    "VContainer",
+    "Core.Utils",
+    "Core.Entities"
+  ]
+}

@@ -1,9 +1,0 @@
-{
-  "name": "VampireSurvival.Core.DI",
-  "rootNamespace": "VampireSurvival.Core.DI",
-  "references": [
-    "Core.Utils",
-    "VContainer",
-    "VampireSurvival.Core"
-  ]
-}

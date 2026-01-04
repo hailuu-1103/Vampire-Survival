@@ -1,11 +1,11 @@
 #nullable enable
 
-namespace VampireSurvival.Core
+namespace VampireSurvival.Components
 {
     using IEntityManager = global::Core.Entities.IEntityManager;
     using System.Linq;
     using UnityEngine;
-    using VampireSurvival.Core.Abstractions;
+    using VampireSurvival.Abstractions;
     using VContainer;
 
     [RequireComponent(typeof(Camera))]

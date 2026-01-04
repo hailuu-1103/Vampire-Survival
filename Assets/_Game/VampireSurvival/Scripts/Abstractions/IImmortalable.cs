@@ -1,5 +1,6 @@
 #nullable enable
-namespace VampireSurvival.Core.Abstractions
+
+namespace VampireSurvival.Abstractions
 {
     public interface IImmortalable
     {

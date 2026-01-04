@@ -1,26 +1,29 @@
 #nullable enable
-using System.Linq;
-using UnityEngine;
 
-namespace VampireSurvival.Core.Systems
+using System.Collections.Generic;
+using UnityEngine;
+using Core.Entities;
+
+namespace VampireSurvival.Systems
 {
-    using VampireSurvival.Core.Abstractions;
-    using VampireSurvival.Core.Components;
-    using VampireSurvival.Core.Models;
+    using System.Linq;
+    using VampireSurvival.Abstractions;
+    using VampireSurvival.Components;
+    using VampireSurvival.Models;
 
     public sealed class EnemyChaseSystem : System<IEnemy>
     {
-        private EnemySpawner enemySpawner = null!;
+        private EnemyManager enemyManager = null!;
 
         protected override void OnSystemSpawn()
         {
-            this.enemySpawner = this.Manager.Query<EnemySpawner>().Single();
+            this.enemyManager = this.Manager.Query<EnemyManager>().Single();
         }
 
         protected override bool Filter(IEnemy enemy)
         {
             var player = this.Manager.Query<IPlayer>().Single();
-            return player.StatsHolder.Stats[StatNames.HEALTH] > 0 && !this.enemySpawner.IsDead(enemy);
+            return player.IsAlive && !this.enemyManager.IsDead(enemy);
         }
 
         protected override void Apply(IEnemy enemy)
@@ -38,10 +41,11 @@ namespace VampireSurvival.Core.Systems
             var dir       = playerPos - enemyPos;
             var moveDir   = dir.sqrMagnitude < 0.0001f ? Vector2.zero : dir.normalized;
 
-            var speed = player.StatsHolder.Stats[StatNames.MOVE_SPEED].Value;
+            var speedStat = enemy.StatsHolder.Stats.GetValueOrDefault(CharacterStatNames.MOVE_SPEED);
+            var speed     = speedStat?.Value ?? 0f;
             enemy.Rigidbody.linearVelocity = moveDir * speed;
             enemy.Animation.SetFacing(dir.x);
-            enemy.Animation.PlayRunAnimation();
+            enemy.Animation.SetAnimation(AnimationType.Run);
         }
     }
 }

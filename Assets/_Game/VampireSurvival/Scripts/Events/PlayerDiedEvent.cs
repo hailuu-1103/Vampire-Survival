@@ -1,4 +1,6 @@
-namespace VampireSurvival.Core.Events
+#nullable enable
+
+namespace VampireSurvival.Events
 {
     public sealed record PlayerDiedEvent;
 }

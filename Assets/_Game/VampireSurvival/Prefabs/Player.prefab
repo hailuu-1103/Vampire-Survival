@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 5694462042266719133}
   - component: {fileID: 8818479815432747622}
   - component: {fileID: -5810385466295958474}
-  - component: {fileID: 4366472705815714219}
-  - component: {fileID: 8732308448707329147}
+  - component: {fileID: 7247989653629415519}
+  - component: {fileID: 253253293411378391}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Components.CharacterAnimation
   animation: {fileID: 6616743486910043962}
---- !u!114 &4366472705815714219
+--- !u!114 &7247989653629415519
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,22 +145,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 335056665122574701}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dc90307eeb743999900976d7de04770, type: 3}
+  m_Script: {fileID: 11500000, guid: 162df55ad385449c9b25470c426668a6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Components.PlayerAnimation
---- !u!114 &8732308448707329147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 335056665122574701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d72990536ba4f4cc0b0a24f855c9ec9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.StatsHolder
+  m_EditorClassIdentifier: VampireSurvival::VampireSurvival.Components.StatsHolder
   config: {fileID: 11400000, guid: ba0e482f88b1d479da9b019f7209daf7, type: 2}
+--- !u!114 &253253293411378391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335056665122574701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9c942c5446d427285b5d177346070a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VampireSurvival::VampireSurvival.Core.Components.CharacterAnimationController
+  animations:
+  - type: 0
+    name: idle_2
+  - type: 1
+    name: run
+  - type: 2
+    name: sword_attack
+  - type: 3
+    name: hit
+  - type: 4
+    name: dead
 --- !u!1 &8668795031032674615
 GameObject:
   m_ObjectHideFlags: 0

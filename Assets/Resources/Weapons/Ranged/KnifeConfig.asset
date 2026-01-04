@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1671958427e6497a84cdf440e29a8db, type: 3}
+  m_Name: KnifeConfig
+  m_EditorClassIdentifier: VampireSurvival::VampireSurvival.Configs.RangedWeaponConfig
+  damage: 10
+  range: 10
+  cooldown: 2
+  maxLevel: 10
+  damagePerLevel: 1
+  cooldownPerLevel: 0.1
+  projectilePrefab: {fileID: 7280380554661884692, guid: 2c15d0350f8864e85968124ea25d790a, type: 3}
+  attackStrategy: 1
+  speed: 8

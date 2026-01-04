@@ -141,8 +141,9 @@ GameObject:
   - component: {fileID: 8619483909028521419}
   - component: {fileID: 533348889162103814}
   - component: {fileID: 1756404294979900164}
-  - component: {fileID: 7080746748713808631}
-  - component: {fileID: 3288403242677342408}
+  - component: {fileID: 6835908883705857343}
+  - component: {fileID: 1012287854255800891}
+  - component: {fileID: 4627837013330252035}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -164,6 +165,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2616242177098276081}
+  - {fileID: 794869947531252536}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &3359776525705008561
@@ -264,7 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Components.CharacterAnimation
   animation: {fileID: 2113679374438014754}
---- !u!114 &7080746748713808631
+--- !u!114 &6835908883705857343
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,19 +275,107 @@ MonoBehaviour:
   m_GameObject: {fileID: 715653378714904782}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0662f9768db649079abefba5c7910b9b, type: 3}
+  m_Script: {fileID: 11500000, guid: 162df55ad385449c9b25470c426668a6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Enemies.EnemyAnimation
---- !u!114 &3288403242677342408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 715653378714904782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d72990536ba4f4cc0b0a24f855c9ec9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.StatsHolder
+  m_EditorClassIdentifier: VampireSurvival::VampireSurvival.Components.StatsHolder
   config: {fileID: 11400000, guid: 58d487476d6294681a6e7fb6a1a72543, type: 2}
+--- !u!114 &1012287854255800891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715653378714904782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dc17013bfdd4f179a0db26f43f2f035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VampireSurvival::VampireSurvival.Core.Components.CharacterAnimation
+  animation: {fileID: 2113679374438014754}
+--- !u!114 &4627837013330252035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715653378714904782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9c942c5446d427285b5d177346070a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VampireSurvival::VampireSurvival.Core.Components.CharacterAnimationController
+  animations:
+  - type: 0
+    name: idle_1
+  - type: 1
+    name: run
+  - type: 2
+    name: sword_attack
+  - type: 3
+    name: hit
+  - type: 4
+    name: dead
+  - type: 5
+    name: jump
+--- !u!1001 &2850418863089900737
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 922989774680392513}
+    m_Modifications:
+    - target: {fileID: 938030999504221910, guid: df17553f5f124474e84f60363f6afd79, type: 3}
+      propertyPath: m_Name
+      value: Melee
+      objectReference: {fileID: 0}
+    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: df17553f5f124474e84f60363f6afd79, type: 3}
+--- !u!4 &794869947531252536 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
+  m_PrefabInstance: {fileID: 2850418863089900737}
+  m_PrefabAsset: {fileID: 0}

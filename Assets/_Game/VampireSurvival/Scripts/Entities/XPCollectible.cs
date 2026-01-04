@@ -1,11 +1,11 @@
 #nullable enable
-using Core.Entities;
 
-namespace VampireSurvival.Core.Entities
+using Core.Entities;
+namespace VampireSurvival.Entities
 {
     using UnityEngine;
-    using VampireSurvival.Core.Abstractions;
-    using VampireSurvival.Core.Services;
+    using VampireSurvival.Abstractions;
+    using VampireSurvival.Services;
 
     public sealed record XPCollectableParams(int XpValue);
 

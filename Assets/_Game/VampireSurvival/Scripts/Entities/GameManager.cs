@@ -1,19 +1,25 @@
 #nullable enable
 
-namespace VampireSurvival.Core.Entities
+namespace VampireSurvival.Entities
 {
+    using System;
     using global::Core.Utils;
     using Entity = global::Core.Entities.Entity;
+    using IUpdateable = global::Core.Entities.IUpdateable;
+    using IPauseable = global::Core.Entities.IPauseable;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
-    using VampireSurvival.Core.Abstractions;
-    using VampireSurvival.Core.Components;
+    using VampireSurvival.Abstractions;
+    using VampireSurvival.Components;
 
     public sealed class GameManager : Entity
     {
         [SerializeField] private Player playerPrefab = null!;
 
+        public  Action?                    onLoaded;
+        public  Action?                    onUnloaded;
+        public  Action?                    onLost;
         private IPlayer?                   player;
         private IReadOnlyList<IUpdateable> updateables = null!;
 
@@ -32,34 +38,34 @@ namespace VampireSurvival.Core.Entities
         public void Load()
         {
             this.player = this.Manager.Spawn(this.playerPrefab);
+            this.onLoaded?.Invoke();
         }
 
         public void Unload()
         {
             this.ForceClearAllUnits();
+            this.onUnloaded?.Invoke();
         }
 
         public void Pause()
         {
-            foreach (var pauseable in this.Manager.Query<IPauseable>())
-                pauseable.Pause();
+            foreach (var pauseable in this.Manager.Query<IPauseable>()) pauseable.Pause();
         }
 
         public void Resume()
         {
-            foreach (var pauseable in this.Manager.Query<IPauseable>())
-                pauseable.Resume();
+            foreach (var pauseable in this.Manager.Query<IPauseable>()) pauseable.Resume();
         }
 
         public void PauseEnemySpawner()
         {
-            var enemySpawner = this.Manager.Query<IPauseable>().Single(pause => pause is EnemySpawner);
+            var enemySpawner = this.Manager.Query<IPauseable>().Single(pause => pause is EnemyManager);
             enemySpawner.Pause();
         }
 
         public void ResumeEnemySpawner()
         {
-            var enemySpawner = this.Manager.Query<IPauseable>().Single(pause => pause is EnemySpawner);
+            var enemySpawner = this.Manager.Query<IPauseable>().Single(pause => pause is EnemyManager);
             enemySpawner.Resume();
         }
 
@@ -77,10 +83,8 @@ namespace VampireSurvival.Core.Entities
                 this.player = null;
             }
 
-            foreach (var enemy in this.Manager.Query<IEnemy>().ToArray())
-                this.Manager.Recycle(enemy);
-            foreach (var collectable in this.Manager.Query<ICollectable>().ToArray())
-                this.Manager.Recycle(collectable);
+            foreach (var enemy in this.Manager.Query<IEnemy>().ToArray()) this.Manager.Recycle(enemy);
+            foreach (var collectable in this.Manager.Query<ICollectable>().ToArray()) this.Manager.Recycle(collectable);
         }
     }
 }

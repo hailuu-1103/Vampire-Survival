@@ -6,8 +6,8 @@ namespace Game.Services
     using Core.GameFlow;
     using Core.Observer;
     using Cysharp.Threading.Tasks;
-    using VampireSurvival.Core.Events;
-    using VampireSurvival.Core.Services;
+    using VampireSurvival.Events;
+    using VampireSurvival.Services;
     using VContainer.Unity;
 
     public sealed class GameplayService :

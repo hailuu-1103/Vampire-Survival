@@ -1,10 +1,10 @@
 #nullable enable
 
-namespace VampireSurvival.Core.Entities
+namespace VampireSurvival.Entities
 {
     using Entity = global::Core.Entities.Entity;
+
     public sealed class Tutorial : Entity
     {
-
     }
 }

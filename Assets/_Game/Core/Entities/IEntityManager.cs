@@ -33,5 +33,9 @@ namespace Core.Entities
         public void Unload(IEntity prefab);
 
         public IEnumerable<T> Query<T>();
+
+        public void RegisterComponent(IEntity entity, IComponent component);
+
+        public void UnregisterComponent(IComponent component);
     }
 }

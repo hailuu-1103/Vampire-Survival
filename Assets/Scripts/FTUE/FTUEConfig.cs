@@ -1,7 +1,4 @@
 #nullable enable
-using IEntityManager = Core.Entities.IEntityManager;
-using IEventBus = Core.Observer.IEventBus;
-
 namespace Game.FTUE
 {
     using System.Collections.Generic;
@@ -9,11 +6,12 @@ namespace Game.FTUE
     using Core.FTUE;
     using Core.FTUE.Conditions;
     using Core.FTUE.Presenters;
+    using Core.Observer;
     using Cysharp.Threading.Tasks;
     using UnityEngine;
-    using VampireSurvival.Core.Abstractions;
-    using VampireSurvival.Core.Entities;
-    using VampireSurvival.Core.Events;
+    using VampireSurvival.Abstractions;
+    using VampireSurvival.Entities;
+    using VampireSurvival.Events;
 
     public sealed class FTUEConfig : Entity
     {
