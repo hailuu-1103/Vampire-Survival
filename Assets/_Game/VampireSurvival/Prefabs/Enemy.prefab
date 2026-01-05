@@ -165,7 +165,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2616242177098276081}
-  - {fileID: 794869947531252536}
+  - {fileID: 3408014968053443447}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &3359776525705008561
@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d0f21cb015f42949b3ef95cb512c725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Entities.Enemy
+  weaponHolder: {fileID: 3408014968053443447}
 --- !u!61 &533348889162103814
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -317,65 +318,34 @@ MonoBehaviour:
     name: dead
   - type: 5
     name: jump
---- !u!1001 &2850418863089900737
-PrefabInstance:
+--- !u!1 &7416118589674235952
+GameObject:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 922989774680392513}
-    m_Modifications:
-    - target: {fileID: 938030999504221910, guid: df17553f5f124474e84f60363f6afd79, type: 3}
-      propertyPath: m_Name
-      value: Melee
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: df17553f5f124474e84f60363f6afd79, type: 3}
---- !u!4 &794869947531252536 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3209178514250010617, guid: df17553f5f124474e84f60363f6afd79, type: 3}
-  m_PrefabInstance: {fileID: 2850418863089900737}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3408014968053443447}
+  m_Layer: 7
+  m_Name: Weapons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3408014968053443447
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7416118589674235952}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 922989774680392513}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

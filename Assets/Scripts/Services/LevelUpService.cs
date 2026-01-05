@@ -7,22 +7,17 @@ namespace Game.Services
     using Core.Lifecycle;
     using UnityEngine;
     using VampireSurvival.Abstractions;
-    using VampireSurvival.Services;
-    using Random = System.Random;
+    using VampireSurvival.Progression.Abstractions;
 
     public sealed class LevelUpService : ILateLoadable, IDisposable
     {
         private readonly IPlayerProgressionService progressionService;
-        private readonly IPlayerInventory          playerInventory;
-        private readonly Random                    random = new();
 
         public LevelUpService(
-            IPlayerProgressionService progressionService,
-            IPlayerInventory          playerInventory
+            IPlayerProgressionService progressionService
         )
         {
             this.progressionService = progressionService;
-            this.playerInventory    = playerInventory;
         }
 
         void ILateLoadable.OnLateLoad()
@@ -32,22 +27,22 @@ namespace Game.Services
 
         private void OnLeveledUp(int level)
         {
-            var weapon = this.UpgradeRandomWeapon();
-            Debug.Log($"Player leveled up {level}, weapon: {weapon.Config.name}");
+            this.UpgradeRandomWeapon();
+            Debug.Log($"Player leveled up {level}, weapon:");
         }
 
-        private IWeapon? UpgradeRandomWeapon()
+        private void UpgradeRandomWeapon()
         {
-            var upgradableWeapons = this.playerInventory.Weapons
-                .Where(w => !w.IsMaxLevel)
-                .ToArray();
-
-            if (upgradableWeapons.Length == 0) return null;
-
-            var index  = this.random.Next(upgradableWeapons.Length);
-            var weapon = upgradableWeapons[index];
-            if (!this.playerInventory.UpgradeWeapon(weapon)) return null;
-            return weapon;
+            // var upgradableWeapons = this.playerInventory.Weapons
+            //     .Where(w => !w.IsMaxLevel)
+            //     .ToArray();
+            //
+            // if (upgradableWeapons.Length == 0) return null;
+            //
+            // var index  = this.random.Next(upgradableWeapons.Length);
+            // var weapon = upgradableWeapons[index];
+            // if (!this.playerInventory.UpgradeWeapon(weapon)) return null;
+            // return weapon;
         }
 
         void IDisposable.Dispose()

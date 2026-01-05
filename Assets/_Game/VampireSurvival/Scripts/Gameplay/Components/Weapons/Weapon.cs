@@ -1,32 +1,33 @@
 #nullable enable
 
+using Entity = Core.Entities.Entity;
+
 namespace VampireSurvival.Components
 {
-    using Component = global::Core.Entities.Component;
     using UnityEngine;
     using VampireSurvival.Abstractions;
     using VampireSurvival.Configs;
     using VampireSurvival.Models;
 
-    public sealed class Weapon : Component, IWeapon
+    public sealed class Weapon : Entity, IWeapon
     {
         [SerializeField] private WeaponConfig config = null!;
 
-        private IAttacker    owner = null!;
+        private IAttacker     owner = null!;
         private IStatsHolder? stats;
-        private int          level = 1;
+        private int           level = 1;
 
-        protected override void OnInstantiate()
+        protected override void OnSpawn()
         {
             this.owner = this.GetComponentInParent<IAttacker>();
             this.stats = this.GetComponent<IStatsHolder>();
         }
 
-        IAttacker IWeapon.     Owner    => this.owner;
-        WeaponConfig IWeapon.  Config   => this.config;
-        IStatsHolder? IWeapon. Stats    => this.stats;
-        int IWeapon.           Level    => this.level;
-        int IWeapon.           MaxLevel => this.config.maxLevel;
+        IAttacker IWeapon.    Owner    => this.owner;
+        WeaponConfig IWeapon. Config   => this.config;
+        IStatsHolder? IWeapon.Stats    => this.stats;
+        int IWeapon.          Level    => this.level;
+        int IWeapon.          MaxLevel => this.config.maxLevel;
 
         void IWeapon.Upgrade()
         {

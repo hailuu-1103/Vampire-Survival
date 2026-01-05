@@ -5,7 +5,7 @@ namespace VampireSurvival.Entities
 {
     using UnityEngine;
     using VampireSurvival.Abstractions;
-    using VampireSurvival.Services;
+    using VampireSurvival.Progression.Services;
 
     public sealed record XPCollectableParams(int XpValue);
 

@@ -13,7 +13,6 @@ namespace VampireSurvival.Systems
 
     public sealed class RangedAttackingSystem : System<IWeapon>
     {
-
         private const float SPAWN_OFFSET = 0.5f;
 
         private readonly Dictionary<IWeapon, float> cooldowns = new();
@@ -29,6 +28,7 @@ namespace VampireSurvival.Systems
 
         protected override bool Filter(IWeapon weapon)
         {
+            if (weapon is not { }) return false;
             if (weapon.Owner.OwnerType == OwnerType.Enemy) return false;
 
             return weapon.Config is RangedWeaponConfig

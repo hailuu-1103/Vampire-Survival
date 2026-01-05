@@ -9,7 +9,8 @@ namespace Game.UI
     using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
-    using VampireSurvival.Services;
+    using VampireSurvival.Progression.Abstractions;
+    using VampireSurvival.Progression.Models;
     using VContainer;
 
     public class GameplayScreenView : BaseScreenView

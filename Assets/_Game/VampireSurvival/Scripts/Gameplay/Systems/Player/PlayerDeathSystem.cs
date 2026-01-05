@@ -11,7 +11,7 @@ namespace VampireSurvival.Systems
     using VampireSurvival.Abstractions;
     using VampireSurvival.Events;
     using VampireSurvival.Models;
-    using VampireSurvival.Services;
+    using VampireSurvival.Progression.Services;
 
     public sealed class PlayerDeathSystem : ReactiveSystem<PlayerDiedEvent>
     {

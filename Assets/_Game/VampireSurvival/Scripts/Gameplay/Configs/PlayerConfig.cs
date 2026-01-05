@@ -3,17 +3,14 @@
 namespace VampireSurvival.Configs
 {
     using UnityEngine;
+    using VampireSurvival.Components;
 
     [CreateAssetMenu(menuName = "VampireSurvival/Player Config")]
     public sealed class PlayerConfig : ScriptableObject
     {
-        [Header("Progression")]
-        [SerializeField] private int[] xpThresholds = null!;
-
-        [Header("Starting Weapons")]
-        [SerializeField] private GameObject[] startingWeapons = null!;
-
-        public GameObject[] StartingWeapons => this.startingWeapons;
+        [SerializeField] private int[]    xpThresholds   = null!;
+        [SerializeField] private Weapon[] initialWeapons = null!;
+        public                   Weapon[] InitialWeapons => this.initialWeapons;
 
         public int MaxLevel => this.xpThresholds.Length + 1;
 

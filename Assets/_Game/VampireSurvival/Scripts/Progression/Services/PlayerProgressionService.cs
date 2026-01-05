@@ -1,20 +1,13 @@
 #nullable enable
 
-namespace VampireSurvival.Services
+using ILateLoadable = Core.Lifecycle.ILateLoadable;
+
+namespace VampireSurvival.Progression.Services
 {
-    using ILateLoadable = global::Core.Lifecycle.ILateLoadable;
     using System;
     using VampireSurvival.Configs;
-
-    public sealed record PlayerXPChanged(int CurrentXp, int XpToNextLevel, float Progress);
-
-    public interface IPlayerProgressionService
-    {
-        public Action<PlayerXPChanged>? PlayerXPChanged { get; set; }
-        public Action<int>?             LeveledUp       { get; set; }
-        public int                      Level           { get; }
-        public int                      CurrentXp       { get; }
-    }
+    using VampireSurvival.Progression.Abstractions;
+    using VampireSurvival.Progression.Models;
 
     public sealed class PlayerProgressionService : ILateLoadable, IPlayerProgressionService
     {
@@ -22,7 +15,7 @@ namespace VampireSurvival.Services
 
         public PlayerProgressionService(PlayerConfig config)
         {
-            this.config   = config;
+            this.config = config;
         }
 
         Action<PlayerXPChanged>? IPlayerProgressionService.PlayerXPChanged { get => this.playerXPChanged; set => this.playerXPChanged = value; }

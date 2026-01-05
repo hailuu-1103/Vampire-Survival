@@ -36,8 +36,8 @@ namespace VampireSurvival.Systems
 
         protected override bool Filter(IWeapon weapon)
         {
-            var player = this.Manager.Query<IPlayer>().SingleOrDefault();
-            if (player == null) return false;
+            if (weapon is not { }) return false;
+            var player = this.Manager.Query<IPlayer>().Single();
             if (!player.IsAlive) return false;
 
             var ownerPosition  = (Vector2)weapon.Owner.transform.position;
