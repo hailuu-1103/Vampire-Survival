@@ -54,5 +54,10 @@ namespace VampireSurvival.Components
         {
             this.eventBus.Unsubscribe<EnemyDiedEvent>(this.OnEnemyDied);
         }
+
+        protected override void OnCleanup()
+        {
+            this.Manager.Cleanup(this.prefab);
+        }
     }
 }

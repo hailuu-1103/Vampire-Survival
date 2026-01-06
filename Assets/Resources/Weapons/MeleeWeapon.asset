@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: VampireSurvival::VampireSurvival.Configs.MeleeWeaponConfig
   damage: 3
   range: 1
-  cooldown: 0.5
+  cooldown: 0.75
   maxLevel: 10
   damagePerLevel: 1
   cooldownPerLevel: 0.1

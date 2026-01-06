@@ -9,5 +9,6 @@ namespace VampireSurvival.Configs
     {
         public float hitRadius    = 0.1f;
         public float defaultSpeed = 8f;
+        public float lifetime     = 3f;
     }
 }

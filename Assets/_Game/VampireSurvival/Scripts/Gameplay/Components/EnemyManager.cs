@@ -28,6 +28,11 @@ namespace VampireSurvival.Components
             this.Manager.Load(this.enemyPrefab, 100);
         }
 
+        protected override void OnCleanup()
+        {
+            this.Manager.Cleanup(this.enemyPrefab);
+        }
+
         private readonly HashSet<IEnemy> deadEnemies = new();
 
         private float timer;
@@ -67,6 +72,7 @@ namespace VampireSurvival.Components
         protected override void OnRecycle()
         {
             this.eventBus.Unsubscribe<EnemyDiedEvent>(this.OnEnemyDied);
+            this.deadEnemies.Clear();
         }
     }
 }

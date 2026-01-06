@@ -32,6 +32,15 @@ namespace VampireSurvival.Entities
             this.statsHolder  = this.GetComponent<IStatsHolder>();
             this.col          = this.GetComponent<Collider2D>();
             this.rb           = this.GetComponent<Rigidbody2D>();
+
+            foreach (var weapon in this.playerConfig.InitialWeapons)
+                this.Manager.Load(weapon);
+        }
+
+        protected override void OnCleanup()
+        {
+            foreach (var weapon in this.playerConfig.InitialWeapons)
+                this.Manager.Cleanup(weapon);
         }
 
         bool IPlayer.             IsAlive         => this.statsHolder.Stats[CharacterStatNames.HEALTH] > 0;

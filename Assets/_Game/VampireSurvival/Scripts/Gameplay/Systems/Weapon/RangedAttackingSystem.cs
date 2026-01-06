@@ -5,17 +5,32 @@ using Core.Entities;
 namespace VampireSurvival.Systems
 {
     using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
     using VampireSurvival.Abstractions;
     using VampireSurvival.Configs;
     using VampireSurvival.Entities;
     using VampireSurvival.Models;
 
-    public sealed class RangedAttackingSystem : System<IWeapon>
+    public sealed class RangedAttackingSystem : System<IWeapon>, IAttackingSystem
     {
         private const float SPAWN_OFFSET = 0.5f;
 
         private readonly Dictionary<IWeapon, float> cooldowns = new();
+
+        protected override void OnEntitySpawned(IEntity entity, IReadOnlyList<IComponent> components)
+        {
+            base.OnEntitySpawned(entity, components);
+
+            if (entity is IWeapon entityWeapon)
+                this.ResetCooldown(entityWeapon);
+
+            foreach (var component in components)
+            {
+                if (component is IWeapon weapon && !ReferenceEquals(component, entity))
+                    this.ResetCooldown(weapon);
+            }
+        }
 
         protected override void OnEntityRecycled(IEntity entity, IReadOnlyList<IComponent> components)
         {
@@ -29,7 +44,6 @@ namespace VampireSurvival.Systems
         protected override bool Filter(IWeapon weapon)
         {
             if (weapon is not { }) return false;
-            if (weapon.Owner.OwnerType == OwnerType.Enemy) return false;
 
             return weapon.Config is RangedWeaponConfig
                 && weapon.Owner.StatsHolder.Stats[CharacterStatNames.HEALTH].Value > 0;
@@ -37,11 +51,11 @@ namespace VampireSurvival.Systems
 
         protected override void Apply(IWeapon weapon)
         {
-            this.TickCooldown(weapon);
+            var current                              = this.GetCooldown(weapon);
+            if (current > 0f) this.cooldowns[weapon] = Mathf.Max(0f, current - Time.deltaTime);
             if (this.GetCooldown(weapon) > 0f) return;
 
-            var config = (RangedWeaponConfig)weapon.Config;
-            //TODO
+            var config    = (RangedWeaponConfig)weapon.Config;
             var target    = config.attackStrategy == AttackStrategy.Homing ? this.FindTarget(weapon) : null;
             var direction = this.GetDirection(weapon, target);
 
@@ -49,13 +63,29 @@ namespace VampireSurvival.Systems
             this.ResetCooldown(weapon);
         }
 
+        private void ResetCooldown(IWeapon weapon)
+        {
+            var baseCooldown   = weapon.Config.cooldown;
+            var weaponCooldown = weapon.Stats?.Stats.GetValueOrDefault(WeaponStatNames.COOLDOWN)?.Value ?? 1f;
+
+            this.cooldowns[weapon] = baseCooldown * weaponCooldown;
+        }
+
         private ITarget? FindTarget(IWeapon weapon)
         {
-            var owner         = weapon.Owner;
-            var config        = weapon.Config;
-            var ownerPosition = (Vector2)owner.transform.position;
-            var range         = config.range;
+            var ownerPosition = (Vector2)weapon.Owner.transform.position;
+            var range         = weapon.Config.range;
 
+            return weapon.Owner.OwnerType switch
+            {
+                OwnerType.Player => this.FindClosestEnemy(ownerPosition, range),
+                OwnerType.Enemy  => this.Manager.Query<IPlayer>().SingleOrDefault(p => p.IsAlive),
+                _                => null,
+            };
+        }
+
+        private ITarget? FindClosestEnemy(Vector2 ownerPosition, float range)
+        {
             IEnemy? closestEnemy    = null;
             var     closestDistance = float.MaxValue;
 
@@ -93,20 +123,12 @@ namespace VampireSurvival.Systems
             );
         }
 
-        private float GetCooldown(IWeapon weapon) => this.cooldowns.GetValueOrDefault(weapon, 0f);
-
-        private void TickCooldown(IWeapon weapon)
+        private float GetCooldown(IWeapon weapon)
         {
-            var current                              = this.GetCooldown(weapon);
-            if (current > 0f) this.cooldowns[weapon] = Mathf.Max(0f, current - Time.deltaTime);
-        }
+            if (!this.cooldowns.ContainsKey(weapon))
+                this.ResetCooldown(weapon);
 
-        private void ResetCooldown(IWeapon weapon)
-        {
-            var baseCooldown   = weapon.Config.cooldown;
-            var weaponCooldown = weapon.Stats?.Stats.GetValueOrDefault(WeaponStatNames.COOLDOWN)?.Value ?? 1f;
-
-            this.cooldowns[weapon] = baseCooldown * weaponCooldown;
+            return this.cooldowns[weapon];
         }
 
         private Vector2 GetDirection(IWeapon weapon, ITarget? target)

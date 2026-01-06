@@ -13,8 +13,7 @@ namespace VampireSurvival.Systems
     using VampireSurvival.Events;
     using VampireSurvival.Models;
 
-    // Temporary used for Enemy only
-    public sealed class MeleeAttackingSystem : System<IWeapon>
+    public sealed class MeleeAttackingSystem : System<IWeapon>, IAttackingSystem
     {
         private readonly Dictionary<IWeapon, float> cooldowns = new();
 
@@ -23,6 +22,20 @@ namespace VampireSurvival.Systems
         protected override void OnInstantiate()
         {
             this.eventBus = this.Container.Resolve<IEventBus>();
+        }
+
+        protected override void OnEntitySpawned(IEntity entity, IReadOnlyList<IComponent> components)
+        {
+            base.OnEntitySpawned(entity, components);
+
+            if (entity is IWeapon entityWeapon)
+                this.ResetCooldown(entityWeapon);
+
+            foreach (var component in components)
+            {
+                if (component is IWeapon weapon && !ReferenceEquals(component, entity))
+                    this.ResetCooldown(weapon);
+            }
         }
 
         protected override void OnEntityRecycled(IEntity entity, IReadOnlyList<IComponent> components)
@@ -36,19 +49,17 @@ namespace VampireSurvival.Systems
 
         protected override bool Filter(IWeapon weapon)
         {
-            if (weapon is not { }) return false;
-            var player = this.Manager.Query<IPlayer>().Single();
-            if (!player.IsAlive) return false;
+            if (weapon is not { Config: MeleeWeaponConfig }) return false;
+            if (weapon.Owner.StatsHolder.Stats[CharacterStatNames.HEALTH].Value <= 0) return false;
+
+            var target = this.FindTarget(weapon);
+            if (target is null) return false;
 
             var ownerPosition  = (Vector2)weapon.Owner.transform.position;
-            var playerPosition = (Vector2)player.transform.position;
-            var direction      = playerPosition - ownerPosition;
-            var distance       = direction.magnitude;
-            var range          = weapon.Config.range;
+            var targetPosition = (Vector2)target.transform.position;
+            var distance       = Vector2.Distance(ownerPosition, targetPosition);
 
-            if (distance > range) return false;
-            return weapon is { Config: MeleeWeaponConfig, Owner: { OwnerType: OwnerType.Enemy } }
-                && weapon.Owner.StatsHolder.Stats[CharacterStatNames.HEALTH].Value > 0;
+            return distance <= weapon.Config.range;
         }
 
         protected override void Apply(IWeapon weapon)
@@ -56,13 +67,30 @@ namespace VampireSurvival.Systems
             this.TickCooldown(weapon);
             if (this.GetCooldown(weapon) > 0f) return;
 
-            var target = this.Manager.Query<IPlayer>().Single();
+            var target = this.FindTarget(weapon);
+            if (target is null) return;
+
             this.ApplyDamage(weapon, target);
             this.ResetCooldown(weapon);
         }
 
-        private float GetCooldown(IWeapon weapon) =>
-            this.cooldowns.GetValueOrDefault(weapon, 0f);
+        private ITarget? FindTarget(IWeapon weapon)
+        {
+            return weapon.Owner.OwnerType switch
+            {
+                OwnerType.Player => this.Manager.Query<IEnemy>().FirstOrDefault(e => e.IsAlive),
+                OwnerType.Enemy  => this.Manager.Query<IPlayer>().SingleOrDefault(p => p.IsAlive),
+                _                => null,
+            };
+        }
+
+        private float GetCooldown(IWeapon weapon)
+        {
+            if (!this.cooldowns.ContainsKey(weapon))
+                this.ResetCooldown(weapon);
+
+            return this.cooldowns[weapon];
+        }
 
         private void TickCooldown(IWeapon weapon)
         {
@@ -87,9 +115,16 @@ namespace VampireSurvival.Systems
             target.StatsHolder.Add(CharacterStatNames.HEALTH, -damage);
             target.PlayHitAnim();
 
-            if (target.StatsHolder.Stats[CharacterStatNames.HEALTH].Value <= 0)
+            if (target.StatsHolder.Stats[CharacterStatNames.HEALTH].Value > 0) return;
+
+            switch (target)
             {
-                this.eventBus.Publish(new PlayerDiedEvent());
+                case IPlayer:
+                    this.eventBus.Publish(new PlayerDiedEvent());
+                    break;
+                case IEnemy enemy:
+                    this.eventBus.Publish(new EnemyDiedEvent(enemy));
+                    break;
             }
         }
 

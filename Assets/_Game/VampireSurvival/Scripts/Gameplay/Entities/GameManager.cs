@@ -29,6 +29,11 @@ namespace VampireSurvival.Entities
             this.Manager.Load(this.playerPrefab);
         }
 
+        protected override void OnCleanup()
+        {
+            this.Manager.Cleanup(this.playerPrefab);
+        }
+
         private void Update()
         {
             var dt = Time.deltaTime;
@@ -83,8 +88,9 @@ namespace VampireSurvival.Entities
                 this.player = null;
             }
 
-            foreach (var enemy in this.Manager.Query<IEnemy>().ToArray()) this.Manager.Recycle(enemy);
-            foreach (var collectable in this.Manager.Query<ICollectable>().ToArray()) this.Manager.Recycle(collectable);
+            this.Manager.Query<IProjectile>().ToArray().ForEach(this.Manager.Recycle);
+            this.Manager.Query<IEnemy>().ToArray().ForEach(this.Manager.Recycle);
+            this.Manager.Query<ICollectable>().ToArray().ForEach(this.Manager.Recycle);
         }
     }
 }
