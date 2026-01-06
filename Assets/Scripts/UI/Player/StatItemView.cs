@@ -4,7 +4,7 @@ namespace Game.UI.Player
 {
     using TMPro;
     using UnityEngine;
-    using VampireSurvival.Core.Models;
+    using VampireSurvival.Models;
 
     public class StatItemView : MonoBehaviour
     {

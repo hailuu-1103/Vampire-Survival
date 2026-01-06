@@ -1,0 +1,15 @@
+{
+  "name": "VampireSurvival",
+  "rootNamespace": "VampireSurvival",
+  "references": [
+    "VContainer",
+    "UniTask",
+    "Core.DI",
+    "Core.Utils",
+    "Core.Observer",
+    "Core.Entities",
+    "Core.Lifecycle",
+    "spine-unity",
+    "Core.Pooling"
+  ]
+}

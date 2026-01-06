@@ -39,7 +39,7 @@ namespace Core.Pooling
 
         void IObjectPoolManager.Recycle(GameObject instance)
         {
-            if (!this.instanceToPool.Remove(instance, out var pool)) throw new InvalidOperationException($"{instance.name} was not spawned from {nameof(ObjectPoolManager)}");
+            if (!this.instanceToPool.Remove(instance, out var pool)) return;
             pool.Recycle(instance);
         }
 

@@ -141,8 +141,9 @@ GameObject:
   - component: {fileID: 8619483909028521419}
   - component: {fileID: 533348889162103814}
   - component: {fileID: 1756404294979900164}
-  - component: {fileID: 7080746748713808631}
-  - component: {fileID: 3288403242677342408}
+  - component: {fileID: 6835908883705857343}
+  - component: {fileID: 1012287854255800891}
+  - component: {fileID: 4627837013330252035}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -164,6 +165,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2616242177098276081}
+  - {fileID: 3408014968053443447}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &3359776525705008561
@@ -205,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d0f21cb015f42949b3ef95cb512c725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Entities.Enemy
+  weaponHolder: {fileID: 3408014968053443447}
 --- !u!61 &533348889162103814
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -264,7 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Components.CharacterAnimation
   animation: {fileID: 2113679374438014754}
---- !u!114 &7080746748713808631
+--- !u!114 &6835908883705857343
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,19 +276,76 @@ MonoBehaviour:
   m_GameObject: {fileID: 715653378714904782}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0662f9768db649079abefba5c7910b9b, type: 3}
+  m_Script: {fileID: 11500000, guid: 162df55ad385449c9b25470c426668a6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Enemies.EnemyAnimation
---- !u!114 &3288403242677342408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 715653378714904782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d72990536ba4f4cc0b0a24f855c9ec9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VampireSurvival.Core::VampireSurvival.Core.Stats.StatsHolder
+  m_EditorClassIdentifier: VampireSurvival::VampireSurvival.Components.StatsHolder
   config: {fileID: 11400000, guid: 58d487476d6294681a6e7fb6a1a72543, type: 2}
+--- !u!114 &1012287854255800891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715653378714904782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dc17013bfdd4f179a0db26f43f2f035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VampireSurvival::VampireSurvival.Core.Components.CharacterAnimation
+  animation: {fileID: 2113679374438014754}
+--- !u!114 &4627837013330252035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715653378714904782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9c942c5446d427285b5d177346070a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VampireSurvival::VampireSurvival.Core.Components.CharacterAnimationController
+  animations:
+  - type: 0
+    name: idle_1
+  - type: 1
+    name: run
+  - type: 2
+    name: sword_attack
+  - type: 3
+    name: hit
+  - type: 4
+    name: dead
+  - type: 5
+    name: jump
+--- !u!1 &7416118589674235952
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3408014968053443447}
+  m_Layer: 7
+  m_Name: Weapons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3408014968053443447
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7416118589674235952}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 922989774680392513}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

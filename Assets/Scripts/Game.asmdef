@@ -20,7 +20,7 @@
     "Core.FTUE",
     "Core.FTUE.DI",
     "Core.Utils",
-    "VampireSurvival.Core",
-    "VampireSurvival.Core.DI"
+    "VampireSurvival",
+    "VampireSurvival.DI"
   ]
 }
