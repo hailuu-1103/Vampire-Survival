@@ -33,29 +33,27 @@ namespace VampireSurvival.Entities
             this.col          = this.GetComponent<Collider2D>();
             this.rb           = this.GetComponent<Rigidbody2D>();
 
-            foreach (var weapon in this.playerConfig.InitialWeapons)
-                this.Manager.Load(weapon);
+            foreach (var weapon in this.playerConfig.InitialWeapons) this.Manager.Load(weapon);
         }
 
         protected override void OnCleanup()
         {
-            foreach (var weapon in this.playerConfig.InitialWeapons)
-                this.Manager.Cleanup(weapon);
+            foreach (var weapon in this.playerConfig.InitialWeapons) this.Manager.Cleanup(weapon);
         }
 
-        bool IPlayer.             IsAlive         => this.statsHolder.Stats[CharacterStatNames.HEALTH] > 0;
-        IAnimation IPlayer.       Animation       => this.anim;
-        IStatsHolder ITarget.     StatsHolder     => this.statsHolder;
-        void ITarget.             PlayHitAnim()   => this.anim.SetAnimation(AnimationType.Hit);
-        Collider2D IHasCollider.  Collider        => this.col;
-        Rigidbody2D IHasRigidbody.Rigidbody       => this.rb;
-        bool IImmortalable.       IsImmortal      => this.isImmortal;
-        OwnerType IAttacker.      OwnerType       => OwnerType.Player;
-        float IAttacker.          FacingDirection => this.anim.FacingDirection;
+        bool IPlayer.                        IsAlive         => this.statsHolder.Stats[CharacterStatNames.HEALTH] > 0;
+        IAnimation IPlayer.                  Animation       => this.anim;
+        IReadOnlyCollection<IWeapon> IPlayer.Weapons         => this.weapons;
+        IStatsHolder ITarget.                StatsHolder     => this.statsHolder;
+        void ITarget.                        PlayHitAnim()   => this.anim.SetAnimation(AnimationType.Hit);
+        Collider2D IHasCollider.             Collider        => this.col;
+        Rigidbody2D IHasRigidbody.           Rigidbody       => this.rb;
+        bool IImmortalable.                  IsImmortal      => this.isImmortal;
+        OwnerType IAttacker.                 OwnerType       => OwnerType.Player;
+        float IAttacker.                     FacingDirection => this.anim.FacingDirection;
 
-        void IImmortalable.SetImmortal(bool immortal) => this.isImmortal = immortal;
+        void IImmortalable.                  SetImmortal(bool immortal) => this.isImmortal = immortal;
 
-        public  IReadOnlyCollection<IWeapon> Weapons => this.weapons;
         private HashSet<IWeapon>             weapons = new();
         private bool                         isImmortal;
 
